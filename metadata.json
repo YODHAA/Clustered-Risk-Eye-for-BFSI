@@ -1,0 +1,6 @@
+{
+  "name": "Clustered Risk Eye",
+  "description": "Institutional Risk Graph Engine for real-time DBSCAN cluster topology, RiskOps SLA Kanban governance, root-cause forensics, and executive directive orchestration.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

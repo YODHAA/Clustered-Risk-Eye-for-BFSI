@@ -1,0 +1,974 @@
+<!DOCTYPE html>
+
+<html lang="en"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0" name="viewport"/><meta content="web_dashboard" name="shell-type"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/><link href="https://fonts.googleapis.com" rel="preconnect"/><link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=JetBrains+Mono:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/><style>@layer base{html,body{margin:0;padding:0;}body{overscroll-behavior:none;}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config={"darkMode":"class","theme":{"extend":{"colors":{"on-secondary":"#ffffff","on-primary-fixed-variant":"#004b73","secondary-fixed":"#dbe1ff","primary-fixed-dim":"#93ccff","surface-bright":"#f8f9ff","on-surface-variant":"#3f4850","primary-container":"#007bb9","surface":"#f8f9ff","outline-variant":"#bfc7d2","on-secondary-container":"#fefcff","inverse-primary":"#93ccff","error-container":"#ffdad6","on-background":"#0b1c30","on-error-container":"#93000a","surface-dim":"#cbdbf5","tertiary":"#545c72","on-tertiary-fixed":"#131b2e","inverse-surface":"#213145","on-secondary-fixed":"#00174b","surface-container-high":"#dce9ff","surface-tint":"#006398","secondary-fixed-dim":"#b4c5ff","error":"#ba1a1a","surface-container-lowest":"#ffffff","secondary":"#0051d5","on-primary-container":"#fdfcff","surface-container":"#e5eeff","outline":"#707881","on-tertiary":"#ffffff","on-error":"#ffffff","primary-fixed":"#cce5ff","surface-container-low":"#eff4ff","background":"#f8f9ff","tertiary-container":"#6c748b","surface-container-highest":"#d3e4fe","on-surface":"#0b1c30","on-secondary-fixed-variant":"#003ea8","surface-variant":"#d3e4fe","secondary-container":"#316bf3","on-primary-fixed":"#001d31","on-tertiary-fixed-variant":"#3f465c","inverse-on-surface":"#eaf1ff","on-primary":"#ffffff","tertiary-fixed-dim":"#bec6e0","on-tertiary-container":"#fefcff","primary":"#006194","tertiary-fixed":"#dae2fd"},"borderRadius":{"DEFAULT":"0.125rem","lg":"0.25rem","xl":"0.5rem","full":"0.75rem"},"spacing":{"space-xs":"0.25rem","space-lg":"1rem","space-md":"0.75rem","gutter":"0.75rem","space-sm":"0.375rem","space-xl":"1.5rem","margin":"1rem"},"fontFamily":{"label-md":["Inter"],"mono-metric-sm":["JetBrains Mono"],"body-md":["Inter"],"mono-metric-lg":["JetBrains Mono"],"headline-sm":["Inter"],"headline-lg":["Inter"],"body-lg":["Inter"],"mono-metric-md":["JetBrains Mono"],"body-sm":["Inter"],"headline-md":["Inter"],"display":["Inter"],"label-lg":["Inter"]},"fontSize":{"label-md":["11px",{"lineHeight":"14px","letterSpacing":"0.03em","fontWeight":"500"}],"mono-metric-sm":["11px",{"lineHeight":"14px","letterSpacing":"0em","fontWeight":"400"}],"body-md":["13px",{"lineHeight":"18px","fontWeight":"400"}],"mono-metric-lg":["20px",{"lineHeight":"24px","letterSpacing":"-0.02em","fontWeight":"600"}],"headline-sm":["15px",{"lineHeight":"20px","letterSpacing":"-0.005em","fontWeight":"600"}],"headline-lg":["22px",{"lineHeight":"28px","letterSpacing":"-0.015em","fontWeight":"600"}],"body-lg":["14px",{"lineHeight":"20px","fontWeight":"400"}],"mono-metric-md":["13px",{"lineHeight":"18px","letterSpacing":"-0.01em","fontWeight":"500"}],"body-sm":["12px",{"lineHeight":"16px","fontWeight":"400"}],"headline-md":["18px",{"lineHeight":"24px","letterSpacing":"-0.01em","fontWeight":"600"}],"display":["28px",{"lineHeight":"34px","letterSpacing":"-0.02em","fontWeight":"700"}],"label-lg":["12px",{"lineHeight":"16px","letterSpacing":"0.02em","fontWeight":"600"}]}}}};</script></head><body class="bg-surface font-body-md text-on-surface antialiased"><header class="fixed top-0 left-0 right-0 z-50 bg-surface-container-lowest border-b border-outline-variant/40 shadow-[0_1px_8px_rgba(0,0,0,0.04)]"><div class="h-14 px-margin flex items-center justify-between gap-space-lg"><div class="flex items-center gap-space-md"><img alt="Clustered Risk Eye Logo" class="h-8 w-auto object-contain" src="https://lh3.googleusercontent.com/aida/ALJJyrDtKlsChGyBCyt4CN6BvPj70wxFg4CPxQRa5w3X6KtJKAkIvp9LCt8XXEZYmTqMhywE_gAPJKYoFew53kIa4_jQo_Iv3A_UGUYrfWr_5FGv6Jnf3VLF-j7-2mk--Bw-ZDmjkYRdDeK1cVBSwmLVvpMPOYLaBrH3gWjh6P5_NAs1Tc5Rx3e4YTLAm912TO5PbwU6BUCP6v-KqPaY1vKsfuY92O0AlZGf1n_9LjHQ2EDf"/><div class="flex flex-col"><span class="font-headline-sm text-headline-sm text-on-surface tracking-tight leading-none">Clustered Risk Eye</span><span class="font-mono-metric-sm text-mono-metric-sm text-on-surface-variant leading-none mt-1">INSTITUTIONAL RISK PLATFORM</span></div><div class="h-5 w-px bg-outline-variant/60 mx-space-xs"></div><div class="flex items-center gap-space-xs text-on-surface-variant font-label-md text-label-md"><span class="hover:text-on-surface cursor-pointer transition-colors">Global Risk Governance</span><span class="material-symbols-outlined text-[14px]">chevron_right</span><span class="text-primary font-semibold">Risk Graph Engine</span></div></div><div class="flex-1 max-w-xl mx-space-md"><div class="relative flex items-center w-full"><span class="material-symbols-outlined absolute left-3 text-on-surface-variant text-[18px]">search</span><input class="w-full h-8 pl-9 pr-3 bg-surface-container-low border border-outline-variant/60 rounded text-body-sm font-body-sm text-on-surface placeholder:text-on-surface-variant focus:outline-none focus:border-primary focus:bg-surface-container-lowest transition-colors" placeholder="Search tickets (CRE-XXXX), cluster hash, typology, branch..." type="text"/></div></div><div class="flex items-center gap-space-md"><div class="flex items-center gap-space-xs px-2.5 py-1 rounded bg-error-container/40 border border-error/30"><span class="w-2 h-2 rounded-full bg-error animate-pulse"></span><span class="font-mono-metric-sm text-mono-metric-sm text-on-error-container font-semibold">DEFCON 2 • Active Monitoring</span></div><div class="flex items-center gap-1 font-mono-metric-sm text-mono-metric-sm text-on-surface-variant bg-surface-container px-2 py-1 rounded"><span class="material-symbols-outlined text-[14px]">sync</span><span>Synced 12s ago</span></div><div class="relative flex items-center"><button class="w-8 h-8 rounded flex items-center justify-center text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors relative"><span class="material-symbols-outlined text-[20px]">notifications</span><span class="absolute top-1.5 right-1.5 w-2 h-2 bg-error rounded-full ring-2 ring-surface-container-lowest"></span></button></div><div class="h-5 w-px bg-outline-variant/60"></div><div class="flex items-center gap-space-sm pl-space-xs cursor-pointer group"><div class="flex flex-col text-right"><span class="font-label-lg text-label-lg text-on-surface leading-none group-hover:text-primary transition-colors">Sir Julian Vance</span><span class="font-mono-metric-sm text-mono-metric-sm text-on-surface-variant leading-none mt-1">Group CRO</span></div><div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center shadow-sm"><span class="material-symbols-outlined text-on-primary text-[18px]">person</span></div></div></div></div><div class="h-10 px-margin bg-surface-container-low border-t border-outline-variant/30 flex items-center justify-between"><nav class="flex items-center h-full gap-1" data-active-classes="bg-surface-container-lowest text-primary font-semibold border-b-2 border-primary shadow-sm"><a class="h-full px-space-md flex items-center font-label-md text-label-md text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high/50 transition-all" data-path="risk-ticket-graph-canvas" href="#">Risk Ticket Graph Canvas</a><a class="h-full px-space-md flex items-center font-label-md text-label-md text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high/50 transition-all" data-path="cluster-epic-topology-root-cause" href="#">Cluster Epic Topology &amp; Root Cause</a><a class="h-full px-space-md flex items-center font-label-md text-label-md text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high/50 transition-all" data-path="riskops-kanban-sla-matrix" href="#">RiskOps Kanban &amp; SLA Matrix</a><a class="h-full px-space-md flex items-center font-label-md text-label-md text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high/50 transition-all" data-path="executive-directives-gtm-governance" href="#">Executive Directives &amp; GTM Governance</a></nav><div class="flex items-center gap-space-md font-mono-metric-sm text-mono-metric-sm text-on-surface-variant"><span>NODES: <strong class="text-on-surface font-semibold">4,289</strong></span><span>CLUSTERS: <strong class="text-error font-semibold">14 BREACHED</strong></span><span>SYSTEM INTEGRITY: <strong class="text-secondary font-semibold">99.98%</strong></span></div></div></header><main class="w-full pt-24 bg-surface min-h-screen"><div class="flex flex-col w-full">
+<!-- Controls & Threat Vector Header Bar -->
+<div class="w-full bg-surface-container-lowest px-margin py-space-md shadow-sm">
+<div class="flex flex-col gap-space-md">
+<!-- Top Action Strip & Mode Switches -->
+<div class="flex flex-wrap items-center justify-between gap-space-md">
+<!-- View Toggle Pills -->
+<div class="flex items-center bg-surface-container-low p-0.5 rounded-lg">
+<button class="flex items-center gap-1.5 px-space-md py-1 rounded font-label-md text-label-md bg-surface-container-lowest text-primary shadow-sm font-semibold transition-all" id="btn-kanban" onclick="switchView('kanban')">
+<span class="material-symbols-outlined text-[16px]">view_kanban</span>
+<span>Kanban Board</span>
+</button>
+<button class="flex items-center gap-1.5 px-space-md py-1 rounded font-label-md text-label-md text-on-surface-variant hover:text-on-surface transition-all" id="btn-matrix" onclick="switchView('matrix')">
+<span class="material-symbols-outlined text-[16px]">grid_view</span>
+<span>SLA Exposure Matrix</span>
+</button>
+<button class="flex items-center gap-1.5 px-space-md py-1 rounded font-label-md text-label-md text-on-surface-variant hover:text-on-surface transition-all" id="btn-audit" onclick="switchView('audit')">
+<span class="material-symbols-outlined text-[16px]">table_rows</span>
+<span>Audit Trail List</span>
+</button>
+<button class="flex items-center gap-1.5 px-space-md py-1 rounded font-label-md text-label-md text-on-surface-variant hover:text-on-surface transition-all" id="btn-bubble" onclick="switchView('bubble')">
+<span class="material-symbols-outlined text-[16px]">bubble_chart</span>
+<span>Bubble Density Map</span>
+</button>
+</div>
+<!-- Metric Snapshot Quick Pills -->
+<div class="hidden xl:flex items-center gap-space-lg">
+<div class="flex items-center gap-space-xs font-mono-metric-sm text-mono-metric-sm bg-surface-container-low px-2.5 py-1 rounded">
+<span class="text-on-surface-variant">ACTIVE PIPELINE:</span>
+<span class="font-semibold text-on-surface">$161.8M</span>
+</div>
+<div class="flex items-center gap-space-xs font-mono-metric-sm text-mono-metric-sm bg-surface-container-low px-2.5 py-1 rounded">
+<span class="text-on-surface-variant">BREACH PROXIMITY:</span>
+<span class="text-error font-semibold flex items-center gap-0.5">
+<span class="w-1.5 h-1.5 rounded-full bg-error animate-ping"></span> 3 CRITICAL
+            </span>
+</div>
+<div class="flex items-center gap-space-xs font-mono-metric-sm text-mono-metric-sm bg-surface-container-low px-2.5 py-1 rounded">
+<span class="text-on-surface-variant">AVG MTTR:</span>
+<span class="font-semibold text-secondary">3h 24m</span>
+</div>
+</div>
+<!-- Primary Action -->
+<div class="flex items-center gap-space-sm">
+<button class="flex items-center gap-1.5 px-space-md h-8 bg-surface-container hover:bg-surface-container-high text-on-surface rounded font-body-md text-body-md transition-colors">
+<span class="material-symbols-outlined text-[16px]">tune</span>
+<span>Swimlanes</span>
+</button>
+<button class="flex items-center gap-1.5 px-space-md h-8 bg-primary hover:bg-primary-container text-on-primary rounded font-label-md text-label-md shadow-sm transition-all" onclick="openModal()">
+<span class="material-symbols-outlined text-[16px]">add_circle</span>
+<span>Log Risk Trigger / Issue</span>
+<span class="bg-primary-container/40 text-on-primary text-[10px] px-1 rounded font-mono-metric-sm">C</span>
+</button>
+</div>
+</div>
+<!-- SLA Threat Vector Banner (High Priority Operational Alert) -->
+<div class="relative overflow-hidden bg-error-container/20 rounded-xl p-space-md shadow-sm">
+<div class="flex flex-col lg:flex-row lg:items-center justify-between gap-space-md">
+<div class="flex items-start lg:items-center gap-space-md">
+<div class="w-9 h-9 rounded-lg bg-error flex items-center justify-center text-on-error shadow-sm shrink-0">
+<span class="material-symbols-outlined text-[20px] animate-pulse">crisis_alert</span>
+</div>
+<div>
+<div class="flex items-center gap-space-sm flex-wrap">
+<span class="font-headline-sm text-headline-sm text-on-error-container">SLA Threat Vector: 3 High-Yield Exposure Incidents Approaching Critical Threshold (&lt;45m)</span>
+<span class="bg-error text-on-error font-mono-metric-sm text-mono-metric-sm font-semibold px-2 py-0.5 rounded">DEFCON 2</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-0.5">
+                Total At-Risk Liquidity: <span class="font-mono-metric-sm text-on-surface font-semibold">$67.40M</span> across APAC Corridor and Swiss Clearinghouse hubs. Regulatory reporting mandatory if unresolved.
+              </p>
+</div>
+</div>
+<!-- Urgency Progress Breakdown Strip -->
+<div class="flex flex-col min-w-[280px] lg:w-80 gap-1.5">
+<div class="flex justify-between font-mono-metric-sm text-mono-metric-sm">
+<span class="text-error font-semibold flex items-center gap-1"><span class="w-2 h-2 rounded-full bg-error"></span> 3 Imminent Breach</span>
+<span class="text-on-surface-variant">5 Warning</span>
+<span class="text-secondary font-semibold">18 Nominal</span>
+</div>
+<div class="w-full h-2 rounded bg-surface-container flex overflow-hidden">
+<div class="h-full bg-error w-[15%]" title="Imminent Breach (15%)"></div>
+<div class="h-full bg-tertiary-container w-[25%]" title="Warning Window (25%)"></div>
+<div class="h-full bg-secondary w-[60%]" title="Nominal Capacity (60%)"></div>
+</div>
+<div class="flex justify-between text-[10px] font-mono-metric-sm text-on-surface-variant">
+<span>T-00:14:32 Fastest Expiry</span>
+<span>Cluster Velocity: +14% / hr</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Filter, Corridor, & Appetite Segment Bar -->
+<div class="flex flex-wrap items-center justify-between gap-space-sm pt-space-xs">
+<div class="flex flex-wrap items-center gap-space-sm">
+<!-- Corridor Filter Select -->
+<div class="flex items-center bg-surface-container-low px-space-sm py-1 rounded gap-1.5">
+<span class="material-symbols-outlined text-on-surface-variant text-[16px]">public</span>
+<span class="font-label-md text-label-md text-on-surface-variant">Corridor:</span>
+<select class="bg-transparent font-label-md text-label-md text-on-surface focus:outline-none cursor-pointer">
+<option>All Corridors (Global)</option>
+<option>APAC &amp; ASEAN Direct</option>
+<option>EMEA Clearing / TARGET2</option>
+<option>Americas Fedwire / CHIPS</option>
+<option>LatAm Cross-Border</option>
+</select>
+</div>
+<!-- Risk Typology Filter -->
+<div class="flex items-center bg-surface-container-low px-space-sm py-1 rounded gap-1.5">
+<span class="material-symbols-outlined text-on-surface-variant text-[16px]">category</span>
+<span class="font-label-md text-label-md text-on-surface-variant">Typology:</span>
+<select class="bg-transparent font-label-md text-label-md text-on-surface focus:outline-none cursor-pointer">
+<option>All Typologies (12)</option>
+<option>Trade Doc Forgery / Discrepancy</option>
+<option>Synthetic Identity Ring</option>
+<option>Structuring / Wire Funnel</option>
+<option>Sanctions Indirect Match</option>
+<option>Liquidity Drain Anomaly</option>
+</select>
+</div>
+<!-- Appetite State Filter Pills -->
+<div class="flex items-center gap-1 bg-surface-container-low p-1 rounded">
+<span class="font-label-md text-label-md text-on-surface-variant px-1">Tolerance:</span>
+<button class="px-2 py-0.5 rounded font-mono-metric-sm text-mono-metric-sm bg-surface-container-lowest text-on-surface shadow-sm font-semibold">ALL (46)</button>
+<button class="px-2 py-0.5 rounded font-mono-metric-sm text-mono-metric-sm bg-error-container/60 text-on-error-container font-semibold">BREACH (4)</button>
+<button class="px-2 py-0.5 rounded font-mono-metric-sm text-mono-metric-sm text-on-surface-variant hover:text-on-surface">WARNING (8)</button>
+<button class="px-2 py-0.5 rounded font-mono-metric-sm text-mono-metric-sm text-on-surface-variant hover:text-on-surface">WITHIN (34)</button>
+</div>
+<!-- Assignee Filter Avatars -->
+<div class="flex items-center gap-1 pl-space-xs">
+<span class="font-label-md text-label-md text-on-surface-variant mr-1">Owner:</span>
+<button class="w-6 h-6 rounded-full bg-primary text-on-primary text-[10px] font-mono-metric-sm flex items-center justify-center shadow-sm" title="Elena Rostova (Lead)">ER</button>
+<button class="w-6 h-6 rounded-full bg-secondary text-on-secondary text-[10px] font-mono-metric-sm flex items-center justify-center shadow-sm" title="Julian Vance (CRO)">JV</button>
+<button class="w-6 h-6 rounded-full bg-tertiary-container text-on-tertiary-container text-[10px] font-mono-metric-sm flex items-center justify-center shadow-sm" title="Siddharth Rao (SecOps)">SR</button>
+<button class="w-6 h-6 rounded-full bg-surface-container text-on-surface-variant text-[10px] font-mono-metric-sm flex items-center justify-center" title="Filter by other">...</button>
+</div>
+</div>
+<!-- Quick Search Field -->
+<div class="relative w-64">
+<span class="material-symbols-outlined absolute left-2.5 top-1/2 -translate-y-1/2 text-on-surface-variant text-[16px]">search</span>
+<input class="w-full h-7 pl-8 pr-7 bg-surface-container-low rounded font-body-sm text-body-sm text-on-surface focus:outline-none focus:bg-surface-container-lowest transition-colors" placeholder="Filter tickets, hash, entity... [/]" type="text"/>
+<span class="absolute right-2 top-1/2 -translate-y-1/2 font-mono-metric-sm text-[10px] text-on-surface-variant bg-surface-container px-1 rounded">/</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Primary Desktop Workspace: High-Density Kanban Board -->
+<div class="w-full px-margin py-space-md" id="kanban-view">
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-gutter items-start">
+<!-- COLUMN 1: TRIGGERED -->
+<div class="flex flex-col bg-surface-container-low rounded-xl p-space-sm shadow-sm">
+<!-- Col Header -->
+<div class="flex items-center justify-between pb-space-sm px-1">
+<div class="flex items-center gap-space-xs">
+<span class="w-2 h-2 rounded-full bg-primary"></span>
+<span class="font-headline-sm text-headline-sm text-on-surface">TRIGGERED</span>
+<span class="bg-surface-container px-1.5 py-0.5 rounded font-mono-metric-sm text-mono-metric-sm text-on-surface font-semibold">8</span>
+</div>
+<span class="font-mono-metric-sm text-mono-metric-sm text-on-surface-variant font-medium">$32.4M</span>
+</div>
+<!-- Column Cards Container -->
+<div class="flex flex-col gap-space-sm">
+<!-- Card CRE-9014 -->
+<div class="group relative bg-surface-container-lowest rounded-lg p-space-md shadow-sm hover:shadow-md transition-all cursor-pointer">
+<div class="flex items-start justify-between gap-space-xs mb-1.5">
+<div class="flex items-center gap-1.5">
+<span class="bg-primary/10 text-primary px-1.5 py-0.5 rounded font-mono-metric-sm text-mono-metric-sm font-semibold">CRE-9014</span>
+<span class="material-symbols-outlined text-error text-[15px]" title="P1 Critical Exposure">keyboard_double_arrow_up</span>
+</div>
+<!-- Bubble Density Indicator -->
+<div class="flex items-center gap-1 bg-surface-container-low px-1.5 py-0.5 rounded-full" title="Cluster Density: 8 linked sub-nodes. Proximity to SLA Breach: 32m">
+<span class="w-2.5 h-2.5 rounded-full bg-error animate-pulse"></span>
+<span class="font-mono-metric-sm text-[10px] text-error font-bold">D:8</span>
+</div>
+</div>
+<h4 class="font-headline-sm text-body-md text-on-surface font-semibold line-clamp-2 group-hover:text-primary transition-colors">
+              Sudden Nostro Liquidity Outflow Spike - Frankfurt Hub
+            </h4>
+<div class="flex flex-wrap items-center gap-1 my-2">
+<span class="px-1.5 py-0.5 rounded bg-surface-container font-mono-metric-sm text-mono-metric-sm text-on-surface-variant">TARGET2-EUR</span>
+<span class="px-1.5 py-0.5 rounded bg-error-container/40 text-on-error-container font-mono-metric-sm text-mono-metric-sm font-semibold">$18.60M</span>
+<span class="px-1.5 py-0.5 rounded bg-surface-container font-body-sm text-[11px] text-on-surface-variant">Liquidity Anomaly</span>
+</div>
+<div class="flex items-center justify-between pt-2 text-on-surface-variant font-mono-metric-sm text-mono-metric-sm">
+<div class="flex items-center gap-1 text-error font-semibold">
+<span class="material-symbols-outlined text-[14px]">alarm</span>
+<span>00:31:14</span>
+</div>
+<div class="flex items-center gap-1">
+<span class="w-5 h-5 rounded-full bg-surface-container text-on-surface text-[10px] flex items-center justify-center font-bold">UN</span>
+</div>
+</div>
+</div>
+<!-- Card CRE-9008 -->
+<div class="group relative bg-surface-container-lowest rounded-lg p-space-md shadow-sm hover:shadow-md transition-all cursor-pointer">
+<div class="flex items-start justify-between gap-space-xs mb-1.5">
+<div class="flex items-center gap-1.5">
+<span class="bg-primary/10 text-primary px-1.5 py-0.5 rounded font-mono-metric-sm text-mono-metric-sm font-semibold">CRE-9008</span>
+<span class="material-symbols-outlined text-tertiary-container text-[15px]" title="P2 High Exposure">arrow_upward</span>
+</div>
+<!-- Bubble Indicator -->
+<div class="flex items-center gap-1 bg-surface-container-low px-1.5 py-0.5 rounded-full" title="Cluster Density: 3 nodes. SLA buffer safe.">
+<span class="w-2.5 h-2.5 rounded-full bg-secondary"></span>
+<span class="font-mono-metric-sm text-[10px] text-secondary font-bold">D:3</span>
+</div>
+</div>
+<h4 class="font-headline-sm text-body-md text-on-surface font-semibold line-clamp-2 group-hover:text-primary transition-colors">
+              Cross-Corridor Sanctions Fuzzy Name Match (OFAC 50% Rule)
+            </h4>
+<div class="flex flex-wrap items-center gap-1 my-2">
+<span class="px-1.5 py-0.5 rounded bg-surface-container font-mono-metric-sm text-mono-metric-sm text-on-surface-variant">CHIPS-USD</span>
+<span class="px-1.5 py-0.5 rounded bg-surface-container-high text-primary font-mono-metric-sm text-mono-metric-sm font-semibold">$13.80M</span>
+<span class="px-1.5 py-0.5 rounded bg-surface-container font-body-sm text-[11px] text-on-surface-variant">Entity Screening</span>
+</div>
+<div class="flex items-center justify-between pt-2 text-on-surface-variant font-mono-metric-sm text-mono-metric-sm">
+<div class="flex items-center gap-1 text-on-surface-variant">
+<span class="material-symbols-outlined text-[14px]">alarm</span>
+<span>01:45:00</span>
+</div>
+<div class="flex items-center gap-1">
+<span class="w-5 h-5 rounded-full bg-secondary-container text-on-secondary text-[10px] flex items-center justify-center font-bold" title="Julian Vance">JV</span>
+</div>
+</div>
+</div>
+<!-- Card CRE-9022 (Compact Micro Trigger) -->
+<div class="group relative bg-surface-container-lowest rounded-lg p-space-sm shadow-sm hover:shadow-md transition-all cursor-pointer">
+<div class="flex items-center justify-between">
+<span class="font-mono-metric-sm text-mono-metric-sm text-primary font-semibold">CRE-9022</span>
+<span class="font-mono-metric-sm text-mono-metric-sm font-semibold text-on-surface">$2.1M</span>
+<span class="text-[10px] font-mono-metric-sm px-1 py-0.5 rounded bg-surface-container text-on-surface-variant">SWIFT MT103</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant truncate mt-1">Beneficiary Account Velocity Deviation</p>
+</div>
+</div>
+</div>
+<!-- COLUMN 2: IN TRIAGE -->
+<div class="flex flex-col bg-surface-container-low rounded-xl p-space-sm shadow-sm">
+<!-- Col Header -->
+<div class="flex items-center justify-between pb-space-sm px-1">
+<div class="flex items-center gap-space-xs">
+<span class="w-2 h-2 rounded-full bg-secondary"></span>
+<span class="font-headline-sm text-headline-sm text-on-surface">IN TRIAGE</span>
+<span class="bg-surface-container px-1.5 py-0.5 rounded font-mono-metric-sm text-mono-metric-sm text-on-surface font-semibold">5</span>
+</div>
+<span class="font-mono-metric-sm text-mono-metric-sm text-on-surface-variant font-medium">$28.1M</span>
+</div>
+<!-- Column Cards Container -->
+<div class="flex flex-col gap-space-sm">
+<!-- Card CRE-8988 -->
+<div class="group relative bg-surface-container-lowest rounded-lg p-space-md shadow-sm hover:shadow-md transition-all cursor-pointer">
+<div class="flex items-start justify-between gap-space-xs mb-1.5">
+<div class="flex items-center gap-1.5">
+<span class="bg-secondary/10 text-secondary px-1.5 py-0.5 rounded font-mono-metric-sm text-mono-metric-sm font-semibold">CRE-8988</span>
+<span class="material-symbols-outlined text-tertiary-container text-[15px]">arrow_upward</span>
+</div>
+<div class="flex items-center gap-1 bg-surface-container-low px-1.5 py-0.5 rounded-full" title="Cluster Density: 4 nodes. SLA timer ticking.">
+<span class="w-2.5 h-2.5 rounded-full bg-tertiary-container"></span>
+<span class="font-mono-metric-sm text-[10px] text-tertiary-container font-bold">D:4</span>
+</div>
+</div>
+<h4 class="font-headline-sm text-body-md text-on-surface font-semibold line-clamp-2 group-hover:text-primary transition-colors">
+              Trade Doc Discrepancy: Dual Bill of Lading Conflict
+            </h4>
+<div class="flex flex-wrap items-center gap-1 my-2">
+<span class="px-1.5 py-0.5 rounded bg-surface-container font-mono-metric-sm text-mono-metric-sm text-on-surface-variant">Singapore Hub</span>
+<span class="px-1.5 py-0.5 rounded bg-surface-container-high text-primary font-mono-metric-sm text-mono-metric-sm font-semibold">$11.20M</span>
+<span class="px-1.5 py-0.5 rounded bg-surface-container font-body-sm text-[11px] text-on-surface-variant">Trade Finance</span>
+</div>
+<!-- Triage checklist preview -->
+<div class="bg-surface-container-low p-1.5 rounded my-1 text-body-sm flex items-center justify-between text-on-surface-variant">
+<span class="text-[11px] flex items-center gap-1">
+<span class="material-symbols-outlined text-[13px] text-secondary">fact_check</span>
+                Customs Doc Validation
+              </span>
+<span class="font-mono-metric-sm text-[10px] font-semibold text-secondary">2/4 Steps</span>
+</div>
+<div class="flex items-center justify-between pt-1 text-on-surface-variant font-mono-metric-sm text-mono-metric-sm">
+<div class="flex items-center gap-1 text-on-surface-variant">
+<span class="material-symbols-outlined text-[14px]">alarm</span>
+<span>00:54:12</span>
+</div>
+<div class="flex items-center gap-1">
+<span class="w-5 h-5 rounded-full bg-primary text-on-primary text-[10px] flex items-center justify-center font-bold" title="Elena R.">ER</span>
+</div>
+</div>
+</div>
+<!-- Card CRE-8995 -->
+<div class="group relative bg-surface-container-lowest rounded-lg p-space-md shadow-sm hover:shadow-md transition-all cursor-pointer">
+<div class="flex items-start justify-between gap-space-xs mb-1.5">
+<div class="flex items-center gap-1.5">
+<span class="bg-secondary/10 text-secondary px-1.5 py-0.5 rounded font-mono-metric-sm text-mono-metric-sm font-semibold">CRE-8995</span>
+<span class="material-symbols-outlined text-error text-[15px]">keyboard_double_arrow_up</span>
+</div>
+<div class="flex items-center gap-1 bg-surface-container-low px-1.5 py-0.5 rounded-full" title="Cluster Density: 6 synthetic credit applications linked.">
+<span class="w-2.5 h-2.5 rounded-full bg-error animate-pulse"></span>
+<span class="font-mono-metric-sm text-[10px] text-error font-bold">D:6</span>
+</div>
+</div>
+<h4 class="font-headline-sm text-body-md text-on-surface font-semibold line-clamp-2 group-hover:text-primary transition-colors">
+              Synthetic Identity LatAm Payroll Injection Ring
+            </h4>
+<div class="flex flex-wrap items-center gap-1 my-2">
+<span class="px-1.5 py-0.5 rounded bg-surface-container font-mono-metric-sm text-mono-metric-sm text-on-surface-variant">São Paulo Fed</span>
+<span class="px-1.5 py-0.5 rounded bg-error-container/40 text-on-error-container font-mono-metric-sm text-mono-metric-sm font-semibold">$9.40M</span>
+<span class="px-1.5 py-0.5 rounded bg-surface-container font-body-sm text-[11px] text-on-surface-variant">Retail Syndication</span>
+</div>
+<div class="flex items-center justify-between pt-2 text-on-surface-variant font-mono-metric-sm text-mono-metric-sm">
+<div class="flex items-center gap-1 text-error font-semibold">
+<span class="material-symbols-outlined text-[14px]">alarm</span>
+<span>00:22:45</span>
+</div>
+<div class="flex items-center gap-1">
+<span class="w-5 h-5 rounded-full bg-tertiary-container text-on-tertiary-container text-[10px] flex items-center justify-center font-bold" title="Siddharth Rao">SR</span>
+</div>
+</div>
+</div>
+<!-- Card CRE-8977 -->
+<div class="group relative bg-surface-container-lowest rounded-lg p-space-sm shadow-sm hover:shadow-md transition-all cursor-pointer">
+<div class="flex items-center justify-between">
+<span class="font-mono-metric-sm text-mono-metric-sm text-secondary font-semibold">CRE-8977</span>
+<span class="font-mono-metric-sm text-mono-metric-sm font-semibold text-on-surface">$7.5M</span>
+<span class="text-[10px] font-mono-metric-sm px-1 py-0.5 rounded bg-surface-container text-on-surface-variant">FedNow Realtime</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant truncate mt-1">High-Frequency ACH Structuring Signature</p>
+</div>
+</div>
+</div>
+<!-- COLUMN 3: ACTIVE MITIGATION (PULSING BREACH FOCUS) -->
+<div class="flex flex-col bg-surface-container rounded-xl p-space-sm shadow-md ring-2 ring-error/50">
+<!-- Col Header -->
+<div class="flex items-center justify-between pb-space-sm px-1">
+<div class="flex items-center gap-space-xs">
+<span class="w-2.5 h-2.5 rounded-full bg-error animate-ping"></span>
+<span class="font-headline-sm text-headline-sm text-on-surface font-bold">ACTIVE MITIGATION</span>
+<span class="bg-error text-on-error px-1.5 py-0.5 rounded font-mono-metric-sm text-mono-metric-sm font-bold">4</span>
+</div>
+<span class="font-mono-metric-sm text-mono-metric-sm text-error font-bold">$64.8M</span>
+</div>
+<!-- Column Cards Container -->
+<div class="flex flex-col gap-space-sm">
+<!-- FEATURED CARD: CRE-8942 -->
+<div class="group relative bg-surface-container-lowest rounded-lg p-space-md shadow-md ring-1 ring-error transition-all">
+<!-- Top Badges & Urgency -->
+<div class="flex items-start justify-between gap-space-xs mb-2">
+<div class="flex items-center gap-1.5">
+<span class="bg-error text-on-error px-2 py-0.5 rounded font-mono-metric-sm text-mono-metric-sm font-bold">CRE-8942</span>
+<span class="bg-error-container text-on-error-container text-[10px] font-mono-metric-sm font-bold px-1.5 py-0.5 rounded">DEFCON 1</span>
+</div>
+<div class="flex items-center gap-1 bg-error-container/60 text-on-error-container px-2 py-0.5 rounded-full shadow-sm">
+<span class="w-2 h-2 rounded-full bg-error animate-pulse"></span>
+<span class="font-mono-metric-sm text-mono-metric-sm font-bold">D:14</span>
+</div>
+</div>
+<!-- Title -->
+<h4 class="font-headline-sm text-body-lg text-on-surface font-bold leading-snug">
+              APAC Multi-Branch Wire Funnel: Unregistered Remittance Corridor
+            </h4>
+<!-- Financial Impact Pill Strip -->
+<div class="flex flex-wrap items-center gap-1.5 my-space-sm">
+<span class="px-2 py-0.5 rounded bg-error text-on-error font-mono-metric-sm text-mono-metric-sm font-bold">$48.20M EXPOSURE</span>
+<span class="px-1.5 py-0.5 rounded bg-surface-container font-mono-metric-sm text-mono-metric-sm text-on-surface-variant">Hong Kong / Singapore</span>
+<span class="px-1.5 py-0.5 rounded bg-surface-container font-body-sm text-[11px] text-on-surface-variant">Structuring Ring</span>
+</div>
+<!-- Live SLA Timer Countdown -->
+<div class="bg-error-container/30 rounded-lg p-2.5 my-2 flex items-center justify-between">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-error text-[20px] animate-bounce">timer</span>
+<div class="flex flex-col">
+<span class="text-[10px] font-label-md text-on-surface-variant uppercase tracking-wider">Breach Countdown</span>
+<span class="font-mono-metric-lg text-mono-metric-lg text-error font-bold leading-none" id="live-sla-timer">00:14:32</span>
+</div>
+</div>
+<button class="px-2.5 py-1 bg-error hover:bg-on-error-container text-on-error rounded font-label-md text-label-md font-semibold transition-colors flex items-center gap-1" onclick="freezeCorridor('APAC-09')">
+<span class="material-symbols-outlined text-[14px]">lock_clock</span>
+<span>Freeze Hub</span>
+</button>
+</div>
+<!-- Linked Subtasks Progress Bar -->
+<div class="flex flex-col gap-1 my-2">
+<div class="flex items-center justify-between text-[11px] font-mono-metric-sm text-on-surface-variant">
+<span>Mitigation Directives</span>
+<span class="text-primary font-semibold">3 of 5 completed (60%)</span>
+</div>
+<div class="w-full h-1.5 rounded-full bg-surface-container-high overflow-hidden flex">
+<div class="h-full bg-primary w-[60%]"></div>
+</div>
+<ul class="text-[11px] font-body-sm text-on-surface-variant space-y-1 mt-1">
+<li class="flex items-center gap-1 text-on-surface">
+<span class="material-symbols-outlined text-secondary text-[14px]">check_circle</span>
+<span>HKMA Correspondent Accounts Suspended</span>
+</li>
+<li class="flex items-center gap-1 text-on-surface">
+<span class="material-symbols-outlined text-secondary text-[14px]">check_circle</span>
+<span>SAR Filing Draft Stamped &amp; Pushed</span>
+</li>
+<li class="flex items-center gap-1 text-error font-medium">
+<span class="material-symbols-outlined text-error text-[14px]">pending</span>
+<span>Pending Dual-Key Sign-off by Executive CRO</span>
+</li>
+</ul>
+</div>
+<!-- Card Footer Assignee & Node Graph Links -->
+<div class="flex items-center justify-between pt-2 text-on-surface-variant font-mono-metric-sm text-mono-metric-sm">
+<div class="flex items-center gap-1.5">
+<span class="w-6 h-6 rounded-full bg-primary text-on-primary text-body-sm flex items-center justify-center font-bold" title="Elena Rostova (Lead Investigator)">ER</span>
+<span class="text-body-sm font-medium text-on-surface">Elena R.</span>
+</div>
+<div class="flex items-center gap-2">
+<span class="flex items-center gap-0.5 text-primary text-[11px] font-semibold hover:underline cursor-pointer">
+<span class="material-symbols-outlined text-[13px]">hub</span> 9 Nodes
+                </span>
+<span class="text-outline-variant">•</span>
+<span class="text-[10px] text-on-surface-variant">Sync 4m ago</span>
+</div>
+</div>
+</div>
+<!-- Card CRE-8910 -->
+<div class="group relative bg-surface-container-lowest rounded-lg p-space-md shadow-sm hover:shadow-md transition-all cursor-pointer">
+<div class="flex items-start justify-between gap-space-xs mb-1.5">
+<div class="flex items-center gap-1.5">
+<span class="bg-primary/10 text-primary px-1.5 py-0.5 rounded font-mono-metric-sm text-mono-metric-sm font-semibold">CRE-8910</span>
+<span class="material-symbols-outlined text-tertiary-container text-[15px]">arrow_upward</span>
+</div>
+<div class="flex items-center gap-1 bg-surface-container-low px-1.5 py-0.5 rounded-full" title="Cluster Density: 5 sub-transactions. SLA timer: 38m">
+<span class="w-2.5 h-2.5 rounded-full bg-tertiary-container"></span>
+<span class="font-mono-metric-sm text-[10px] text-tertiary-container font-bold">D:5</span>
+</div>
+</div>
+<h4 class="font-headline-sm text-body-md text-on-surface font-semibold line-clamp-2 group-hover:text-primary transition-colors">
+              Collateral Re-hypothecation Multi-Book Imbalance
+            </h4>
+<div class="flex flex-wrap items-center gap-1 my-2">
+<span class="px-1.5 py-0.5 rounded bg-surface-container font-mono-metric-sm text-mono-metric-sm text-on-surface-variant">London Prime Brokerage</span>
+<span class="px-1.5 py-0.5 rounded bg-surface-container-high text-primary font-mono-metric-sm text-mono-metric-sm font-semibold">$16.60M</span>
+<span class="px-1.5 py-0.5 rounded bg-surface-container font-body-sm text-[11px] text-on-surface-variant">Basel III Leverage</span>
+</div>
+<div class="flex items-center justify-between pt-2 text-on-surface-variant font-mono-metric-sm text-mono-metric-sm">
+<div class="flex items-center gap-1 text-tertiary-container font-semibold">
+<span class="material-symbols-outlined text-[14px]">alarm</span>
+<span>00:38:19</span>
+</div>
+<div class="flex items-center gap-1">
+<span class="w-5 h-5 rounded-full bg-secondary-container text-on-secondary text-[10px] flex items-center justify-center font-bold" title="Julian Vance">JV</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- COLUMN 4: VERIFICATION & QA -->
+<div class="flex flex-col bg-surface-container-low rounded-xl p-space-sm shadow-sm">
+<!-- Col Header -->
+<div class="flex items-center justify-between pb-space-sm px-1">
+<div class="flex items-center gap-space-xs">
+<span class="w-2 h-2 rounded-full bg-tertiary-container"></span>
+<span class="font-headline-sm text-headline-sm text-on-surface">VERIFICATION &amp; QA</span>
+<span class="bg-surface-container px-1.5 py-0.5 rounded font-mono-metric-sm text-mono-metric-sm text-on-surface font-semibold">6</span>
+</div>
+<span class="font-mono-metric-sm text-mono-metric-sm text-on-surface-variant font-medium">$36.5M</span>
+</div>
+<!-- Column Cards Container -->
+<div class="flex flex-col gap-space-sm">
+<!-- Card CRE-8890 (Dual-Key Signoff Pending) -->
+<div class="group relative bg-surface-container-lowest rounded-lg p-space-md shadow-sm hover:shadow-md transition-all cursor-pointer">
+<div class="flex items-start justify-between gap-space-xs mb-1.5">
+<div class="flex items-center gap-1.5">
+<span class="bg-surface-container text-on-surface-variant px-1.5 py-0.5 rounded font-mono-metric-sm text-mono-metric-sm font-semibold">CRE-8890</span>
+<span class="material-symbols-outlined text-secondary text-[15px]">verified_user</span>
+</div>
+<div class="flex items-center gap-1 bg-surface-container-low px-1.5 py-0.5 rounded-full">
+<span class="w-2.5 h-2.5 rounded-full bg-secondary"></span>
+<span class="font-mono-metric-sm text-[10px] text-secondary font-bold">D:2</span>
+</div>
+</div>
+<h4 class="font-headline-sm text-body-md text-on-surface font-semibold line-clamp-2 group-hover:text-primary transition-colors">
+              Pillar 2 Market Risk Threshold Excursion Rectification
+            </h4>
+<div class="flex flex-wrap items-center gap-1 my-2">
+<span class="px-1.5 py-0.5 rounded bg-surface-container font-mono-metric-sm text-mono-metric-sm text-on-surface-variant">Treasury FX Desk</span>
+<span class="px-1.5 py-0.5 rounded bg-surface-container-high text-primary font-mono-metric-sm text-mono-metric-sm font-semibold">$22.10M</span>
+<span class="px-1.5 py-0.5 rounded bg-surface-container font-body-sm text-[11px] text-on-surface-variant">Dual-Key Required</span>
+</div>
+<!-- Basel III Key Verification Pill -->
+<div class="bg-secondary/5 rounded p-2 my-1 flex items-center justify-between text-body-sm">
+<div class="flex items-center gap-1.5 text-secondary font-medium text-[11px]">
+<span class="material-symbols-outlined text-[15px]">vpn_key</span>
+<span>Officer 1 Signed (JV)</span>
+</div>
+<span class="font-mono-metric-sm text-[10px] bg-secondary-fixed text-on-secondary-fixed px-1.5 py-0.5 rounded font-semibold">Key 2 Awaited</span>
+</div>
+<div class="flex items-center justify-between pt-2 text-on-surface-variant font-mono-metric-sm text-mono-metric-sm">
+<div class="flex items-center gap-1 text-on-surface-variant">
+<span class="material-symbols-outlined text-[14px]">schedule</span>
+<span>02:18:00 remaining</span>
+</div>
+<div class="flex items-center gap-1">
+<span class="w-5 h-5 rounded-full bg-tertiary-container text-on-tertiary-container text-[10px] flex items-center justify-center font-bold" title="Siddharth Rao">SR</span>
+</div>
+</div>
+</div>
+<!-- Card CRE-8874 -->
+<div class="group relative bg-surface-container-lowest rounded-lg p-space-md shadow-sm hover:shadow-md transition-all cursor-pointer">
+<div class="flex items-start justify-between gap-space-xs mb-1.5">
+<div class="flex items-center gap-1.5">
+<span class="bg-surface-container text-on-surface-variant px-1.5 py-0.5 rounded font-mono-metric-sm text-mono-metric-sm font-semibold">CRE-8874</span>
+<span class="material-symbols-outlined text-secondary text-[15px]">done_all</span>
+</div>
+<div class="flex items-center gap-1 bg-surface-container-low px-1.5 py-0.5 rounded-full">
+<span class="w-2.5 h-2.5 rounded-full bg-secondary"></span>
+<span class="font-mono-metric-sm text-[10px] text-secondary font-bold">D:1</span>
+</div>
+</div>
+<h4 class="font-headline-sm text-body-md text-on-surface font-semibold line-clamp-2 group-hover:text-primary transition-colors">
+              Crypto Gate On-Ramp KYC Deviation - Zurich VASP
+            </h4>
+<div class="flex flex-wrap items-center gap-1 my-2">
+<span class="px-1.5 py-0.5 rounded bg-surface-container font-mono-metric-sm text-mono-metric-sm text-on-surface-variant">Swiss FINMA</span>
+<span class="px-1.5 py-0.5 rounded bg-surface-container-high text-primary font-mono-metric-sm text-mono-metric-sm font-semibold">$14.40M</span>
+</div>
+<div class="flex items-center justify-between pt-2 text-on-surface-variant font-mono-metric-sm text-mono-metric-sm">
+<span class="text-[11px] text-on-surface-variant">Audit Checklist: 100% Passed</span>
+<div class="flex items-center gap-1">
+<span class="w-5 h-5 rounded-full bg-primary text-on-primary text-[10px] flex items-center justify-center font-bold" title="Elena Rostova">ER</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- COLUMN 5: CLOSED & RESOLVED -->
+<div class="flex flex-col bg-surface-container-low rounded-xl p-space-sm shadow-sm opacity-95">
+<!-- Col Header -->
+<div class="flex items-center justify-between pb-space-sm px-1">
+<div class="flex items-center gap-space-xs">
+<span class="w-2 h-2 rounded-full bg-secondary"></span>
+<span class="font-headline-sm text-headline-sm text-on-surface">CLOSED &amp; RESOLVED</span>
+<span class="bg-surface-container px-1.5 py-0.5 rounded font-mono-metric-sm text-mono-metric-sm text-on-surface font-semibold">23</span>
+</div>
+<span class="font-mono-metric-sm text-mono-metric-sm text-on-surface-variant font-medium">$142.0M</span>
+</div>
+<!-- Column Cards Container -->
+<div class="flex flex-col gap-space-sm">
+<!-- Card CRE-8812 -->
+<div class="group relative bg-surface-container-lowest rounded-lg p-space-md shadow-sm hover:shadow-md transition-all cursor-pointer">
+<div class="flex items-start justify-between gap-space-xs mb-1.5">
+<div class="flex items-center gap-1.5">
+<span class="bg-surface-container text-on-surface-variant px-1.5 py-0.5 rounded font-mono-metric-sm text-mono-metric-sm">CRE-8812</span>
+<span class="material-symbols-outlined text-secondary text-[16px]">check_circle</span>
+</div>
+<span class="bg-surface-container font-mono-metric-sm text-[10px] text-on-surface-variant px-1 rounded">2h ago</span>
+</div>
+<h4 class="font-headline-sm text-body-md text-on-surface font-semibold line-clamp-1 group-hover:text-primary transition-colors">
+              Intraday Nostro Deficit Clearing Re-route
+            </h4>
+<div class="flex items-center justify-between my-2 font-mono-metric-sm text-mono-metric-sm">
+<span class="text-on-surface font-semibold">$38.90M Remediated</span>
+<span class="text-secondary font-medium">SLA Met (1h 12m)</span>
+</div>
+<!-- Cryptographic Stamp Box -->
+<div class="bg-surface-container-low p-1.5 rounded flex items-center justify-between text-[10px] font-mono-metric-sm text-on-surface-variant">
+<span class="flex items-center gap-1">
+<span class="material-symbols-outlined text-[12px] text-secondary">fingerprint</span>
+<span>SHA256: 8f4c...91b2</span>
+</span>
+<span class="text-secondary font-semibold">IMMUTABLE</span>
+</div>
+</div>
+<!-- Card CRE-8790 -->
+<div class="group relative bg-surface-container-lowest rounded-lg p-space-md shadow-sm hover:shadow-md transition-all cursor-pointer">
+<div class="flex items-start justify-between gap-space-xs mb-1.5">
+<div class="flex items-center gap-1.5">
+<span class="bg-surface-container text-on-surface-variant px-1.5 py-0.5 rounded font-mono-metric-sm text-mono-metric-sm">CRE-8790</span>
+<span class="material-symbols-outlined text-secondary text-[16px]">check_circle</span>
+</div>
+<span class="bg-surface-container font-mono-metric-sm text-[10px] text-on-surface-variant px-1 rounded">4h ago</span>
+</div>
+<h4 class="font-headline-sm text-body-md text-on-surface font-semibold line-clamp-1 group-hover:text-primary transition-colors">
+              Correspondent Bank Routing Sanction False Positive
+            </h4>
+<div class="flex items-center justify-between my-2 font-mono-metric-sm text-mono-metric-sm">
+<span class="text-on-surface font-semibold">$52.40M Released</span>
+<span class="text-secondary font-medium">SLA Met (2h 05m)</span>
+</div>
+<div class="bg-surface-container-low p-1.5 rounded flex items-center justify-between text-[10px] font-mono-metric-sm text-on-surface-variant">
+<span class="flex items-center gap-1">
+<span class="material-symbols-outlined text-[12px] text-secondary">fingerprint</span>
+<span>SHA256: 3a10...07c9</span>
+</span>
+<span class="text-secondary font-semibold">IMMUTABLE</span>
+</div>
+</div>
+<!-- Card CRE-8766 (Compact) -->
+<div class="group relative bg-surface-container-lowest rounded-lg p-space-sm shadow-sm hover:shadow-md transition-all cursor-pointer">
+<div class="flex items-center justify-between font-mono-metric-sm text-mono-metric-sm">
+<span class="text-on-surface-variant">CRE-8766</span>
+<span class="text-on-surface font-semibold">$50.7M Remediated</span>
+<span class="text-secondary font-semibold flex items-center gap-0.5"><span class="material-symbols-outlined text-[14px]">done</span> CLOSED</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- SLA EXPOSURE MATRIX (COLLAPSIBLE / SWITCHABLE VIEW) -->
+<div class="hidden w-full px-margin py-space-md" id="matrix-view">
+<div class="bg-surface-container-lowest rounded-xl p-space-lg shadow-sm">
+<div class="flex items-center justify-between mb-space-md">
+<div>
+<h3 class="font-headline-md text-headline-md text-on-surface">Real-Time SLA Exposure &amp; Breaching Heatmatrix</h3>
+<p class="font-body-md text-body-md text-on-surface-variant">Two-dimensional cross-tabulation of Typology Urgency vs Regulatory Jurisdictional Exposure.</p>
+</div>
+<div class="flex items-center gap-2 font-mono-metric-sm text-mono-metric-sm">
+<span class="flex items-center gap-1 text-on-surface-variant"><span class="w-3 h-3 rounded bg-surface-container"></span> &lt; $5M</span>
+<span class="flex items-center gap-1 text-on-surface-variant"><span class="w-3 h-3 rounded bg-surface-container-high"></span> $5M-$20M</span>
+<span class="flex items-center gap-1 text-on-surface-variant"><span class="w-3 h-3 rounded bg-tertiary-container"></span> $20M-$50M</span>
+<span class="flex items-center gap-1 text-on-surface-variant"><span class="w-3 h-3 rounded bg-error"></span> &gt; $50M Critical</span>
+</div>
+</div>
+<!-- Matrix Grid -->
+<div class="overflow-x-auto">
+<table class="w-full text-left font-body-sm text-body-sm">
+<thead>
+<tr class="bg-surface-container-low text-on-surface-variant font-label-md text-label-md uppercase">
+<th class="p-3">Typology / Jurisdiction</th>
+<th class="p-3 text-center">APAC (MAS / HKMA)</th>
+<th class="p-3 text-center">EMEA (ECB / PRA)</th>
+<th class="p-3 text-center">AMER (Fed / OCC)</th>
+<th class="p-3 text-center">LATAM (BCB / CNBV)</th>
+<th class="p-3 text-right">Aggregate SLA Risk</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-surface-container-low">
+<tr class="hover:bg-surface-container-low/40 transition-colors">
+<td class="p-3 font-semibold text-on-surface flex items-center gap-2">
+<span class="material-symbols-outlined text-primary text-[18px]">account_balance</span>
+<span>Unregistered Wire Funnels</span>
+</td>
+<td class="p-3 text-center">
+<span class="inline-block px-3 py-1.5 rounded-lg bg-error text-on-error font-mono-metric-md text-mono-metric-md font-bold shadow-sm cursor-pointer" title="CRE-8942 ($48.2M) - 14m to SLA breach">
+                  $48.2M (T-14m)
+                </span>
+</td>
+<td class="p-3 text-center">
+<span class="inline-block px-3 py-1.5 rounded bg-surface-container font-mono-metric-md text-mono-metric-md text-on-surface">$2.4M (Nominal)</span>
+</td>
+<td class="p-3 text-center">
+<span class="inline-block px-3 py-1.5 rounded bg-tertiary-container/20 text-on-surface font-mono-metric-md text-mono-metric-md font-semibold">$12.1M (T-82m)</span>
+</td>
+<td class="p-3 text-center">
+<span class="inline-block px-3 py-1.5 rounded bg-surface-container font-mono-metric-md text-mono-metric-md text-on-surface-variant">-</span>
+</td>
+<td class="p-3 text-right font-mono-metric-md text-mono-metric-md font-bold text-error">$62.7M</td>
+</tr>
+<tr class="hover:bg-surface-container-low/40 transition-colors">
+<td class="p-3 font-semibold text-on-surface flex items-center gap-2">
+<span class="material-symbols-outlined text-secondary text-[18px]">badge</span>
+<span>Synthetic Identity Networks</span>
+</td>
+<td class="p-3 text-center">
+<span class="inline-block px-3 py-1.5 rounded bg-surface-container font-mono-metric-md text-mono-metric-md text-on-surface">$4.1M</span>
+</td>
+<td class="p-3 text-center">
+<span class="inline-block px-3 py-1.5 rounded bg-surface-container font-mono-metric-md text-mono-metric-md text-on-surface-variant">-</span>
+</td>
+<td class="p-3 text-center">
+<span class="inline-block px-3 py-1.5 rounded bg-surface-container-high text-primary font-mono-metric-md text-mono-metric-md font-semibold">$8.3M</span>
+</td>
+<td class="p-3 text-center">
+<span class="inline-block px-3 py-1.5 rounded bg-error-container text-on-error-container font-mono-metric-md text-mono-metric-md font-bold" title="CRE-8995 ($9.4M) - 22m to SLA breach">
+                  $9.4M (T-22m)
+                </span>
+</td>
+<td class="p-3 text-right font-mono-metric-md text-mono-metric-md font-bold text-error">$21.8M</td>
+</tr>
+<tr class="hover:bg-surface-container-low/40 transition-colors">
+<td class="p-3 font-semibold text-on-surface flex items-center gap-2">
+<span class="material-symbols-outlined text-tertiary-container text-[18px]">receipt_long</span>
+<span>Trade Documentation &amp; LC Forgery</span>
+</td>
+<td class="p-3 text-center">
+<span class="inline-block px-3 py-1.5 rounded bg-surface-container-high text-primary font-mono-metric-md text-mono-metric-md font-bold" title="CRE-8988 ($11.2M)">
+                  $11.2M (T-54m)
+                </span>
+</td>
+<td class="p-3 text-center">
+<span class="inline-block px-3 py-1.5 rounded bg-surface-container font-mono-metric-md text-mono-metric-md text-on-surface">$3.0M</span>
+</td>
+<td class="p-3 text-center">
+<span class="inline-block px-3 py-1.5 rounded bg-surface-container font-mono-metric-md text-mono-metric-md text-on-surface-variant">-</span>
+</td>
+<td class="p-3 text-center">
+<span class="inline-block px-3 py-1.5 rounded bg-surface-container font-mono-metric-md text-mono-metric-md text-on-surface-variant">-</span>
+</td>
+<td class="p-3 text-right font-mono-metric-md text-mono-metric-md font-bold text-on-surface">$14.2M</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+<!-- AUDIT TRAIL LIST (COLLAPSIBLE / SWITCHABLE VIEW) -->
+<div class="hidden w-full px-margin py-space-md" id="audit-view">
+<div class="bg-surface-container-lowest rounded-xl p-space-lg shadow-sm">
+<div class="flex items-center justify-between mb-space-md">
+<div>
+<h3 class="font-headline-md text-headline-md text-on-surface">Cryptographic Risk Event Audit Trail</h3>
+<p class="font-body-md text-body-md text-on-surface-variant">Immutable sequence ledger verified against dual-key institutional sign-offs.</p>
+</div>
+<button class="px-space-md py-1 bg-surface-container hover:bg-surface-container-high text-on-surface rounded font-label-md text-label-md flex items-center gap-1 transition-colors">
+<span class="material-symbols-outlined text-[16px]">file_download</span>
+<span>Export Basel Dossier (.CSV)</span>
+</button>
+</div>
+<div class="space-y-2 font-mono-metric-sm text-mono-metric-sm">
+<div class="p-3 bg-surface-container-low rounded-lg flex items-center justify-between">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-secondary text-[20px]">lock</span>
+<div>
+<span class="font-semibold text-on-surface">CRE-8812 Intraday Nostro Deficit Clearing Re-route</span>
+<p class="text-body-sm font-body-sm text-on-surface-variant">Dual-sign: J. Vance (CRO) &amp; E. Rostova (Lead) • Stamped block #9,401,223</p>
+</div>
+</div>
+<div class="text-right">
+<span class="text-secondary font-bold">$38,900,000 USD</span>
+<p class="text-on-surface-variant">Remediated 14:02:11 UTC</p>
+</div>
+</div>
+<div class="p-3 bg-surface-container-low rounded-lg flex items-center justify-between">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-secondary text-[20px]">lock</span>
+<div>
+<span class="font-semibold text-on-surface">CRE-8790 Correspondent Bank Routing False Positive Clear</span>
+<p class="text-body-sm font-body-sm text-on-surface-variant">Dual-sign: S. Rao (SecOps) &amp; Compliance Automator v4.2 • Stamped block #9,400,891</p>
+</div>
+</div>
+<div class="text-right">
+<span class="text-secondary font-bold">$52,400,000 USD</span>
+<p class="text-on-surface-variant">Remediated 12:15:44 UTC</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- BUBBLE DENSITY MAP VIEW (COLLAPSIBLE / SWITCHABLE VIEW) -->
+<div class="hidden w-full px-margin py-space-md" id="bubble-view">
+<div class="bg-surface-container-lowest rounded-xl p-space-lg shadow-sm">
+<div class="flex items-center justify-between mb-space-md">
+<div>
+<h3 class="font-headline-md text-headline-md text-on-surface">Cluster Bubble Density &amp; Threat Proximity</h3>
+<p class="font-body-md text-body-md text-on-surface-variant">Visualizing ticket concentration against remaining SLA survival time.</p>
+</div>
+<span class="px-2 py-1 rounded bg-error-container text-on-error-container font-mono-metric-sm text-mono-metric-sm font-bold">14 High-Density Clusters Breached</span>
+</div>
+<!-- Bubble SVG Simulation -->
+<div class="w-full h-80 bg-surface-container-low rounded-xl flex items-center justify-center p-space-md relative overflow-hidden">
+<!-- SVG Canvas Graphic under 2KB -->
+<svg class="w-full h-full" fill="none" viewbox="0 0 800 300" xmlns="http://www.w3.org/2000/svg">
+<!-- Background Grid lines -->
+<line stroke="#E2E8F0" stroke-dasharray="4 4" stroke-width="1" x1="50" x2="750" y1="50" y2="50"></line>
+<line stroke="#E2E8F0" stroke-dasharray="4 4" stroke-width="1" x1="50" x2="750" y1="150" y2="150"></line>
+<line stroke="#E2E8F0" stroke-dasharray="4 4" stroke-width="1" x1="50" x2="750" y1="250" y2="250"></line>
+<!-- Cluster 1 (APAC Wire Funnel - Massive Red) -->
+<circle cx="210" cy="110" fill="#ba1a1a" fill-opacity="0.85" r="54"></circle>
+<circle class="animate-spin" cx="210" cy="110" r="62" stroke="#ba1a1a" stroke-dasharray="6 4" stroke-width="2" style="transform-origin: 210px 110px;"></circle>
+<text fill="#ffffff" font-family="JetBrains Mono" font-size="12" font-weight="bold" text-anchor="middle" x="210" y="105">CRE-8942</text>
+<text fill="#ffffff" font-family="JetBrains Mono" font-size="10" text-anchor="middle" x="210" y="125">$48.2M • 14m</text>
+<!-- Cluster 2 (LatAm Synthetic - Amber/Red) -->
+<circle cx="360" cy="180" fill="#007bb9" fill-opacity="0.85" r="38"></circle>
+<text fill="#ffffff" font-family="JetBrains Mono" font-size="11" font-weight="bold" text-anchor="middle" x="360" y="175">CRE-8995</text>
+<text fill="#ffffff" font-family="JetBrains Mono" font-size="9" text-anchor="middle" x="360" y="193">$9.4M • 22m</text>
+<!-- Cluster 3 (Frankfurt Nostro) -->
+<circle cx="490" cy="90" fill="#0051d5" fill-opacity="0.85" r="44"></circle>
+<text fill="#ffffff" font-family="JetBrains Mono" font-size="11" font-weight="bold" text-anchor="middle" x="490" y="85">CRE-9014</text>
+<text fill="#ffffff" font-family="JetBrains Mono" font-size="9" text-anchor="middle" x="490" y="103">$18.6M • 31m</text>
+<!-- Cluster 4 (Pillar 2 Desk) -->
+<circle cx="630" cy="160" fill="#545c72" fill-opacity="0.75" r="48"></circle>
+<text fill="#ffffff" font-family="JetBrains Mono" font-size="11" font-weight="bold" text-anchor="middle" x="630" y="155">CRE-8890</text>
+<text fill="#ffffff" font-family="JetBrains Mono" font-size="9" text-anchor="middle" x="630" y="173">$22.1M • 2h</text>
+</svg>
+</div>
+</div>
+</div>
+<!-- Bottom SLA Compliance & Ticket Velocity Dock -->
+<div class="sticky bottom-0 z-40 w-full bg-surface-container-lowest px-margin py-space-sm shadow-[0_-2px_10px_rgba(0,0,0,0.06)]">
+<div class="flex flex-col lg:flex-row lg:items-center justify-between gap-space-md">
+<!-- Operational Velocity Micro-Charts -->
+<div class="flex flex-wrap items-center gap-space-xl">
+<!-- Metric 1: MTTM -->
+<div class="flex items-center gap-space-sm">
+<div class="w-8 h-8 rounded-lg bg-secondary/10 flex items-center justify-center text-secondary">
+<span class="material-symbols-outlined text-[18px]">speed</span>
+</div>
+<div class="flex flex-col">
+<span class="font-label-md text-label-md text-on-surface-variant">Mean Time To Mitigate (MTTM)</span>
+<div class="flex items-center gap-1.5 font-mono-metric-md text-mono-metric-md">
+<span class="font-bold text-on-surface">3.4 hrs</span>
+<span class="text-[11px] text-secondary font-semibold bg-secondary-fixed/50 px-1 rounded">Target &lt; 4.0h</span>
+</div>
+</div>
+</div>
+<!-- Metric 2: SLA Compliance Rate -->
+<div class="flex items-center gap-space-sm">
+<div class="w-8 h-8 rounded-lg bg-surface-container flex items-center justify-center text-primary">
+<span class="material-symbols-outlined text-[18px]">verified</span>
+</div>
+<div class="flex flex-col">
+<span class="font-label-md text-label-md text-on-surface-variant">Global SLA Compliance</span>
+<div class="flex items-center gap-1.5 font-mono-metric-md text-mono-metric-md">
+<span class="font-bold text-on-surface">96.2%</span>
+<span class="text-[11px] text-secondary font-semibold">▲ +0.8% DoD</span>
+</div>
+</div>
+</div>
+<!-- Metric 3: Escalation Velocity -->
+<div class="flex items-center gap-space-sm">
+<div class="w-8 h-8 rounded-lg bg-tertiary-container/10 flex items-center justify-center text-tertiary-container">
+<span class="material-symbols-outlined text-[18px]">trending_up</span>
+</div>
+<div class="flex flex-col">
+<span class="font-label-md text-label-md text-on-surface-variant">Escalation Velocity</span>
+<div class="flex items-center gap-1.5 font-mono-metric-md text-mono-metric-md">
+<span class="font-bold text-on-surface">14.2 tx/hr</span>
+<span class="text-[11px] text-error font-semibold">High Activity</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Institutional Hotkeys & Fast Actions -->
+<div class="flex items-center gap-space-md text-on-surface-variant font-mono-metric-sm text-mono-metric-sm">
+<span class="hidden md:inline text-[11px]">KEYBOARD SHORTCUTS:</span>
+<div class="flex items-center gap-1">
+<kbd class="px-1.5 py-0.5 bg-surface-container-low text-on-surface rounded shadow-sm text-[10px] font-semibold">C</kbd>
+<span class="text-[11px]">Create</span>
+</div>
+<div class="flex items-center gap-1">
+<kbd class="px-1.5 py-0.5 bg-surface-container-low text-on-surface rounded shadow-sm text-[10px] font-semibold">F</kbd>
+<span class="text-[11px]">Freeze</span>
+</div>
+<div class="flex items-center gap-1">
+<kbd class="px-1.5 py-0.5 bg-surface-container-low text-on-surface rounded shadow-sm text-[10px] font-semibold">G</kbd>
+<span class="text-[11px]">Graph Canvas</span>
+</div>
+<div class="flex items-center gap-1">
+<kbd class="px-1.5 py-0.5 bg-surface-container-low text-on-surface rounded shadow-sm text-[10px] font-semibold">/</kbd>
+<span class="text-[11px]">Search</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Log New Risk Trigger Modal Dialog (Interactive overlay) -->
+<div class="fixed inset-0 z-50 hidden bg-inverse-surface/40 backdrop-blur-sm items-center justify-center p-space-md" id="risk-modal">
+<div class="bg-surface-container-lowest rounded-xl max-w-xl w-full p-space-lg shadow-xl flex flex-col gap-space-md">
+<div class="flex items-center justify-between pb-space-sm">
+<div class="flex items-center gap-2">
+<span class="w-3 h-3 rounded-full bg-primary"></span>
+<h3 class="font-headline-md text-headline-md text-on-surface">Initiate New Risk Trigger Issue</h3>
+</div>
+<button class="w-8 h-8 rounded flex items-center justify-center hover:bg-surface-container text-on-surface-variant" onclick="closeModal()">
+<span class="material-symbols-outlined text-[20px]">close</span>
+</button>
+</div>
+<div class="space-y-3 font-body-sm text-body-sm">
+<div>
+<label class="block font-label-md text-label-md text-on-surface-variant mb-1">Risk Ticket Summary</label>
+<input class="w-full h-8 px-2.5 bg-surface-container-low rounded font-body-md text-body-md text-on-surface focus:outline-none focus:bg-surface-container-lowest" placeholder="e.g. Unusual Fedwire settlement variance in NY-Lon corridor" type="text"/>
+</div>
+<div class="grid grid-cols-2 gap-space-md">
+<div>
+<label class="block font-label-md text-label-md text-on-surface-variant mb-1">Exposure Typology</label>
+<select class="w-full h-8 px-2 bg-surface-container-low rounded font-body-md text-body-md text-on-surface focus:outline-none">
+<option>Structuring / Wire Funnel</option>
+<option>Trade Doc Discrepancy</option>
+<option>Nostro Deficit Excursion</option>
+<option>Synthetic ID Ring</option>
+<option>Sanctions False Positive</option>
+</select>
+</div>
+<div>
+<label class="block font-label-md text-label-md text-on-surface-variant mb-1">Est. At-Risk Capital ($USD)</label>
+<input class="w-full h-8 px-2.5 bg-surface-container-low rounded font-mono-metric-sm text-mono-metric-sm text-on-surface focus:outline-none" placeholder="15,000,000" type="text"/>
+</div>
+</div>
+<div class="grid grid-cols-2 gap-space-md">
+<div>
+<label class="block font-label-md text-label-md text-on-surface-variant mb-1">Lead Risk Investigator</label>
+<select class="w-full h-8 px-2 bg-surface-container-low rounded font-body-md text-body-md text-on-surface focus:outline-none">
+<option>Elena Rostova (Lead APAC)</option>
+<option>Sir Julian Vance (Group CRO)</option>
+<option>Siddharth Rao (SecOps)</option>
+</select>
+</div>
+<div>
+<label class="block font-label-md text-label-md text-on-surface-variant mb-1">Target SLA Max Threshold</label>
+<select class="w-full h-8 px-2 bg-surface-container-low rounded font-body-md text-body-md text-on-surface focus:outline-none">
+<option>45 Minutes (Critical P1)</option>
+<option>2 Hours (Standard P2)</option>
+<option>4 Hours (Monitoring P3)</option>
+</select>
+</div>
+</div>
+</div>
+<div class="flex items-center justify-end gap-space-sm pt-space-sm">
+<button class="px-space-md h-8 bg-surface-container hover:bg-surface-container-high text-on-surface rounded font-label-md text-label-md" onclick="closeModal()">
+          Cancel
+        </button>
+<button class="px-space-lg h-8 bg-primary hover:bg-primary-container text-on-primary rounded font-label-md text-label-md font-semibold shadow-sm" onclick="closeModal()">
+          Publish Incident &amp; Arm Timers
+        </button>
+</div>
+</div>
+</div>
+<!-- Interactive Logic Script -->
+<script>
+    // Tab switching between Kanban, SLA Matrix, Audit Trail, and Density Bubble Map
+    function switchView(viewName) {
+      const views = ['kanban', 'matrix', 'audit', 'bubble'];
+      views.forEach(v => {
+        const el = document.getElementById(v + '-view');
+        const btn = document.getElementById('btn-' + v);
+        if (v === viewName) {
+          el.classList.remove('hidden');
+          btn.className = "flex items-center gap-1.5 px-space-md py-1 rounded font-label-md text-label-md bg-surface-container-lowest text-primary shadow-sm font-semibold transition-all";
+        } else {
+          el.classList.add('hidden');
+          btn.className = "flex items-center gap-1.5 px-space-md py-1 rounded font-label-md text-label-md text-on-surface-variant hover:text-on-surface transition-all";
+        }
+      });
+    }
+
+    // Modal controls
+    function openModal() {
+      const modal = document.getElementById('risk-modal');
+      modal.classList.remove('hidden');
+      modal.classList.add('flex');
+    }
+    function closeModal() {
+      const modal = document.getElementById('risk-modal');
+      modal.classList.remove('flex');
+      modal.classList.add('hidden');
+    }
+
+    // Interactive Corridor Freeze action
+    function freezeCorridor(corridorId) {
+      alert('URGENT DIRECTIVE ARMED: Freezing Clearing Gateway for [' + corridorId + ']. SWIFT MT103/202 messages paused.');
+    }
+
+    // Real-time SLA Countdown micro-ticker simulation
+    let secondsLeft = 14 * 60 + 32;
+    const timerElement = document.getElementById('live-sla-timer');
+    if (timerElement) {
+      setInterval(() => {
+        if (secondsLeft > 0) {
+          secondsLeft--;
+          const hours = String(Math.floor(secondsLeft / 3600)).padStart(2, '0');
+          const mins = String(Math.floor((secondsLeft % 3600) / 60)).padStart(2, '0');
+          const secs = String(secondsLeft % 60).padStart(2, '0');
+          timerElement.innerText = `${hours}:${mins}:${secs}`;
+        }
+      }, 1000);
+    }
+
+    // Keyboard Shortcuts Listener
+    document.addEventListener('keydown', (e) => {
+      if (e.target.tagName === 'INPUT' || e.target.tagName === 'SELECT') return;
+      if (e.key === 'c' || e.key === 'C') {
+        openModal();
+      } else if (e.key === 'f' || e.key === 'F') {
+        freezeCorridor('APAC-09');
+      } else if (e.key === 'Escape') {
+        closeModal();
+      }
+    });
+  </script>
+</div></main></body></html>

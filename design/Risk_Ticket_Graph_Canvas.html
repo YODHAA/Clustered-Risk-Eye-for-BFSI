@@ -1,0 +1,862 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta content="width=device-width, initial-scale=1.0" name="viewport"><meta content="web_dashboard" name="shell-type"><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"><link href="https://fonts.googleapis.com" rel="preconnect"><link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=JetBrains+Mono:wght@400;500;600&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"><style>@layer base{html,body{margin:0;padding:0;}body{overscroll-behavior:none;}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config={"darkMode":"class","theme":{"extend":{"colors":{"on-secondary":"#ffffff","on-primary-fixed-variant":"#004b73","secondary-fixed":"#dbe1ff","primary-fixed-dim":"#93ccff","surface-bright":"#f8f9ff","on-surface-variant":"#3f4850","primary-container":"#007bb9","surface":"#f8f9ff","outline-variant":"#bfc7d2","on-secondary-container":"#fefcff","inverse-primary":"#93ccff","error-container":"#ffdad6","on-background":"#0b1c30","on-error-container":"#93000a","surface-dim":"#cbdbf5","tertiary":"#545c72","on-tertiary-fixed":"#131b2e","inverse-surface":"#213145","on-secondary-fixed":"#00174b","surface-container-high":"#dce9ff","surface-tint":"#006398","secondary-fixed-dim":"#b4c5ff","error":"#ba1a1a","surface-container-lowest":"#ffffff","secondary":"#0051d5","on-primary-container":"#fdfcff","surface-container":"#e5eeff","outline":"#707881","on-tertiary":"#ffffff","on-error":"#ffffff","primary-fixed":"#cce5ff","surface-container-low":"#eff4ff","background":"#f8f9ff","tertiary-container":"#6c748b","surface-container-highest":"#d3e4fe","on-surface":"#0b1c30","on-secondary-fixed-variant":"#003ea8","surface-variant":"#d3e4fe","secondary-container":"#316bf3","on-primary-fixed":"#001d31","on-tertiary-fixed-variant":"#3f465c","inverse-on-surface":"#eaf1ff","on-primary":"#ffffff","tertiary-fixed-dim":"#bec6e0","on-tertiary-container":"#fefcff","primary":"#006194","tertiary-fixed":"#dae2fd"},"borderRadius":{"DEFAULT":"0.125rem","lg":"0.25rem","xl":"0.5rem","full":"0.75rem"},"spacing":{"space-xs":"0.25rem","space-lg":"1rem","space-md":"0.75rem","gutter":"0.75rem","space-sm":"0.375rem","space-xl":"1.5rem","margin":"1rem"},"fontFamily":{"label-md":["Inter"],"mono-metric-sm":["JetBrains Mono"],"body-md":["Inter"],"mono-metric-lg":["JetBrains Mono"],"headline-sm":["Inter"],"headline-lg":["Inter"],"body-lg":["Inter"],"mono-metric-md":["JetBrains Mono"],"body-sm":["Inter"],"headline-md":["Inter"],"display":["Inter"],"label-lg":["Inter"]},"fontSize":{"label-md":["11px",{"lineHeight":"14px","letterSpacing":"0.03em","fontWeight":"500"}],"mono-metric-sm":["11px",{"lineHeight":"14px","letterSpacing":"0em","fontWeight":"400"}],"body-md":["13px",{"lineHeight":"18px","fontWeight":"400"}],"mono-metric-lg":["20px",{"lineHeight":"24px","letterSpacing":"-0.02em","fontWeight":"600"}],"headline-sm":["15px",{"lineHeight":"20px","letterSpacing":"-0.005em","fontWeight":"600"}],"headline-lg":["22px",{"lineHeight":"28px","letterSpacing":"-0.015em","fontWeight":"600"}],"body-lg":["14px",{"lineHeight":"20px","fontWeight":"400"}],"mono-metric-md":["13px",{"lineHeight":"18px","letterSpacing":"-0.01em","fontWeight":"500"}],"body-sm":["12px",{"lineHeight":"16px","fontWeight":"400"}],"headline-md":["18px",{"lineHeight":"24px","letterSpacing":"-0.01em","fontWeight":"600"}],"display":["28px",{"lineHeight":"34px","letterSpacing":"-0.02em","fontWeight":"700"}],"label-lg":["12px",{"lineHeight":"16px","letterSpacing":"0.02em","fontWeight":"600"}]}}}};</script></head><body class="bg-surface font-body-md text-on-surface antialiased"><header class="fixed top-0 left-0 right-0 z-50 bg-surface-container-lowest border-b border-outline-variant/40 shadow-[0_1px_8px_rgba(0,0,0,0.04)]"><div class="h-14 px-margin flex items-center justify-between gap-space-lg"><div class="flex items-center gap-space-md"><img alt="Clustered Risk Eye Logo" class="h-8 w-auto object-contain" src="https://lh3.googleusercontent.com/aida/ALJJyrDtKlsChGyBCyt4CN6BvPj70wxFg4CPxQRa5w3X6KtJKAkIvp9LCt8XXEZYmTqMhywE_gAPJKYoFew53kIa4_jQo_Iv3A_UGUYrfWr_5FGv6Jnf3VLF-j7-2mk--Bw-ZDmjkYRdDeK1cVBSwmLVvpMPOYLaBrH3gWjh6P5_NAs1Tc5Rx3e4YTLAm912TO5PbwU6BUCP6v-KqPaY1vKsfuY92O0AlZGf1n_9LjHQ2EDf"><div class="flex flex-col"><span class="font-headline-sm text-headline-sm text-on-surface tracking-tight leading-none">Clustered Risk Eye</span><span class="font-mono-metric-sm text-mono-metric-sm text-on-surface-variant leading-none mt-1">INSTITUTIONAL RISK PLATFORM</span></div><div class="h-5 w-px bg-outline-variant/60 mx-space-xs"></div><div class="flex items-center gap-space-xs text-on-surface-variant font-label-md text-label-md"><span class="hover:text-on-surface cursor-pointer transition-colors">Global Risk Governance</span><span class="material-symbols-outlined text-[14px]">chevron_right</span><span class="text-primary font-semibold">Risk Graph Engine</span></div></div><div class="flex-1 max-w-xl mx-space-md"><div class="relative flex items-center w-full"><span class="material-symbols-outlined absolute left-3 text-on-surface-variant text-[18px]">search</span><input class="w-full h-8 pl-9 pr-3 bg-surface-container-low border border-outline-variant/60 rounded text-body-sm font-body-sm text-on-surface placeholder:text-on-surface-variant focus:outline-none focus:border-primary focus:bg-surface-container-lowest transition-colors" placeholder="Search tickets (CRE-XXXX), cluster hash, typology, branch..." type="text"></div></div><div class="flex items-center gap-space-md"><button id="openCreateModalBtn" class="h-8 px-3 rounded bg-primary text-on-primary font-label-md text-label-md font-semibold flex items-center gap-1.5 shadow-sm hover:opacity-90 transition-all active:scale-95"><span class="material-symbols-outlined text-[16px]">add_circle</span><span>+ New Ticket Bubble</span></button><div class="flex items-center gap-space-xs px-2.5 py-1 rounded bg-error-container/40 border border-error/30"><span class="w-2 h-2 rounded-full bg-error animate-pulse"></span><span class="font-mono-metric-sm text-mono-metric-sm text-on-error-container font-semibold">DEFCON 2 • Active Monitoring</span></div><div class="flex items-center gap-1 font-mono-metric-sm text-mono-metric-sm text-on-surface-variant bg-surface-container px-2 py-1 rounded"><span class="material-symbols-outlined text-[14px]">sync</span><span>Synced 12s ago</span></div><div class="relative flex items-center"><button class="w-8 h-8 rounded flex items-center justify-center text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors relative"><span class="material-symbols-outlined text-[20px]">notifications</span><span class="absolute top-1.5 right-1.5 w-2 h-2 bg-error rounded-full ring-2 ring-surface-container-lowest"></span></button></div><div class="h-5 w-px bg-outline-variant/60"></div><div class="flex items-center gap-space-sm pl-space-xs cursor-pointer group"><div class="flex flex-col text-right"><span class="font-label-lg text-label-lg text-on-surface leading-none group-hover:text-primary transition-colors">Sir Julian Vance</span><span class="font-mono-metric-sm text-mono-metric-sm text-on-surface-variant leading-none mt-1">Group CRO</span></div><div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center shadow-sm"><span class="material-symbols-outlined text-on-primary text-[18px]">person</span></div></div></div></div><div class="h-10 px-margin bg-surface-container-low border-t border-outline-variant/30 flex items-center justify-between"><nav class="flex items-center h-full gap-1" data-active-classes="bg-surface-container-lowest text-primary font-semibold border-b-2 border-primary shadow-sm"><a aria-current="page" class="h-full px-space-md flex items-center transition-all bg-surface-container-lowest text-primary font-semibold border-b-2 border-primary shadow-sm" data-path="risk-ticket-graph-canvas" href="#">Risk Ticket Graph Canvas</a><a class="h-full px-space-md flex items-center font-label-md text-label-md text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high/50 transition-all" data-path="cluster-epic-topology-root-cause" href="#">Cluster Epic Topology &amp; Root Cause</a><a class="h-full px-space-md flex items-center font-label-md text-label-md text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high/50 transition-all" data-path="riskops-kanban-sla-matrix" href="#">RiskOps Kanban &amp; SLA Matrix</a><a class="h-full px-space-md flex items-center font-label-md text-label-md text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high/50 transition-all" data-path="executive-directives-gtm-governance" href="#">Executive Directives &amp; GTM Governance</a></nav><div class="flex items-center gap-space-md font-mono-metric-sm text-mono-metric-sm text-on-surface-variant"><span>NODES: <strong class="text-on-surface font-semibold">4,289</strong></span><span>CLUSTERS: <strong class="text-error font-semibold">14 BREACHED</strong></span><span>SYSTEM INTEGRITY: <strong class="text-secondary font-semibold">99.98%</strong></span></div></div></header><main class="w-full pt-24 bg-surface min-h-screen"><div class="flex flex-col w-full text-on-surface">
+<!-- Top KPI & Operational Filter Ribbon -->
+<div class="bg-surface-container-lowest shadow-sm px-margin py-space-sm flex flex-col gap-space-sm select-none">
+<!-- Row 1: Executive Risk Metrics -->
+<div class="flex items-center justify-between gap-space-md">
+<div class="flex items-center gap-space-lg flex-wrap">
+<div class="flex items-center gap-2">
+<span class="w-2.5 h-2.5 rounded-full bg-secondary animate-pulse"></span>
+<span class="font-label-md text-label-md text-on-surface-variant uppercase tracking-wider">Active Graph Bubbles</span>
+<span class="font-mono-metric-lg text-mono-metric-lg text-on-surface ml-1">142</span>
+<span class="font-mono-metric-sm text-mono-metric-sm text-secondary bg-surface-container px-1.5 py-0.5 rounded ml-1">94.2% Jira Sync</span>
+</div>
+<div class="h-4 w-px bg-surface-container-highest"></div>
+<div class="flex items-center gap-2">
+<span class="font-label-md text-label-md text-on-surface-variant uppercase tracking-wider">Total Capital at Risk</span>
+<span class="font-mono-metric-lg text-mono-metric-lg text-on-surface font-bold">$184.60M</span>
+<span class="font-mono-metric-sm text-mono-metric-sm text-error bg-error-container/40 px-1.5 py-0.5 rounded">+$18.4M past 4h</span>
+</div>
+<div class="h-4 w-px bg-surface-container-highest"></div>
+<!-- Appetite Triad Indicators -->
+<div class="flex items-center gap-space-md">
+<div class="flex items-center gap-1.5 px-2 py-1 rounded bg-error-container/40">
+<span class="w-2 h-2 rounded-full bg-error"></span>
+<span class="font-label-md text-label-md text-on-error-container">Critical Breaches:</span>
+<span class="font-mono-metric-md text-mono-metric-md text-on-error-container font-bold">7</span>
+</div>
+<div class="flex items-center gap-1.5 px-2 py-1 rounded bg-amber-50">
+<span class="w-2 h-2 rounded-full bg-amber-500"></span>
+<span class="font-label-md text-label-md text-amber-900">Approaching SLA:</span>
+<span class="font-mono-metric-md text-mono-metric-md text-amber-900 font-bold">12</span>
+</div>
+<div class="flex items-center gap-1.5 px-2 py-1 rounded bg-emerald-50">
+<span class="w-2 h-2 rounded-full bg-emerald-600"></span>
+<span class="font-label-md text-label-md text-emerald-900">Within Appetite:</span>
+<span class="font-mono-metric-md text-mono-metric-md text-emerald-900 font-bold">123</span>
+</div>
+</div>
+</div>
+<!-- Graph Viewport & Spatial Physics Controls -->
+<div class="flex items-center gap-1.5 bg-surface-container-low p-1 rounded">
+<button class="w-7 h-7 flex items-center justify-center rounded bg-surface-container-lowest text-on-surface hover:bg-surface-container transition-colors shadow-sm" id="zoomOutBtn" title="Zoom Out">
+<span class="material-symbols-outlined text-[16px]">remove</span>
+</button>
+<span class="font-mono-metric-sm text-mono-metric-sm px-2 text-on-surface font-semibold" id="zoomLevelDisplay">100%</span>
+<button class="w-7 h-7 flex items-center justify-center rounded bg-surface-container-lowest text-on-surface hover:bg-surface-container transition-colors shadow-sm" id="zoomInBtn" title="Zoom In">
+<span class="material-symbols-outlined text-[16px]">add</span>
+</button>
+<div class="h-4 w-px bg-surface-container-highest mx-1"></div>
+<button class="h-7 px-2 flex items-center gap-1 rounded bg-surface-container-lowest text-on-surface font-label-md text-label-md hover:bg-surface-container shadow-sm transition-colors" id="resetPhysicsBtn">
+<span class="material-symbols-outlined text-[14px]">device_reset</span>
+<span>Reset Layout</span>
+</button>
+<button class="h-7 px-2 flex items-center gap-1 rounded bg-primary text-on-primary font-label-md text-label-md shadow-sm" id="togglePhysicsBtn">
+<span class="material-symbols-outlined text-[14px]">all_inclusive</span>
+<span>DBSCAN Active</span>
+</button>
+<button class="h-7 px-2 flex items-center gap-1 rounded bg-surface-container-lowest text-on-surface font-label-md text-label-md hover:bg-surface-container shadow-sm" id="exportMapBtn">
+<span class="material-symbols-outlined text-[14px]">file_download</span>
+<span>Vector Map</span>
+</button>
+</div>
+</div>
+<!-- Row 2: Filtering Axis & Appetite Thresholds -->
+<div class="flex items-center justify-between gap-space-lg pt-1">
+<div class="flex items-center gap-space-md flex-1">
+<!-- Axis Grouping Selectors -->
+<div class="flex items-center gap-1 bg-surface-container-low p-1 rounded">
+<span class="font-label-md text-label-md text-on-surface-variant px-1 font-semibold">CLUSTER AXIS:</span>
+<button class="px-2.5 py-1 rounded bg-surface-container-lowest text-primary font-label-md text-label-md font-semibold shadow-sm">Typology</button>
+<button class="px-2.5 py-1 rounded text-on-surface-variant hover:text-on-surface font-label-md text-label-md transition-colors">Geography</button>
+<button class="px-2.5 py-1 rounded text-on-surface-variant hover:text-on-surface font-label-md text-label-md transition-colors">Jira Workflow</button>
+<button class="px-2.5 py-1 rounded text-on-surface-variant hover:text-on-surface font-label-md text-label-md transition-colors">Root Cause</button>
+</div>
+<!-- Metric Sizing Mode -->
+<div class="flex items-center gap-1 bg-surface-container-low p-1 rounded">
+<span class="font-label-md text-label-md text-on-surface-variant px-1 font-semibold">BUBBLE SCALE:</span>
+<button class="px-2.5 py-1 rounded bg-primary text-on-primary font-label-md text-label-md font-medium shadow-sm" id="scaleExposure">Exposure ($M)</button>
+<button class="px-2.5 py-1 rounded text-on-surface-variant hover:text-on-surface font-label-md text-label-md transition-colors" id="scaleVelocity">Tx Velocity (tx/min)</button>
+</div>
+<!-- CEO Risk Exposure Appetite Slider -->
+<div class="flex items-center gap-space-sm bg-surface-container-low px-3 py-1 rounded flex-1 max-w-md">
+<span class="font-label-md text-label-md text-on-surface-variant whitespace-nowrap">CEO Threshold:</span>
+<input class="w-full h-1.5 bg-surface-container-highest rounded appearance-none cursor-pointer accent-primary" id="appetiteSlider" max="50" min="1" type="range" value="5">
+<span class="font-mono-metric-sm text-mono-metric-sm text-primary font-bold whitespace-nowrap" id="sliderValue">&gt;$5.0M Executive Filter</span>
+</div>
+</div>
+<!-- Quick Typology Pill Filters -->
+<div class="flex items-center gap-1 font-label-md text-label-md">
+<span class="px-2 py-0.5 rounded bg-error/15 text-error font-semibold">Synthetic ID (5)</span>
+<span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-800 font-semibold">TBML (14)</span>
+<span class="px-2 py-0.5 rounded bg-blue-500/15 text-secondary font-semibold">Micro-Smurfing (18)</span>
+<span class="px-2 py-0.5 rounded bg-purple-500/15 text-purple-800 font-semibold">Crypto Gateway (3)</span>
+</div>
+</div>
+</div>
+<!-- Primary Stage: 2-Column Split (Canvas + Docked Jira Inspector) -->
+<div class="flex w-full relative overflow-hidden" style="height: calc(100vh - 170px);">
+<!-- Main Interactive Graph Canvas (Center Stage) -->
+<div class="flex-1 relative overflow-hidden bg-surface cursor-grab active:cursor-grabbing select-none" id="canvasViewport" style="background-image: radial-gradient(#cbd5e1 1.2px, transparent 1.2px); background-size: 24px 24px;">
+<!-- Coordinate Compass & Spatial HUD Overlay -->
+<div class="absolute top-4 left-4 z-20 flex flex-col gap-2 pointer-events-none">
+<div class="bg-surface-container-lowest/90 backdrop-blur-sm shadow-sm p-2.5 rounded flex flex-col gap-1 w-52">
+<div class="flex items-center justify-between text-on-surface">
+<span class="font-label-md text-label-md uppercase tracking-wider font-semibold">Canvas Coordinates</span>
+<span class="font-mono-metric-sm text-mono-metric-sm text-secondary">X: 1,420 / Y: -320</span>
+</div>
+<div class="flex items-center justify-between font-mono-metric-sm text-mono-metric-sm text-on-surface-variant">
+<span>DBSCAN Epsilon (ε):</span>
+<span class="font-semibold text-on-surface">0.428 rad</span>
+</div>
+<div class="flex items-center justify-between font-mono-metric-sm text-mono-metric-sm text-on-surface-variant">
+<span>Repulsion Force:</span>
+<span class="font-semibold text-on-surface">78.4 N</span>
+</div>
+<div class="flex items-center justify-between font-mono-metric-sm text-mono-metric-sm text-on-surface-variant">
+<span>Clustered Epics:</span>
+<span class="font-semibold text-error">4 Active Orbits</span>
+</div>
+</div>
+<!-- Canvas Legend HUD -->
+<div class="bg-surface-container-lowest/90 backdrop-blur-sm shadow-sm p-2 rounded flex items-center gap-3 font-mono-metric-sm text-mono-metric-sm">
+<div class="flex items-center gap-1.5">
+<div class="w-3 h-3 rounded-full bg-error"></div>
+<span>Critical Breached</span>
+</div>
+<div class="flex items-center gap-1.5">
+<div class="w-3 h-3 rounded-full bg-amber-500"></div>
+<span>At-Risk Limit</span>
+</div>
+<div class="flex items-center gap-1.5">
+<div class="w-3 h-3 rounded-full bg-primary"></div>
+<span>Within Tolerance</span>
+</div>
+<div class="flex items-center gap-1.5">
+<div class="w-6 h-0.5 bg-error"></div>
+<span>Blocks Link</span>
+</div>
+</div>
+</div>
+<!-- Graph Transform Container (World Space) -->
+<div class="absolute inset-0 transition-transform duration-100 ease-out origin-top-left" id="graphWorld" style="transform: translate(0px, 0px) scale(1);">
+<!-- SVG Vector Layer: Orbits, Cluster Fields & Inter-Bubble Dependency Connectors -->
+<svg class="absolute inset-0 w-[2400px] h-[1600px] pointer-events-none" xmlns="http://www.w3.org/2000/svg">
+<defs>
+<!-- Arrow markers for Jira dependency links -->
+<marker id="arrow-error" markerHeight="6" markerWidth="6" orient="auto-start-reverse" refX="28" refY="5" viewBox="0 0 10 10">
+<path d="M 0 0 L 10 5 L 0 10 z" fill="#ba1a1a"></path>
+</marker>
+<marker id="arrow-amber" markerHeight="6" markerWidth="6" orient="auto-start-reverse" refX="24" refY="5" viewBox="0 0 10 10">
+<path d="M 0 0 L 10 5 L 0 10 z" fill="#f59e0b"></path>
+</marker>
+<marker id="arrow-primary" markerHeight="6" markerWidth="6" orient="auto-start-reverse" refX="22" refY="5" viewBox="0 0 10 10">
+<path d="M 0 0 L 10 5 L 0 10 z" fill="#006194"></path>
+</marker>
+<marker id="arrow-muted" markerHeight="5" markerWidth="5" orient="auto-start-reverse" refX="20" refY="5" viewBox="0 0 10 10">
+<path d="M 0 0 L 10 5 L 0 10 z" fill="#707881"></path>
+</marker>
+<!-- Radial glows for cluster orbit fields -->
+<radialGradient cx="50%" cy="50%" id="grad-orbit-alpha" r="50%">
+<stop offset="0%" stop-color="#ffdad6" stop-opacity="0.45"></stop>
+<stop offset="70%" stop-color="#ffdad6" stop-opacity="0.12"></stop>
+<stop offset="100%" stop-color="#ffffff" stop-opacity="0"></stop>
+</radialGradient>
+<radialGradient cx="50%" cy="50%" id="grad-orbit-beta" r="50%">
+<stop offset="0%" stop-color="#fef3c7" stop-opacity="0.5"></stop>
+<stop offset="70%" stop-color="#fef3c7" stop-opacity="0.15"></stop>
+<stop offset="100%" stop-color="#ffffff" stop-opacity="0"></stop>
+</radialGradient>
+<radialGradient cx="50%" cy="50%" id="grad-orbit-gamma" r="50%">
+<stop offset="0%" stop-color="#dbeafe" stop-opacity="0.5"></stop>
+<stop offset="70%" stop-color="#dbeafe" stop-opacity="0.1"></stop>
+<stop offset="100%" stop-color="#ffffff" stop-opacity="0"></stop>
+</radialGradient>
+<radialGradient cx="50%" cy="50%" id="grad-orbit-delta" r="50%">
+<stop offset="0%" stop-color="#f3e8ff" stop-opacity="0.55"></stop>
+<stop offset="70%" stop-color="#f3e8ff" stop-opacity="0.1"></stop>
+<stop offset="100%" stop-color="#ffffff" stop-opacity="0"></stop>
+</radialGradient>
+</defs>
+<!-- Orbit Alpha Boundary (APAC Synthetic ID Ring) -->
+<ellipse cx="480" cy="420" fill="url(#grad-orbit-alpha)" opacity="0.8" rx="340" ry="300" stroke="#ba1a1a" stroke-dasharray="6,6" stroke-width="1.5"></ellipse>
+<text class="font-mono-metric-sm text-mono-metric-sm font-semibold tracking-wider uppercase" fill="#93000a" x="180" y="160">ORBIT ALPHA: APAC SYNTHETIC ID RING (Σ $77.7M)</text>
+<!-- Orbit Beta Boundary (TBML Trade-Based Invoicing) -->
+<ellipse cx="1180" cy="340" fill="url(#grad-orbit-beta)" opacity="0.75" rx="270" ry="240" stroke="#f59e0b" stroke-dasharray="5,5" stroke-width="1.5"></ellipse>
+<text class="font-mono-metric-sm text-mono-metric-sm font-semibold tracking-wider uppercase" fill="#b45309" x="960" y="140">ORBIT BETA: TBML CUSTOMS INVOICE DRIFT (Σ $42.3M)</text>
+<!-- Orbit Gamma Boundary (London Faster Payments Velocity) -->
+<ellipse cx="560" cy="980" fill="url(#grad-orbit-gamma)" opacity="0.75" rx="280" ry="240" stroke="#006194" stroke-dasharray="4,4" stroke-width="1.5"></ellipse>
+<text class="font-mono-metric-sm text-mono-metric-sm font-semibold tracking-wider uppercase" fill="#004b73" x="320" y="780">ORBIT GAMMA: UK RETAIL SMURFING ENGINE (Σ $18.4M)</text>
+<!-- Orbit Delta Boundary (Crypto Gateway Liquidity Leak) -->
+<ellipse cx="1240" cy="880" fill="url(#grad-orbit-delta)" opacity="0.75" rx="250" ry="220" stroke="#7e22ce" stroke-dasharray="6,6" stroke-width="1.5"></ellipse>
+<text class="font-mono-metric-sm text-mono-metric-sm font-semibold tracking-wider uppercase" fill="#6b21a8" x="1030" y="700">ORBIT DELTA: OTC LIQUIDITY ARBITRAGE (Σ $11.2M)</text>
+<!-- Inter-Cluster Cross-Epic Risk Propagation Line (Alpha -> Beta) -->
+<path d="M 570 380 C 760 300, 880 280, 1100 320" fill="none" marker-end="url(#arrow-error)" stroke="#ba1a1a" stroke-dasharray="4,4" stroke-width="2"></path>
+<rect fill="#ffdad6" height="20" rx="4" width="130" x="790" y="270"></rect>
+<text class="font-mono-metric-sm text-mono-metric-sm font-bold" fill="#93000a" x="800" y="284">blocks (Cross-Jurisdiction)</text>
+<!-- Inter-Cluster Line (Alpha -> Delta) -->
+<path d="M 520 480 C 700 680, 960 760, 1170 850" fill="none" marker-end="url(#arrow-muted)" stroke="#707881" stroke-dasharray="3,3" stroke-width="1.5"></path>
+<rect fill="#eff4ff" height="18" rx="3" width="105" x="780" y="660"></rect>
+<text class="font-mono-metric-sm text-mono-metric-sm" fill="#3f4850" x="788" y="673">relates to (Off-ramp)</text>
+<!-- Orbit Alpha Internal Dependency Connectors -->
+<!-- Core (480, 420) to LatAm Corridors (300, 290) -->
+<path d="M 440 380 L 330 310" marker-end="url(#arrow-error)" stroke="#ba1a1a" stroke-width="2.5"></path>
+<!-- Core to HK Shell Merchant (330, 520) -->
+<path d="M 430 440 L 350 500" marker-end="url(#arrow-error)" stroke="#ba1a1a" stroke-width="2.5"></path>
+<!-- Core to Singapore Mule Node (630, 500) -->
+<path d="M 530 445 L 610 485" marker-end="url(#arrow-error)" stroke="#ba1a1a" stroke-width="2"></path>
+<!-- Core to Shell Entity Wire (580, 280) -->
+<path d="M 515 375 L 565 310" marker-end="url(#arrow-amber)" stroke="#f59e0b" stroke-width="1.8"></path>
+<!-- Satellite to Satellite link HK Shell -> Singapore Mule -->
+<path d="M 360 550 C 470 610, 540 600, 600 525" stroke="#707881" stroke-dasharray="2,2" stroke-width="1.2"></path>
+<!-- Orbit Beta Internal Dependency Connectors -->
+<path d="M 1160 370 L 1080 430" marker-end="url(#arrow-amber)" stroke="#f59e0b" stroke-width="2"></path>
+<path d="M 1210 370 L 1290 410" marker-end="url(#arrow-amber)" stroke="#f59e0b" stroke-width="2"></path>
+<path d="M 1180 300 L 1190 230" marker-end="url(#arrow-primary)" stroke="#006194" stroke-width="1.5"></path>
+<!-- Orbit Gamma Internal Connectors (Micro-Smurfing Swarm) -->
+<path d="M 540 940 L 460 890" marker-end="url(#arrow-primary)" stroke="#006194" stroke-width="1.5"></path>
+<path d="M 580 940 L 670 910" marker-end="url(#arrow-primary)" stroke="#006194" stroke-width="1.5"></path>
+<path d="M 560 1020 L 580 1100" marker-end="url(#arrow-primary)" stroke="#006194" stroke-width="1.5"></path>
+<path d="M 530 1010 L 450 1050" marker-end="url(#arrow-primary)" stroke="#006194" stroke-width="1.5"></path>
+<!-- Orbit Delta Connectors -->
+<path d="M 1215 870 L 1150 830" stroke="#7e22ce" stroke-width="1.5"></path>
+<path d="M 1265 890 L 1330 940" stroke="#7e22ce" stroke-width="1.5"></path>
+</svg>
+<!-- HTML Interactive Nodes (Positioned absolutely on canvas world) -->
+<!-- ================= ORBIT ALPHA NODES ================= -->
+<!-- CORE EPIC BUBBLE: CRE-8942 (Selected State by default) -->
+<div class="graph-node active-node cursor-pointer absolute transform -translate-x-1/2 -translate-y-1/2 w-48 h-48 rounded-full bg-surface-container-lowest shadow-xl flex flex-col items-center justify-center p-3 text-center transition-all hover:scale-105" id="node-CRE-8942" style="left: 480px; top: 420px; box-shadow: 0 0 0 3px #ba1a1a, 0 12px 32px -4px rgba(186, 26, 26, 0.28);">
+<div class="absolute -top-3 px-2 py-0.5 rounded bg-error text-on-error font-mono-metric-sm text-mono-metric-sm font-bold shadow-sm uppercase tracking-wide">
+            Critical Epic
+          </div>
+<!-- Jira Issue Icon + Key -->
+<div class="flex items-center gap-1 mt-1 text-on-surface">
+<span class="w-2.5 h-2.5 rounded-sm bg-secondary"></span>
+<span class="font-mono-metric-md text-mono-metric-md font-bold text-primary">CRE-8942</span>
+</div>
+<!-- Ticket Name -->
+<span class="font-headline-sm text-headline-sm text-on-surface font-bold leading-tight mt-1 line-clamp-2">
+            APAC Synthetic ID Wire Funnel
+          </span>
+<!-- Exposure Badge -->
+<div class="font-mono-metric-lg text-mono-metric-lg font-bold text-error mt-1">
+            $48.2M
+          </div>
+<!-- Assignee & SLA countdown -->
+<div class="flex items-center justify-between w-full mt-2 pt-1.5 border-t border-surface-container-highest px-1">
+<div class="flex items-center gap-1">
+<div class="w-5 h-5 rounded-full bg-primary text-on-primary flex items-center justify-center text-[10px] font-bold">ER</div>
+<span class="font-label-md text-label-md text-on-surface-variant">E. Rostova</span>
+</div>
+<div class="flex items-center gap-0.5 text-error font-mono-metric-sm text-mono-metric-sm font-bold">
+<span class="material-symbols-outlined text-[13px]">timer</span>
+<span>14m:32s</span>
+</div>
+</div>
+</div>
+<!-- Orbit Alpha Satellite 1: CRE-9014 LatAm Corridors -->
+<div class="graph-node cursor-pointer absolute transform -translate-x-1/2 -translate-y-1/2 w-32 h-32 rounded-full bg-surface-container-lowest shadow-md flex flex-col items-center justify-center p-2 text-center transition-all hover:scale-110" id="node-CRE-9014" style="left: 300px; top: 290px; box-shadow: 0 0 0 2px #ba1a1a;">
+<div class="flex items-center gap-1">
+<span class="w-2 h-2 rounded-sm bg-secondary"></span>
+<span class="font-mono-metric-sm text-mono-metric-sm font-bold text-primary">CRE-9014</span>
+</div>
+<span class="font-label-md text-label-md text-on-surface font-semibold line-clamp-2 mt-0.5">LatAm Corridor Wire Aggregator</span>
+<span class="font-mono-metric-md text-mono-metric-md font-bold text-error mt-0.5">$8.2M</span>
+<span class="font-mono-metric-sm text-mono-metric-sm text-on-error-container bg-error-container/60 px-1 py-0.2 rounded mt-0.5">In Triage</span>
+</div>
+<!-- Orbit Alpha Satellite 2: CRE-9022 HK Shell Merchant -->
+<div class="graph-node cursor-pointer absolute transform -translate-x-1/2 -translate-y-1/2 w-34 h-34 rounded-full bg-surface-container-lowest shadow-md flex flex-col items-center justify-center p-2 text-center transition-all hover:scale-110" id="node-CRE-9022" style="left: 330px; top: 520px; box-shadow: 0 0 0 2px #ba1a1a;">
+<div class="flex items-center gap-1">
+<span class="w-2 h-2 rounded-sm bg-secondary"></span>
+<span class="font-mono-metric-sm text-mono-metric-sm font-bold text-primary">CRE-9022</span>
+</div>
+<span class="font-label-md text-label-md text-on-surface font-semibold line-clamp-2 mt-0.5">HK Shell Merchant MID-098</span>
+<span class="font-mono-metric-md text-mono-metric-md font-bold text-error mt-0.5">$12.4M</span>
+<span class="font-mono-metric-sm text-mono-metric-sm text-on-error-container bg-error-container/60 px-1 py-0.2 rounded mt-0.5">Defcon 1</span>
+</div>
+<!-- Orbit Alpha Satellite 3: CRE-9031 Singapore Mule Node -->
+<div class="graph-node cursor-pointer absolute transform -translate-x-1/2 -translate-y-1/2 w-28 h-28 rounded-full bg-surface-container-lowest shadow-md flex flex-col items-center justify-center p-2 text-center transition-all hover:scale-110" id="node-CRE-9031" style="left: 630px; top: 500px; box-shadow: 0 0 0 2px #f59e0b;">
+<div class="flex items-center gap-1">
+<span class="w-2 h-2 rounded-sm bg-secondary"></span>
+<span class="font-mono-metric-sm text-mono-metric-sm font-bold text-primary">CRE-9031</span>
+</div>
+<span class="font-label-md text-label-md text-on-surface font-semibold line-clamp-1 mt-0.5">SG Mule Hub</span>
+<span class="font-mono-metric-md text-mono-metric-md font-bold text-amber-900 mt-0.5">$5.8M</span>
+<span class="font-mono-metric-sm text-mono-metric-sm text-amber-900 bg-amber-100 px-1 py-0.2 rounded mt-0.5">Mitigating</span>
+</div>
+<!-- Orbit Alpha Satellite 4: CRE-8840 Shell Entity Wire -->
+<div class="graph-node cursor-pointer absolute transform -translate-x-1/2 -translate-y-1/2 w-24 h-24 rounded-full bg-surface-container-lowest shadow-md flex flex-col items-center justify-center p-1.5 text-center transition-all hover:scale-110" id="node-CRE-8840" style="left: 580px; top: 280px; box-shadow: 0 0 0 1.5px #006194;">
+<span class="font-mono-metric-sm text-mono-metric-sm font-bold text-primary">CRE-8840</span>
+<span class="font-label-md text-label-md text-on-surface line-clamp-1">Shell Entity</span>
+<span class="font-mono-metric-sm text-mono-metric-sm font-bold text-on-surface mt-0.5">$3.1M</span>
+<span class="font-mono-metric-sm text-mono-metric-sm text-emerald-900 bg-emerald-100 px-1 rounded mt-0.5">Review</span>
+</div>
+<!-- ================= ORBIT BETA NODES ================= -->
+<!-- Orbit Beta Core Bubble: CRE-8911 Pacific Customs Arbitrage -->
+<div class="graph-node cursor-pointer absolute transform -translate-x-1/2 -translate-y-1/2 w-44 h-44 rounded-full bg-surface-container-lowest shadow-xl flex flex-col items-center justify-center p-3 text-center transition-all hover:scale-105" id="node-CRE-8911" style="left: 1180px; top: 340px; box-shadow: 0 0 0 3px #f59e0b, 0 8px 24px -2px rgba(245, 158, 11, 0.25);">
+<div class="absolute -top-2.5 px-2 py-0.5 rounded bg-amber-500 text-white font-mono-metric-sm text-mono-metric-sm font-bold shadow-sm uppercase">
+            TBML Epic
+          </div>
+<div class="flex items-center gap-1 mt-1">
+<span class="w-2.5 h-2.5 rounded-sm bg-secondary"></span>
+<span class="font-mono-metric-md text-mono-metric-md font-bold text-primary">CRE-8911</span>
+</div>
+<span class="font-headline-sm text-headline-sm text-on-surface font-bold leading-tight mt-1 line-clamp-2">
+            Pacific Customs Over-Invoicing
+          </span>
+<div class="font-mono-metric-lg text-mono-metric-lg font-bold text-amber-900 mt-1">
+            $34.1M
+          </div>
+<div class="flex items-center justify-between w-full mt-2 pt-1 border-t border-surface-container-highest px-1">
+<span class="font-label-md text-label-md text-on-surface-variant">4 Sub-tasks</span>
+<span class="font-mono-metric-sm text-mono-metric-sm text-amber-900 font-bold bg-amber-50 px-1 py-0.5 rounded">02h:18m</span>
+</div>
+</div>
+<!-- Orbit Beta Sub-Nodes -->
+<div class="graph-node cursor-pointer absolute transform -translate-x-1/2 -translate-y-1/2 w-28 h-28 rounded-full bg-surface-container-lowest shadow-sm flex flex-col items-center justify-center p-1.5 text-center transition-all hover:scale-110" id="node-CRE-8912" style="left: 1080px; top: 430px; box-shadow: 0 0 0 1.5px #f59e0b;">
+<span class="font-mono-metric-sm text-mono-metric-sm font-bold text-primary">CRE-8912</span>
+<span class="font-label-md text-label-md text-on-surface line-clamp-1">Bill of Lading</span>
+<span class="font-mono-metric-sm text-mono-metric-sm font-bold text-amber-900 mt-0.5">$14.2M</span>
+</div>
+<div class="graph-node cursor-pointer absolute transform -translate-x-1/2 -translate-y-1/2 w-26 h-26 rounded-full bg-surface-container-lowest shadow-sm flex flex-col items-center justify-center p-1 text-center transition-all hover:scale-110" id="node-CRE-8913" style="left: 1290px; top: 410px; box-shadow: 0 0 0 1.5px #f59e0b;">
+<span class="font-mono-metric-sm text-mono-metric-sm font-bold text-primary">CRE-8913</span>
+<span class="font-label-md text-label-md text-on-surface line-clamp-1">Port Klang Cargo</span>
+<span class="font-mono-metric-sm text-mono-metric-sm font-bold text-on-surface mt-0.5">$9.8M</span>
+</div>
+<div class="graph-node cursor-pointer absolute transform -translate-x-1/2 -translate-y-1/2 w-24 h-24 rounded-full bg-surface-container-lowest shadow-sm flex flex-col items-center justify-center p-1 text-center transition-all hover:scale-110" id="node-CRE-8890" style="left: 1190px; top: 230px; box-shadow: 0 0 0 1.5px #006194;">
+<span class="font-mono-metric-sm text-mono-metric-sm font-bold text-primary">CRE-8890</span>
+<span class="font-label-md text-label-md text-on-surface line-clamp-1">Tariff Escrow</span>
+<span class="font-mono-metric-sm text-mono-metric-sm font-bold text-primary mt-0.5">$10.1M</span>
+</div>
+<!-- ================= ORBIT GAMMA NODES ================= -->
+<!-- Orbit Gamma Core: CRE-8705 UK Retail Velocity Spike -->
+<div class="graph-node cursor-pointer absolute transform -translate-x-1/2 -translate-y-1/2 w-44 h-44 rounded-full bg-surface-container-lowest shadow-xl flex flex-col items-center justify-center p-3 text-center transition-all hover:scale-105" id="node-CRE-8705" style="left: 560px; top: 980px; box-shadow: 0 0 0 3px #006194, 0 8px 24px -2px rgba(0, 97, 148, 0.2);">
+<div class="absolute -top-2.5 px-2 py-0.5 rounded bg-primary text-on-primary font-mono-metric-sm text-mono-metric-sm font-bold shadow-sm uppercase">
+            Faster Payments Epic
+          </div>
+<div class="flex items-center gap-1 mt-1">
+<span class="w-2.5 h-2.5 rounded-sm bg-secondary"></span>
+<span class="font-mono-metric-md text-mono-metric-md font-bold text-primary">CRE-8705</span>
+</div>
+<span class="font-headline-sm text-headline-sm text-on-surface font-bold leading-tight mt-1 line-clamp-2">
+            UK Retail Velocity Smurfing Spike
+          </span>
+<div class="font-mono-metric-lg text-mono-metric-lg font-bold text-primary mt-1">
+            $16.8M
+          </div>
+<div class="flex items-center gap-1 font-mono-metric-sm text-mono-metric-sm text-on-surface-variant mt-1.5">
+<span class="material-symbols-outlined text-[14px] text-primary">grain</span>
+<span>142 Micro-Dots Active</span>
+</div>
+</div>
+<!-- Gamma Micro-Swarm satellites -->
+<div class="absolute transform -translate-x-1/2 -translate-y-1/2 w-20 h-20 rounded-full bg-surface-container-lowest shadow-sm flex flex-col items-center justify-center p-1 text-center" style="left: 460px; top: 890px; box-shadow: 0 0 0 1px #006194;">
+<span class="font-mono-metric-sm text-mono-metric-sm font-bold text-primary">CRE-8711</span>
+<span class="font-mono-metric-sm text-mono-metric-sm font-semibold">$3.2M</span>
+</div>
+<div class="absolute transform -translate-x-1/2 -translate-y-1/2 w-22 h-22 rounded-full bg-surface-container-lowest shadow-sm flex flex-col items-center justify-center p-1 text-center" style="left: 670px; top: 910px; box-shadow: 0 0 0 1px #006194;">
+<span class="font-mono-metric-sm text-mono-metric-sm font-bold text-primary">CRE-8714</span>
+<span class="font-mono-metric-sm text-mono-metric-sm font-semibold">$4.9M</span>
+</div>
+<div class="absolute transform -translate-x-1/2 -translate-y-1/2 w-16 h-16 rounded-full bg-surface-container-lowest shadow-sm flex flex-col items-center justify-center p-1 text-center" style="left: 580px; top: 1100px; box-shadow: 0 0 0 1px #006194;">
+<span class="font-mono-metric-sm text-mono-metric-sm font-bold text-primary">CRE-8720</span>
+<span class="font-mono-metric-sm text-mono-metric-sm">$1.8M</span>
+</div>
+<div class="absolute transform -translate-x-1/2 -translate-y-1/2 w-18 h-18 rounded-full bg-surface-container-lowest shadow-sm flex flex-col items-center justify-center p-1 text-center" style="left: 450px; top: 1050px; box-shadow: 0 0 0 1px #006194;">
+<span class="font-mono-metric-sm text-mono-metric-sm font-bold text-primary">CRE-8728</span>
+<span class="font-mono-metric-sm text-mono-metric-sm font-semibold">$2.1M</span>
+</div>
+<!-- ================= ORBIT DELTA NODES ================= -->
+<!-- Orbit Delta Core: CRE-9008 OTC Settlement Drift -->
+<div class="graph-node cursor-pointer absolute transform -translate-x-1/2 -translate-y-1/2 w-38 h-38 rounded-full bg-surface-container-lowest shadow-xl flex flex-col items-center justify-center p-2.5 text-center transition-all hover:scale-105" id="node-CRE-9008" style="left: 1240px; top: 880px; box-shadow: 0 0 0 2.5px #7e22ce, 0 8px 24px -2px rgba(126, 34, 206, 0.2);">
+<div class="absolute -top-2.5 px-2 py-0.5 rounded bg-purple-700 text-white font-mono-metric-sm text-mono-metric-sm font-bold shadow-sm uppercase">
+            Crypto Gateway
+          </div>
+<div class="flex items-center gap-1 mt-0.5">
+<span class="w-2 h-2 rounded-sm bg-secondary"></span>
+<span class="font-mono-metric-sm text-mono-metric-sm font-bold text-primary">CRE-9008</span>
+</div>
+<span class="font-headline-sm text-headline-sm text-on-surface font-bold leading-tight mt-0.5 line-clamp-2">
+            OTC Settlement Pool Drift
+          </span>
+<div class="font-mono-metric-lg text-mono-metric-lg font-bold text-purple-900 mt-0.5">
+            $4.1M
+          </div>
+<span class="font-mono-metric-sm text-mono-metric-sm text-purple-800 bg-purple-100 px-1.5 py-0.5 rounded mt-1">Escalated</span>
+</div>
+<div class="absolute transform -translate-x-1/2 -translate-y-1/2 w-20 h-20 rounded-full bg-surface-container-lowest shadow-sm flex flex-col items-center justify-center p-1 text-center" style="left: 1150px; top: 830px; box-shadow: 0 0 0 1px #7e22ce;">
+<span class="font-mono-metric-sm text-mono-metric-sm font-bold text-purple-900">CRE-9010</span>
+<span class="font-mono-metric-sm text-mono-metric-sm">$1.9M</span>
+</div>
+<div class="absolute transform -translate-x-1/2 -translate-y-1/2 w-22 h-22 rounded-full bg-surface-container-lowest shadow-sm flex flex-col items-center justify-center p-1 text-center" style="left: 1330px; top: 940px; box-shadow: 0 0 0 1px #7e22ce;">
+<span class="font-mono-metric-sm text-mono-metric-sm font-bold text-purple-900">CRE-9012</span>
+<span class="font-mono-metric-sm text-mono-metric-sm">$5.2M</span>
+</div>
+</div>
+<!-- Floating Canvas Bottom-Right Mini-Map Widget -->
+<div class="absolute bottom-4 right-4 z-20 bg-surface-container-lowest/95 backdrop-blur-md rounded shadow-lg p-2.5 flex flex-col gap-1.5 w-44">
+<div class="flex items-center justify-between text-on-surface">
+<span class="font-label-md text-label-md uppercase tracking-wider font-semibold">Radar Radar Map</span>
+<span class="material-symbols-outlined text-[14px] text-on-surface-variant">aspect_ratio</span>
+</div>
+<!-- Mini-map graphical container -->
+<div class="w-full h-24 bg-surface-container-low rounded relative overflow-hidden">
+<div class="absolute top-3 left-4 w-6 h-6 rounded-full bg-error/25"></div>
+<div class="absolute top-3 left-4 w-2 h-2 rounded-full bg-error m-2"></div>
+<div class="absolute top-2 right-4 w-5 h-5 rounded-full bg-amber-500/25"></div>
+<div class="absolute top-2 right-4 w-1.5 h-1.5 rounded-full bg-amber-500 m-1.5"></div>
+<div class="absolute bottom-3 left-6 w-5 h-5 rounded-full bg-primary/25"></div>
+<div class="absolute bottom-3 left-6 w-1.5 h-1.5 rounded-full bg-primary m-1.5"></div>
+<div class="absolute bottom-3 right-5 w-4 h-4 rounded-full bg-purple-500/25"></div>
+<!-- Viewport Viewfinder rectangle -->
+<div class="absolute inset-x-2 inset-y-1 rounded bg-primary/10 shadow-sm pointer-events-none"></div>
+</div>
+<div class="flex items-center justify-between font-mono-metric-sm text-mono-metric-sm text-on-surface-variant">
+<span>Clusters: 4 active</span>
+<span class="text-error font-semibold">Δ 7 breaches</span>
+</div>
+</div>
+</div>
+<!-- ======================================================== -->
+<!-- Right-Hand Interactive Jira Ticket Inspector Drawer Panel -->
+<!-- ======================================================== -->
+<aside class="w-[380px] min-w-[380px] bg-surface-container-lowest shadow-xl flex flex-col z-30 overflow-y-auto" id="ticketInspectorPanel">
+<!-- Panel Header & Status Matrix -->
+<div class="p-space-md bg-surface-container-low flex flex-col gap-space-sm sticky top-0 z-10">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-1.5">
+<!-- Jira Issue Type Badge -->
+<span class="w-4 h-4 rounded bg-primary flex items-center justify-center text-on-primary text-[10px] font-bold">J</span>
+<span class="font-mono-metric-md text-mono-metric-md font-bold text-primary" id="inspectorTicketKey">CRE-8942</span>
+<span class="font-mono-metric-sm text-mono-metric-sm text-on-surface-variant bg-surface-container px-1 py-0.2 rounded">EPIC</span>
+</div>
+<div class="flex items-center gap-1">
+<span class="px-2 py-0.5 rounded bg-error-container/60 text-on-error-container font-mono-metric-sm text-mono-metric-sm font-bold flex items-center gap-1">
+<span class="w-1.5 h-1.5 rounded-full bg-error"></span>
+              DEFCON 1: MITIGATE
+            </span>
+<button class="w-6 h-6 rounded flex items-center justify-center text-on-surface-variant hover:text-on-surface hover:bg-surface-container transition-colors" id="closeInspectorBtn">
+<span class="material-symbols-outlined text-[16px]">close</span>
+</button>
+</div>
+</div>
+<!-- Ticket Title -->
+<h2 class="font-headline-sm text-headline-sm text-on-surface font-bold leading-tight" id="inspectorTitle">
+          APAC Multi-Branch Wire Funnel Ring
+        </h2>
+<!-- High-Impact Quantitative Triad -->
+<div class="grid grid-cols-3 gap-2 bg-surface-container-lowest p-2 rounded shadow-sm">
+<div class="flex flex-col">
+<span class="font-label-md text-label-md text-on-surface-variant">Risk Score</span>
+<span class="font-mono-metric-lg text-mono-metric-lg text-error font-bold leading-tight" id="inspectorRiskScore">98.4<span class="text-xs font-normal text-on-surface-variant">/100</span></span>
+<span class="font-mono-metric-sm text-mono-metric-sm text-error font-semibold">CRITICAL</span>
+</div>
+<div class="flex flex-col">
+<span class="font-label-md text-label-md text-on-surface-variant">Exposure</span>
+<span class="font-mono-metric-lg text-mono-metric-lg text-on-surface font-bold leading-tight" id="inspectorExposure">$48.20M</span>
+<span class="font-mono-metric-sm text-mono-metric-sm text-error">+192.8% limit</span>
+</div>
+<div class="flex flex-col">
+<span class="font-label-md text-label-md text-on-surface-variant">SLA Timer</span>
+<span class="font-mono-metric-md text-mono-metric-md text-error font-bold leading-tight mt-1" id="inspectorSla">00:14:32</span>
+<span class="font-mono-metric-sm text-mono-metric-sm text-on-surface-variant">Mandatory Hold</span>
+</div>
+</div>
+<!-- Executive Instant Action Trigger Bar -->
+<div class="flex items-center gap-2 pt-1">
+<button class="flex-1 h-8 rounded bg-error text-on-error font-label-md text-label-md font-semibold flex items-center justify-center gap-1.5 shadow-sm hover:opacity-90 transition-opacity" id="freezeWireBtn">
+<span class="material-symbols-outlined text-[15px]">block</span>
+<span>Execute Immediate Freeze</span>
+</button>
+<button class="h-8 px-2.5 rounded bg-surface-container-lowest text-on-surface font-label-md text-label-md font-medium shadow-sm hover:bg-surface-container transition-colors" id="escalateBoardBtn">
+            Escalate to Board
+          </button>
+</div>
+</div>
+<!-- Scrollable Detailed Specification & Jira Hierarchy -->
+<div class="p-space-md flex flex-col gap-space-md">
+<!-- AI Root-Cause Diagnostic Summary Card -->
+<div class="p-2.5 rounded bg-surface-container-low flex flex-col gap-1.5">
+<div class="flex items-center justify-between">
+<span class="font-label-md text-label-md text-primary font-bold flex items-center gap-1 uppercase tracking-wider">
+<span class="material-symbols-outlined text-[14px]">psychology</span>
+              Automated Root Cause Topology
+            </span>
+<span class="font-mono-metric-sm text-mono-metric-sm text-on-surface-variant">Confidence: 96.8%</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface leading-relaxed">
+            DBSCAN graph cluster detected synchronized high-frequency cross-border SWIFT MT103 transfers originating from newly provisioned synthetic Hong Kong shell entities into Singapore payroll accounts, bypassing single-entity AML thresholds.
+          </p>
+<div class="flex items-center gap-1 mt-1">
+<span class="font-mono-metric-sm text-mono-metric-sm bg-surface-container-highest px-1.5 py-0.5 rounded text-on-surface">Rule: CRE-R409-SWIFT</span>
+<span class="font-mono-metric-sm text-mono-metric-sm bg-surface-container-highest px-1.5 py-0.5 rounded text-on-surface">FATF Red Flag #12</span>
+</div>
+</div>
+<!-- Jira Core Metadata Fields Grid -->
+<div class="flex flex-col gap-2">
+<span class="font-label-md text-label-md text-on-surface-variant uppercase tracking-wider font-semibold">Governance &amp; Ownership</span>
+<div class="grid grid-cols-2 gap-2 text-body-sm">
+<div class="p-2 rounded bg-surface-container-low flex flex-col">
+<span class="font-label-md text-label-md text-on-surface-variant">Assignee</span>
+<div class="flex items-center gap-1.5 mt-1">
+<div class="w-5 h-5 rounded-full bg-primary text-on-primary flex items-center justify-center font-bold text-[10px]">ER</div>
+<span class="font-label-md text-label-md font-semibold text-on-surface">Elena Rostova</span>
+</div>
+<span class="font-mono-metric-sm text-mono-metric-sm text-on-surface-variant mt-0.5">Lead Risk Ops</span>
+</div>
+<div class="p-2 rounded bg-surface-container-low flex flex-col">
+<span class="font-label-md text-label-md text-on-surface-variant">Reporter</span>
+<div class="flex items-center gap-1.5 mt-1">
+<div class="w-5 h-5 rounded-full bg-secondary-container text-on-secondary-container flex items-center justify-center font-bold text-[10px]">DB</div>
+<span class="font-label-md text-label-md font-semibold text-on-surface">DBSCAN Engine</span>
+</div>
+<span class="font-mono-metric-sm text-mono-metric-sm text-on-surface-variant mt-0.5">Model v4.2.1</span>
+</div>
+<div class="p-2 rounded bg-surface-container-low flex flex-col">
+<span class="font-label-md text-label-md text-on-surface-variant">Risk Appetite Limit</span>
+<span class="font-mono-metric-md text-mono-metric-md font-bold text-on-surface mt-1">$25,000,000</span>
+<span class="font-mono-metric-sm text-mono-metric-sm text-error font-semibold">Breached by $23.20M</span>
+</div>
+<div class="p-2 rounded bg-surface-container-low flex flex-col">
+<span class="font-label-md text-label-md text-on-surface-variant">Compliance Jurisdiction</span>
+<span class="font-mono-metric-md text-mono-metric-md font-bold text-on-surface mt-1">HKMA / MAS</span>
+<span class="font-mono-metric-sm text-mono-metric-sm text-on-surface-variant">Dual Filing Required</span>
+</div>
+</div>
+</div>
+<!-- Linked Jira Sub-Tasks & Incident Items -->
+<div class="flex flex-col gap-2">
+<div class="flex items-center justify-between">
+<span class="font-label-md text-label-md text-on-surface-variant uppercase tracking-wider font-semibold">Sub-Tasks &amp; Linked Issues (4)</span>
+<button class="font-label-md text-label-md text-primary hover:underline font-semibold">+ Link Issue</button>
+</div>
+<div class="flex flex-col gap-1.5">
+<!-- Sub-Task 1 -->
+<div class="p-2 rounded bg-surface-container-lowest shadow-sm flex items-center justify-between hover:bg-surface-container-low transition-colors">
+<div class="flex items-center gap-2">
+<input checked="" class="w-3.5 h-3.5 rounded text-primary focus:ring-0" type="checkbox">
+<div class="flex flex-col">
+<div class="flex items-center gap-1.5">
+<span class="font-mono-metric-sm text-mono-metric-sm text-primary font-bold">CRE-8943</span>
+<span class="font-label-md text-label-md font-medium text-on-surface">Lock SWIFT gateway routing for IBAN *8941</span>
+</div>
+<span class="font-mono-metric-sm text-mono-metric-sm text-on-surface-variant">Completed by E. Rostova • 8m ago</span>
+</div>
+</div>
+<span class="px-1.5 py-0.5 rounded bg-emerald-100 text-emerald-900 font-mono-metric-sm text-mono-metric-sm font-semibold">DONE</span>
+</div>
+<!-- Sub-Task 2 -->
+<div class="p-2 rounded bg-surface-container-lowest shadow-sm flex items-center justify-between hover:bg-surface-container-low transition-colors">
+<div class="flex items-center gap-2">
+<input class="w-3.5 h-3.5 rounded text-primary focus:ring-0" type="checkbox">
+<div class="flex flex-col">
+<div class="flex items-center gap-1.5">
+<span class="font-mono-metric-sm text-mono-metric-sm text-primary font-bold">CRE-8944</span>
+<span class="font-label-md text-label-md font-medium text-on-surface">File FinCEN SAR &amp; MAS STR Urgent Disclosure</span>
+</div>
+<span class="font-mono-metric-sm text-mono-metric-sm text-amber-900 font-semibold">Assigned: Legal AML Desk</span>
+</div>
+</div>
+<span class="px-1.5 py-0.5 rounded bg-amber-100 text-amber-900 font-mono-metric-sm text-mono-metric-sm font-semibold">IN REVIEW</span>
+</div>
+<!-- Sub-Task 3 -->
+<div class="p-2 rounded bg-surface-container-lowest shadow-sm flex items-center justify-between hover:bg-surface-container-low transition-colors">
+<div class="flex items-center gap-2">
+<input class="w-3.5 h-3.5 rounded text-primary focus:ring-0" type="checkbox">
+<div class="flex flex-col">
+<div class="flex items-center gap-1.5">
+<span class="font-mono-metric-sm text-mono-metric-sm text-primary font-bold">CRE-8945</span>
+<span class="font-label-md text-label-md font-medium text-on-surface">Correlate merchant terminal ID with HK branch CCTV</span>
+</div>
+<span class="font-mono-metric-sm text-mono-metric-sm text-on-surface-variant">Pending physical security logs</span>
+</div>
+</div>
+<span class="px-1.5 py-0.5 rounded bg-surface-container-highest text-on-surface font-mono-metric-sm text-mono-metric-sm">OPEN</span>
+</div>
+<!-- Sub-Task 4 -->
+<div class="p-2 rounded bg-surface-container-lowest shadow-sm flex items-center justify-between hover:bg-surface-container-low transition-colors">
+<div class="flex items-center gap-2">
+<input class="w-3.5 h-3.5 rounded text-primary focus:ring-0" type="checkbox">
+<div class="flex flex-col">
+<div class="flex items-center gap-1.5">
+<span class="font-mono-metric-sm text-mono-metric-sm text-primary font-bold">CRE-8949</span>
+<span class="font-label-md text-label-md font-medium text-on-surface">Sanction Screening Re-Check against OFAC SDN List</span>
+</div>
+<span class="font-mono-metric-sm text-mono-metric-sm text-on-surface-variant">Automated job scheduled in 5m</span>
+</div>
+</div>
+<span class="px-1.5 py-0.5 rounded bg-surface-container-highest text-on-surface font-mono-metric-sm text-mono-metric-sm">QUEUED</span>
+</div>
+</div>
+</div>
+<!-- Activity & Regulatory Audit Thread -->
+<div class="flex flex-col gap-2 pt-1 border-t border-surface-container-highest">
+<div class="flex items-center justify-between">
+<span class="font-label-md text-label-md text-on-surface-variant uppercase tracking-wider font-semibold">Basel III Audit Trail</span>
+<span class="font-mono-metric-sm text-mono-metric-sm text-on-surface-variant">SHA256 Signed</span>
+</div>
+<div class="flex flex-col gap-2 font-body-sm text-body-sm">
+<!-- Comment 1 -->
+<div class="flex gap-2">
+<div class="w-6 h-6 rounded-full bg-primary text-on-primary flex items-center justify-center text-[10px] font-bold shrink-0 mt-0.5">ER</div>
+<div class="flex flex-col bg-surface-container-low p-2 rounded flex-1">
+<div class="flex items-center justify-between">
+<span class="font-label-md text-label-md font-semibold text-on-surface">Elena Rostova (Lead Risk Ops)</span>
+<span class="font-mono-metric-sm text-mono-metric-sm text-on-surface-variant">14:22:08 GMT</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface mt-1">
+                  Alert threshold breached at node <span class="font-mono-metric-sm text-mono-metric-sm text-primary font-semibold">@CRE-9022</span>. Correlated with previous Hong Kong merchant shell incidents. Recommending immediate escrow containment.
+                </p>
+</div>
+</div>
+<!-- Comment 2 -->
+<div class="flex gap-2">
+<div class="w-6 h-6 rounded-full bg-secondary-container text-on-secondary-container flex items-center justify-center text-[10px] font-bold shrink-0 mt-0.5">SYS</div>
+<div class="flex flex-col bg-surface-container-low p-2 rounded flex-1">
+<div class="flex items-center justify-between">
+<span class="font-label-md text-label-md font-semibold text-on-surface">RiskEye Auto-Dispatcher</span>
+<span class="font-mono-metric-sm text-mono-metric-sm text-on-surface-variant">14:20:00 GMT</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface mt-1">
+                  Ticket status elevated from <span class="font-mono-metric-sm text-mono-metric-sm bg-surface-container px-1 py-0.2 rounded font-semibold">TRIAGE</span> to <span class="font-mono-metric-sm text-mono-metric-sm bg-error-container/70 text-on-error-container px-1 py-0.2 rounded font-semibold">MITIGATION</span> due to aggregate velocity breach exceeding $25M limit.
+                </p>
+</div>
+</div>
+</div>
+<!-- Quick Comment Input Box -->
+<div class="mt-2 flex gap-1.5">
+<input class="flex-1 h-8 px-2 bg-surface-container-lowest shadow-sm rounded text-body-sm text-on-surface focus:outline-none focus:ring-1 focus:ring-primary" id="quickAuditComment" placeholder="Add verified audit note or @mention..." type="text">
+<button class="h-8 px-3 rounded bg-primary text-on-primary font-label-md text-label-md font-medium hover:opacity-95 transition-opacity" id="submitAuditBtn">Post</button>
+</div>
+</div>
+</div>
+</aside>
+</div>
+</div>
+<script>
+  // Dynamic Canvas Interaction & Pan/Zoom Physics Simulator
+  (function initRiskGraphCanvas() {
+    let zoom = 1.0;
+    let panX = 0;
+    let panY = 0;
+    let isDragging = false;
+    let startX = 0;
+    let startY = 0;
+
+    const viewport = document.getElementById('canvasViewport');
+    const world = document.getElementById('graphWorld');
+    const zoomInBtn = document.getElementById('zoomInBtn');
+    const zoomOutBtn = document.getElementById('zoomOutBtn');
+    const zoomDisplay = document.getElementById('zoomLevelDisplay');
+    const resetPhysicsBtn = document.getElementById('resetPhysicsBtn');
+    const appetiteSlider = document.getElementById('appetiteSlider');
+    const sliderValue = document.getElementById('sliderValue');
+    const scaleExposure = document.getElementById('scaleExposure');
+    const scaleVelocity = document.getElementById('scaleVelocity');
+    const inspector = document.getElementById('ticketInspectorPanel');
+    const closeInspector = document.getElementById('closeInspectorBtn');
+
+    // Zoom Functions
+    function applyTransform() {
+      world.style.transform = `translate(${panX}px, ${panY}px) scale(${zoom})`;
+      zoomDisplay.textContent = Math.round(zoom * 100) + '%';
+    }
+
+    zoomInBtn.addEventListener('click', () => {
+      if (zoom < 2.0) {
+        zoom = Math.min(2.0, zoom + 0.15);
+        applyTransform();
+      }
+    });
+
+    zoomOutBtn.addEventListener('click', () => {
+      if (zoom > 0.4) {
+        zoom = Math.max(0.4, zoom - 0.15);
+        applyTransform();
+      }
+    });
+
+    resetPhysicsBtn.addEventListener('click', () => {
+      zoom = 1.0;
+      panX = 0;
+      panY = 0;
+      applyTransform();
+    });
+
+    // Panning on canvas
+    viewport.addEventListener('mousedown', (e) => {
+      // Don't drag if clicking interactive node directly
+      if (e.target.closest('.graph-node') || e.target.closest('button') || e.target.closest('input')) return;
+      isDragging = true;
+      startX = e.clientX - panX;
+      startY = e.clientY - panY;
+      viewport.classList.add('cursor-grabbing');
+    });
+
+    window.addEventListener('mousemove', (e) => {
+      if (!isDragging) return;
+      panX = e.clientX - startX;
+      panY = e.clientY - startY;
+      applyTransform();
+    });
+
+    window.addEventListener('mouseup', () => {
+      isDragging = false;
+      viewport.classList.remove('cursor-grabbing');
+    });
+
+    // Mouse wheel zoom
+    viewport.addEventListener('wheel', (e) => {
+      e.preventDefault();
+      const zoomFactor = e.deltaY < 0 ? 0.08 : -0.08;
+      const newZoom = Math.min(Math.max(0.4, zoom + zoomFactor), 2.2);
+      zoom = newZoom;
+      applyTransform();
+    }, { passive: false });
+
+    // Slider Event
+    appetiteSlider.addEventListener('input', (e) => {
+      const val = parseFloat(e.target.value).toFixed(1);
+      sliderValue.textContent = `>$${val}M Executive Filter`;
+
+      // Filter visual opacity of smaller bubbles on stage
+      const allNodes = document.querySelectorAll('.graph-node');
+      allNodes.forEach(node => {
+        const text = node.innerText || '';
+        const match = text.match(/\$([0-9.]+)M/);
+        if (match && match[1]) {
+          const exposure = parseFloat(match[1]);
+          if (exposure < parseFloat(val)) {
+            node.style.opacity = '0.35';
+            node.style.filter = 'grayscale(80%)';
+          } else {
+            node.style.opacity = '1.0';
+            node.style.filter = 'none';
+          }
+        }
+      });
+    });
+
+    // Scale Switcher toggling
+    scaleExposure.addEventListener('click', () => {
+      scaleExposure.className = 'px-2.5 py-1 rounded bg-primary text-on-primary font-label-md text-label-md font-medium shadow-sm';
+      scaleVelocity.className = 'px-2.5 py-1 rounded text-on-surface-variant hover:text-on-surface font-label-md text-label-md transition-colors';
+    });
+
+    scaleVelocity.addEventListener('click', () => {
+      scaleVelocity.className = 'px-2.5 py-1 rounded bg-primary text-on-primary font-label-md text-label-md font-medium shadow-sm';
+      scaleExposure.className = 'px-2.5 py-1 rounded text-on-surface-variant hover:text-on-surface font-label-md text-label-md transition-colors';
+    });
+
+    // Interactive Node Click -> Inspect Node
+    const ticketData = {
+      'CRE-8942': {
+        key: 'CRE-8942',
+        title: 'APAC Multi-Branch Wire Funnel Ring',
+        score: '98.4',
+        exposure: '$48.20M',
+        sla: '00:14:32',
+        status: 'DEFCON 1: MITIGATE'
+      },
+      'CRE-9014': {
+        key: 'CRE-9014',
+        title: 'LatAm Corridor Wire Aggregator Node',
+        score: '84.2',
+        exposure: '$8.20M',
+        sla: '01:24:10',
+        status: 'DEFCON 2: IN TRIAGE'
+      },
+      'CRE-9022': {
+        key: 'CRE-9022',
+        title: 'HK Shell Merchant Aggregator MID-098',
+        score: '92.1',
+        exposure: '$12.40M',
+        sla: '00:42:15',
+        status: 'DEFCON 1: FREEZE'
+      },
+      'CRE-8911': {
+        key: 'CRE-8911',
+        title: 'Pacific Customs Over-Invoicing & Phantom Freight',
+        score: '79.6',
+        exposure: '$34.10M',
+        sla: '02:18:00',
+        status: 'TBML REVIEW'
+      },
+      'CRE-8705': {
+        key: 'CRE-8705',
+        title: 'UK Retail Velocity Faster Payments Smurfing Spike',
+        score: '62.0',
+        exposure: '$16.80M',
+        sla: '04:12:44',
+        status: 'MONITORING'
+      },
+      'CRE-9008': {
+        key: 'CRE-9008',
+        title: 'Crypto OTC Settlement Pool Liquidity Drift',
+        score: '88.9',
+        exposure: '$4.10M',
+        sla: '01:05:12',
+        status: 'GATEWAY HOLD'
+      }
+    };
+
+    const nodes = document.querySelectorAll('.graph-node');
+    nodes.forEach(node => {
+      node.addEventListener('click', (e) => {
+        e.stopPropagation();
+        nodes.forEach(n => {
+          n.style.transform = n.style.transform.replace(' scale(1.15)', '');
+        });
+        node.style.transform = node.style.transform + ' scale(1.15)';
+
+        // Match ticket key
+        const idMatch = node.id.replace('node-', '');
+        if (ticketData[idMatch]) {
+          const item = ticketData[idMatch];
+          document.getElementById('inspectorTicketKey').textContent = item.key;
+          document.getElementById('inspectorTitle').textContent = item.title;
+          document.getElementById('inspectorRiskScore').innerHTML = `${item.score}<span class="text-xs font-normal text-on-surface-variant">/100</span>`;
+          document.getElementById('inspectorExposure').textContent = item.exposure;
+          document.getElementById('inspectorSla').textContent = item.sla;
+        }
+
+        // Open Inspector if closed
+        inspector.style.display = 'flex';
+      });
+    });
+
+    closeInspector.addEventListener('click', () => {
+      inspector.style.display = 'none';
+    });
+
+    // Immediate Freeze Action Handler
+    const freezeWireBtn = document.getElementById('freezeWireBtn');
+    freezeWireBtn.addEventListener('click', () => {
+      const activeKey = document.getElementById('inspectorTicketKey').textContent;
+      const confirmAction = confirm(`INSTITUTIONAL OVERRIDE:\nExecute immediate cryptographic freeze on SWIFT & ACH settlements for ${activeKey}?`);
+      if (confirmAction) {
+        freezeWireBtn.innerHTML = '<span class="material-symbols-outlined text-[15px]">check_circle</span> <span>CORRIDOR FROZEN</span>';
+        freezeWireBtn.classList.remove('bg-error');
+        freezeWireBtn.classList.add('bg-emerald-700');
+        alert(`Cryptographic transaction lock dispatched to MAS/HKMA clearing gateways for ${activeKey}.`);
+      }
+    });
+
+    // Escalate to Board
+    document.getElementById('escalateBoardBtn').addEventListener('click', () => {
+      alert("Executive Notice drafted: Board CRO and Internal Audit notified via High-Priority PagerDuty.");
+    });
+
+    // Quick Audit Log
+    document.getElementById('submitAuditBtn').addEventListener('click', () => {
+      const input = document.getElementById('quickAuditComment');
+      if (input.value.trim().length > 0) {
+        alert(`Audit entry appended with SHA-256 signature:\n"${input.value}"`);
+        input.value = '';
+      }
+    });
+
+  })();
+</script><div id="createTicketModalOverlay" class="fixed inset-0 z-50 flex items-center justify-center bg-inverse-surface/40 backdrop-blur-sm transition-all duration-200 hidden"><div class="bg-surface-container-lowest border border-outline-variant/60 rounded-xl shadow-2xl w-full max-w-4xl max-h-[90vh] flex flex-col overflow-hidden text-on-surface animate-in fade-in zoom-in-95"><div class="px-space-md py-space-sm bg-surface-container-low border-b border-outline-variant/40 flex items-center justify-between"><div class="flex items-center gap-space-sm"><div class="w-7 h-7 rounded bg-primary text-on-primary flex items-center justify-center font-bold text-xs shadow-sm">J</div><div class="flex flex-col"><div class="flex items-center gap-2"><span class="font-headline-sm text-headline-sm font-bold text-on-surface">Create Risk Ticket &amp; Spawn Graph Bubble</span><span class="font-mono-metric-sm text-mono-metric-sm text-secondary bg-surface-container px-2 py-0.5 rounded font-semibold">CRE-9045 [DRAFT]</span></div><span class="font-body-sm text-body-sm text-on-surface-variant">Institutional Risk Engine • DBSCAN Cluster Node Dispatcher</span></div></div><div class="flex items-center gap-2"><div class="flex items-center gap-1 bg-surface-container px-2 py-1 rounded text-body-sm"><span class="font-label-md text-label-md text-on-surface-variant font-medium">Type:</span><select id="modalIssueType" class="bg-transparent font-mono-metric-sm text-mono-metric-sm font-semibold text-primary focus:outline-none cursor-pointer"><option selected="">Cluster Epic</option><option>Anomaly Incident</option><option>Typology Control Gap</option><option>Regulatory Breach</option></select></div><button id="closeCreateModalBtn" class="w-8 h-8 rounded flex items-center justify-center text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors"><span class="material-symbols-outlined text-[18px]">close</span></button></div></div><div class="p-space-lg overflow-y-auto flex-1 grid grid-cols-12 gap-space-lg"><div class="col-span-7 flex flex-col gap-space-md"><div class="flex flex-col gap-1"><label class="font-label-md text-label-md font-semibold text-on-surface uppercase tracking-wide">Summary / Risk Incident Title</label><input id="modalInputTitle" type="text" class="w-full h-9 px-3 bg-surface-container-low border border-outline-variant/60 rounded text-body-md text-on-surface focus:outline-none focus:border-primary focus:bg-surface-container-lowest transition-colors" placeholder="e.g., Abnormal Cross-Corridor Wire Smurfing - Zurich to Cayman" value="Abnormal Cross-Corridor Wire Smurfing - Zurich to Cayman"></div><div class="grid grid-cols-2 gap-space-sm"><div class="flex flex-col gap-1"><label class="font-label-md text-label-md font-semibold text-on-surface uppercase tracking-wide">Orbit Anchor / Parent Cluster</label><select id="modalInputParent" class="w-full h-9 px-2.5 bg-surface-container-low border border-outline-variant/60 rounded text-body-sm font-mono-metric-sm text-on-surface focus:outline-none focus:border-primary"><option>CRE-8942: APAC Synthetic ID Ring ($77.7M)</option><option>CRE-8911: TBML Customs Invoice ($42.3M)</option><option>CRE-8705: UK Retail Smurfing ($18.4M)</option><option>CRE-9008: Crypto Liquidity Leak ($11.2M)</option><option>+ Provision New Root Orbit</option></select></div><div class="flex flex-col gap-1"><label class="font-label-md text-label-md font-semibold text-on-surface uppercase tracking-wide">Financial Exposure Amount ($)</label><div class="relative flex items-center"><span class="absolute left-3 font-mono-metric-sm text-mono-metric-sm text-on-surface-variant">$</span><input id="modalInputAmount" type="number" step="500000" class="w-full h-9 pl-7 pr-3 bg-surface-container-low border border-outline-variant/60 rounded font-mono-metric-md text-mono-metric-md font-bold text-on-surface focus:outline-none focus:border-primary" value="16500000"></div></div></div><div class="p-2.5 bg-surface-container-low rounded border border-outline-variant/30 flex items-center justify-between text-body-sm"><div class="flex flex-col"><span class="font-label-md text-label-md text-on-surface-variant">Bubble Spatial Weight:</span><span id="modalCalcDiameter" class="font-mono-metric-md text-mono-metric-md font-bold text-primary">68px Diameter</span></div><div class="h-6 w-px bg-outline-variant/40"></div><div class="flex flex-col"><span class="font-label-md text-label-md text-on-surface-variant">Repulsion Force:</span><span id="modalCalcRepulsion" class="font-mono-metric-md text-mono-metric-md font-bold text-on-surface">44.2 N</span></div><div class="h-6 w-px bg-outline-variant/40"></div><div class="flex flex-col"><span class="font-label-md text-label-md text-on-surface-variant">Institutional Risk Tier:</span><span id="modalCalcTier" class="font-mono-metric-sm text-mono-metric-sm font-bold text-error bg-error-container/40 px-2 py-0.5 rounded">High Tier 1</span></div></div><div class="flex flex-col gap-1.5"><label class="font-label-md text-label-md font-semibold text-on-surface uppercase tracking-wide">Risk Typology Taxonomy</label><div class="flex flex-wrap gap-1.5" id="modalTypologyPills"><button type="button" class="modal-pill px-2.5 py-1 rounded bg-secondary text-on-secondary font-label-md text-label-md font-semibold shadow-sm">Synthetic Identity</button><button type="button" class="modal-pill px-2.5 py-1 rounded bg-surface-container text-on-surface-variant hover:text-on-surface font-label-md text-label-md">APP Fraud</button><button type="button" class="modal-pill px-2.5 py-1 rounded bg-secondary text-on-secondary font-label-md text-label-md font-semibold shadow-sm">TBML</button><button type="button" class="modal-pill px-2.5 py-1 rounded bg-secondary text-on-secondary font-label-md text-label-md font-semibold shadow-sm">Smurfing</button><button type="button" class="modal-pill px-2.5 py-1 rounded bg-surface-container text-on-surface-variant hover:text-on-surface font-label-md text-label-md">Crypto On-Ramp</button></div></div><div class="flex flex-col gap-1.5"><label class="font-label-md text-label-md font-semibold text-on-surface uppercase tracking-wide">Appetite Breach &amp; SLA Urgency Tier</label><div class="grid grid-cols-3 gap-2"><label class="flex items-center gap-2 p-2 rounded bg-surface-container-low border border-outline-variant/40 cursor-pointer hover:bg-surface-container"><input type="radio" name="slaTier" value="within" class="accent-primary"><div class="flex flex-col"><span class="font-label-md text-label-md font-semibold text-emerald-900">Within Limit</span><span class="font-mono-metric-sm text-mono-metric-sm text-on-surface-variant">SLA: 24h</span></div></label><label class="flex items-center gap-2 p-2 rounded bg-surface-container-low border border-outline-variant/40 cursor-pointer hover:bg-surface-container"><input type="radio" name="slaTier" value="approaching" class="accent-primary"><div class="flex flex-col"><span class="font-label-md text-label-md font-semibold text-amber-900">At-Risk Limit</span><span class="font-mono-metric-sm text-mono-metric-sm text-on-surface-variant">SLA: 04h</span></div></label><label class="flex items-center gap-2 p-2 rounded bg-error-container/40 border border-error/40 cursor-pointer"><input type="radio" name="slaTier" value="critical" checked="" class="accent-primary"><div class="flex flex-col"><span class="font-label-md text-label-md font-bold text-on-error-container flex items-center gap-1"><span class="w-1.5 h-1.5 rounded-full bg-error animate-pulse"></span>Defcon 1 Breach</span><span class="font-mono-metric-sm text-mono-metric-sm text-error font-semibold">SLA: 30m</span></div></label></div></div><div class="flex flex-col gap-1"><label class="font-label-md text-label-md font-semibold text-on-surface uppercase tracking-wide">Jurisdictional Corridor Tags</label><div class="flex items-center gap-2 flex-wrap"><span class="px-2 py-0.5 rounded bg-surface-container font-mono-metric-sm text-mono-metric-sm font-semibold text-on-surface border border-outline-variant/40 flex items-center gap-1">HKG <span class="cursor-pointer text-on-surface-variant hover:text-error">×</span></span><span class="px-2 py-0.5 rounded bg-surface-container font-mono-metric-sm text-mono-metric-sm font-semibold text-on-surface border border-outline-variant/40 flex items-center gap-1">CHE <span class="cursor-pointer text-on-surface-variant hover:text-error">×</span></span><span class="px-2 py-0.5 rounded bg-surface-container font-mono-metric-sm text-mono-metric-sm font-semibold text-on-surface border border-outline-variant/40 flex items-center gap-1">CYM <span class="cursor-pointer text-on-surface-variant hover:text-error">×</span></span><span class="px-2 py-0.5 rounded bg-surface-container font-mono-metric-sm text-mono-metric-sm font-semibold text-on-surface border border-outline-variant/40 flex items-center gap-1">SGP <span class="cursor-pointer text-on-surface-variant hover:text-error">×</span></span><button type="button" class="text-body-sm font-label-md text-primary font-semibold hover:underline">+ Add Entity</button></div></div></div><div class="col-span-5 flex flex-col gap-space-sm bg-surface-container-low p-space-md rounded-lg border border-outline-variant/40"><div class="flex items-center justify-between"><span class="font-label-md text-label-md font-bold text-on-surface uppercase tracking-wide flex items-center gap-1"><span class="material-symbols-outlined text-[16px] text-primary">bubble_chart</span>Spatial Bubble Simulation</span><span class="font-mono-metric-sm text-mono-metric-sm text-secondary bg-surface-container-lowest px-1.5 py-0.5 rounded font-semibold">Canvas Preview</span></div><div class="relative w-full h-64 bg-surface rounded-lg border border-outline-variant/30 flex items-center justify-center overflow-hidden" style="background-image: radial-gradient(#cbd5e1 1.2px, transparent 1.2px); background-size: 16px 16px;"><div class="absolute w-44 h-44 rounded-full border border-dashed border-error/50 bg-error/5 flex items-center justify-center pointer-events-none"><span class="font-mono-metric-sm text-[10px] text-error font-semibold absolute top-2 uppercase tracking-wide">Orbit Alpha Radius</span></div><div class="absolute w-28 h-0.5 bg-error border-b border-dashed border-error/60 transform -rotate-12 pointer-events-none"></div><div id="previewBubbleNode" class="relative z-10 w-32 h-32 rounded-full bg-surface-container-lowest shadow-xl flex flex-col items-center justify-center p-2 text-center transition-all animate-pulse" style="box-shadow: 0 0 0 2.5px #ba1a1a, 0 10px 25px -4px rgba(186, 26, 26, 0.3);"><div class="absolute -top-2.5 px-2 py-0.2 rounded bg-error text-on-error font-mono-metric-sm text-[10px] font-bold shadow-sm uppercase">DEFCON 1</div><div class="flex items-center gap-1"><span class="w-2 h-2 rounded-sm bg-secondary"></span><span class="font-mono-metric-sm text-mono-metric-sm font-bold text-primary">CRE-9045</span></div><span id="previewBubbleTitle" class="font-label-md text-label-md text-on-surface font-semibold line-clamp-2 mt-0.5 leading-tight">Abnormal Cross-Corridor Wire Smurfing</span><span id="previewBubbleAmount" class="font-mono-metric-md text-mono-metric-md font-bold text-error mt-0.5">$16.5M</span></div><div class="absolute bottom-2 left-2 bg-surface-container-lowest/90 px-2 py-0.5 rounded font-mono-metric-sm text-[10px] text-on-surface-variant font-medium border border-outline-variant/30">λ Vector: ‹480, 420› → ‹690, 360›</div></div><div class="flex flex-col gap-1 text-body-sm"><div class="flex items-center justify-between font-mono-metric-sm text-mono-metric-sm"><span class="text-on-surface-variant">Parent Cluster Link:</span><span class="font-semibold text-primary">CRE-8942 (APAC Funnel)</span></div><div class="flex items-center justify-between font-mono-metric-sm text-mono-metric-sm"><span class="text-on-surface-variant">Physics Collision Margin:</span><span class="font-semibold text-on-surface">Safe (&gt;18px separation)</span></div><div class="flex items-center justify-between font-mono-metric-sm text-mono-metric-sm"><span class="text-on-surface-variant">Automated Jira Sync:</span><span class="font-semibold text-secondary">Bidirectional Webhook OK</span></div></div><div class="p-2 rounded bg-primary/10 border border-primary/25 flex items-start gap-2 mt-auto"><span class="material-symbols-outlined text-[16px] text-primary shrink-0 mt-0.5">info</span><p class="font-body-sm text-body-sm text-on-surface leading-snug">Spawning this bubble creates an active node on the canvas, applies gravitational repulsion forces to adjacent satellites, and notifies Jira Risk Operations.</p></div></div></div><div class="px-space-md py-space-sm bg-surface-container-low border-t border-outline-variant/40 flex items-center justify-between"><div class="flex items-center gap-1.5 font-mono-metric-sm text-mono-metric-sm text-on-surface-variant"><span class="material-symbols-outlined text-[14px]">keyboard</span><span>Press <strong class="text-on-surface font-semibold">&amp;cmd; + Enter</strong> to instant-spawn</span></div><div class="flex items-center gap-2"><button id="cancelCreateModalBtn" type="button" class="h-8 px-3 rounded bg-surface-container-lowest text-on-surface font-label-md text-label-md font-semibold border border-outline-variant/60 hover:bg-surface-container transition-colors shadow-sm">Cancel</button><button id="spawnBubbleConfirmBtn" type="button" class="h-8 px-4 rounded bg-primary text-on-primary font-label-md text-label-md font-semibold flex items-center gap-1.5 shadow-sm hover:opacity-95 active:scale-95 transition-all"><span class="material-symbols-outlined text-[16px]">add_task</span><span>Spawn Ticket Bubble on Canvas</span></button></div></div></div></div></main>
+
+</body></html>
