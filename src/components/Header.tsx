@@ -10,8 +10,8 @@ interface HeaderProps {
   onSearchChange: (value: string) => void;
   onSelectTicketFromSearch: (ticket: RiskTicket) => void;
   onOpenCreateModal: () => void;
+  onExportPdf: () => void;
   globalFreezeActive: boolean;
-  onTriggerSync: () => void;
   activeOfficer: { name: string; role: string; initials: string };
   onSwitchOfficer: (officer: { name: string; role: string; initials: string }) => void;
 }
@@ -37,24 +37,16 @@ export const Header: React.FC<HeaderProps> = ({
   onSearchChange,
   onSelectTicketFromSearch,
   onOpenCreateModal,
+  onExportPdf,
   globalFreezeActive,
-  onTriggerSync,
   activeOfficer,
   onSwitchOfficer,
 }) => {
   const [logoError, setLogoError] = useState(false);
-  const [syncSeconds, setSyncSeconds] = useState(12);
   const [showNotifications, setShowNotifications] = useState(false);
   const [showProfileMenu, setShowProfileMenu] = useState(false);
   const [searchFocused, setSearchFocused] = useState(false);
   const searchBoxRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    const id = setInterval(() => {
-      setSyncSeconds((prev) => (prev >= 59 ? 1 : prev + 1));
-    }, 1000);
-    return () => clearInterval(id);
-  }, []);
 
   useEffect(() => {
     const handleClickOutside = (e: MouseEvent) => {
@@ -74,15 +66,14 @@ export const Header: React.FC<HeaderProps> = ({
         (t) =>
           t.key.toLowerCase().includes(q) ||
           t.title.toLowerCase().includes(q) ||
+          t.region.toLowerCase().includes(q) ||
           t.typology.toLowerCase().includes(q) ||
-          t.corridor.toLowerCase().includes(q) ||
-          t.jurisdiction.toLowerCase().includes(q)
+          t.corridor.toLowerCase().includes(q)
       )
       .slice(0, 6);
   }, [tickets, searchQuery]);
 
   const criticalCount = tickets.filter((t) => t.severity === 'critical' && !t.frozen).length;
-  const totalNodes = 4289 + Math.max(0, tickets.length - 23);
 
   const notifications = [
     {
@@ -94,16 +85,16 @@ export const Header: React.FC<HeaderProps> = ({
     },
     {
       id: 'n2',
-      key: 'CRE-9022',
-      title: 'HK Shell Merchant MID-098 Defcon 1',
+      key: 'CRE-8911',
+      title: 'Europe TARGET2 Nostro Outflow Spike',
       time: '6m ago',
       severity: 'error',
     },
     {
       id: 'n3',
-      key: 'CRE-8911',
-      title: 'Port Klang TBML Invoice Drift',
-      time: '18m ago',
+      key: 'CRE-9104',
+      title: 'US CHIPS Corridor Liquidity Drift',
+      time: '14m ago',
       severity: 'warning',
     },
   ];
@@ -112,59 +103,36 @@ export const Header: React.FC<HeaderProps> = ({
     <header className="fixed top-0 left-0 right-0 z-50 bg-surface-container-lowest border-b border-outline-variant/40 shadow-[0_1px_8px_rgba(0,0,0,0.04)]">
       {/* Row 1: Brand, Global Search, Actions & Officer Profile */}
       <div className="h-14 px-4 flex items-center justify-between gap-4">
-        {/* Left: Brand & Breadcrumb */}
-        <div className="flex items-center gap-3 shrink-0">
-          <button
-            type="button"
-            onClick={() => onSelectTab('graph')}
-            className="flex items-center gap-2.5 text-left focus:outline-none group"
-          >
-            {!logoError ? (
-              <img
-                alt="Clustered Risk Eye Logo"
-                className="h-8 w-8 object-contain shrink-0 rounded"
-                src={LOGO_URL}
-                referrerPolicy="no-referrer"
-                onError={() => setLogoError(true)}
-              />
-            ) : (
-              <div className="h-8 w-8 rounded bg-primary text-on-primary flex items-center justify-center shrink-0 shadow-sm">
-                <span className="material-symbols-outlined text-[20px]">visibility</span>
-              </div>
-            )}
-            <div className="flex flex-col">
-              <span className="font-headline-sm text-on-surface font-semibold tracking-tight leading-none whitespace-nowrap group-hover:text-primary transition-colors">
-                Clustered Risk Eye
-              </span>
-              <span className="font-mono-metric-sm text-on-surface-variant leading-none mt-1 whitespace-nowrap">
-                INSTITUTIONAL RISK PLATFORM
-              </span>
+        <button
+          type="button"
+          onClick={() => onSelectTab('graph')}
+          className="flex items-center gap-2.5 text-left focus:outline-none group shrink-0"
+        >
+          {!logoError ? (
+            <img
+              alt="Clustered Risk Eye Logo"
+              className="h-8 w-8 object-contain shrink-0 rounded"
+              src={LOGO_URL}
+              referrerPolicy="no-referrer"
+              onError={() => setLogoError(true)}
+            />
+          ) : (
+            <div className="h-8 w-8 rounded bg-primary text-on-primary flex items-center justify-center shrink-0 shadow-sm">
+              <span className="material-symbols-outlined text-[20px]">visibility</span>
             </div>
-          </button>
-
-          <div className="hidden xl:block h-5 w-px bg-outline-variant/60 mx-1" />
-
-          <div className="hidden xl:flex items-center gap-1 text-on-surface-variant font-label-md whitespace-nowrap">
-            <button
-              type="button"
-              onClick={() => onSelectTab('directives')}
-              className="hover:text-on-surface cursor-pointer transition-colors"
-            >
-              Global Risk Governance
-            </button>
-            <span className="material-symbols-outlined text-[14px]">chevron_right</span>
-            <button
-              type="button"
-              onClick={() => onSelectTab('graph')}
-              className="text-primary font-semibold hover:underline"
-            >
-              Risk Graph Engine
-            </button>
+          )}
+          <div className="flex flex-col">
+            <span className="font-headline-sm text-on-surface font-semibold tracking-tight leading-none whitespace-nowrap group-hover:text-primary transition-colors">
+              Clustered Risk Eye
+            </span>
+            <span className="font-mono-metric-sm text-on-surface-variant leading-none mt-1 whitespace-nowrap">
+              INSTITUTIONAL RISK PLATFORM
+            </span>
           </div>
-        </div>
+        </button>
 
         {/* Center: Global Search */}
-        <div ref={searchBoxRef} className="flex-1 max-w-xl mx-2 relative">
+        <div ref={searchBoxRef} className="flex-1 max-w-lg mx-2 relative">
           <div className="relative flex items-center w-full">
             <span className="material-symbols-outlined absolute left-3 text-on-surface-variant text-[18px]">
               search
@@ -177,7 +145,7 @@ export const Header: React.FC<HeaderProps> = ({
                 onSearchChange(e.target.value);
                 setSearchFocused(true);
               }}
-              placeholder="Search tickets (CRE-XXXX), cluster hash, typology, branch..."
+              placeholder="Search tickets, region (APAC, US, UK, Europe, Middle East)..."
               className="w-full h-8 pl-9 pr-8 bg-surface-container-low border border-outline-variant/60 rounded text-body-sm text-on-surface placeholder:text-on-surface-variant focus:outline-none focus:border-primary focus:bg-surface-container-lowest transition-colors"
             />
             {searchQuery && (
@@ -220,7 +188,7 @@ export const Header: React.FC<HeaderProps> = ({
                           </span>
                         </div>
                         <div className="font-mono-metric-sm text-on-surface-variant mt-0.5">
-                          {t.typology} · {t.corridor} · {t.jurisdiction}
+                          {t.region} · {t.typology} · {t.corridor}
                         </div>
                       </div>
                       <span
@@ -243,7 +211,18 @@ export const Header: React.FC<HeaderProps> = ({
         </div>
 
         {/* Right: Actions & Officer */}
-        <div className="flex items-center gap-2.5 shrink-0">
+        <div className="flex items-center gap-2 shrink-0">
+          <button
+            type="button"
+            onClick={onExportPdf}
+            className="h-8 px-3 rounded bg-surface-container-low border border-outline-variant/60 text-on-surface font-label-md font-semibold flex items-center gap-1.5 hover:bg-surface-container transition-colors whitespace-nowrap shrink-0"
+          >
+            <span className="material-symbols-outlined text-[16px] text-primary">
+              picture_as_pdf
+            </span>
+            <span>Export PDF</span>
+          </button>
+
           <button
             type="button"
             onClick={onOpenCreateModal}
@@ -266,24 +245,9 @@ export const Header: React.FC<HeaderProps> = ({
               }`}
             />
             <span className="font-mono-metric-sm font-semibold">
-              {globalFreezeActive
-                ? 'DEFCON 4 • Contained'
-                : 'DEFCON 2 • Active Monitoring'}
+              {globalFreezeActive ? 'DEFCON 4 • Contained' : 'DEFCON 2 • Monitoring'}
             </span>
           </div>
-
-          <button
-            type="button"
-            onClick={() => {
-              setSyncSeconds(0);
-              onTriggerSync();
-            }}
-            title="Force Webhook & Graph Sync"
-            className="hidden lg:flex items-center gap-1 font-mono-metric-sm text-on-surface-variant bg-surface-container hover:bg-surface-container-high px-2 py-1 rounded transition-colors whitespace-nowrap shrink-0"
-          >
-            <span className="material-symbols-outlined text-[14px]">sync</span>
-            <span>Synced {syncSeconds}s ago</span>
-          </button>
 
           {/* Notifications Bell */}
           <div className="relative flex items-center">
@@ -409,7 +373,7 @@ export const Header: React.FC<HeaderProps> = ({
         </div>
       </div>
 
-      {/* Row 2: Primary 4-Screen Tab Strip + Live Counters */}
+      {/* Row 2: Primary 4-Screen Tab Strip + Concise Regional Summary */}
       <div className="h-10 px-4 bg-surface-container-low border-t border-outline-variant/30 flex items-center justify-between gap-4 overflow-x-auto">
         <nav className="flex items-center h-full gap-1 shrink-0" aria-label="Primary Workspace">
           {NAV_TABS.map((tab) => {
@@ -434,16 +398,13 @@ export const Header: React.FC<HeaderProps> = ({
 
         <div className="hidden lg:flex items-center gap-4 font-mono-metric-sm text-on-surface-variant whitespace-nowrap shrink-0">
           <span>
-            NODES: <strong className="text-on-surface font-semibold">{totalNodes.toLocaleString()}</strong>
+            REGIONS: <strong className="text-on-surface font-semibold">APAC · US · UK · EU · ME</strong>
           </span>
           <span>
-            CLUSTERS:{' '}
+            BREACHES:{' '}
             <strong className={`font-semibold ${globalFreezeActive ? 'text-primary' : 'text-error'}`}>
-              {globalFreezeActive ? '0 BREACHED' : `${11 + criticalCount} BREACHED`}
+              {globalFreezeActive ? '0 ACTIVE' : `${criticalCount} CRITICAL`}
             </strong>
-          </span>
-          <span>
-            SYSTEM INTEGRITY: <strong className="text-secondary font-semibold">99.98%</strong>
           </span>
         </div>
       </div>

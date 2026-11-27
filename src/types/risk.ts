@@ -4,6 +4,10 @@ export type ScreenTab =
   | 'kanban'
   | 'directives';
 
+export type RiskRegion = 'APAC' | 'US' | 'UK' | 'Europe' | 'Middle East';
+
+export type OrbitId = 'apac' | 'us' | 'uk' | 'europe' | 'middle-east';
+
 export type RiskSeverity = 'critical' | 'warning' | 'nominal' | 'crypto';
 
 export type KanbanStage =
@@ -13,7 +17,7 @@ export type KanbanStage =
   | 'verification'
   | 'closed';
 
-export type ClusterAxis = 'Typology' | 'Geography' | 'Jira Workflow' | 'Root Cause';
+export type ClusterAxis = 'Region' | 'Typology' | 'Jira Workflow';
 
 export interface SubTask {
   id: string;
@@ -41,7 +45,8 @@ export interface RiskTicket {
   shortTitle: string;
   epicBadge?: string;
   isCore?: boolean;
-  orbitId: 'alpha' | 'beta' | 'gamma' | 'delta';
+  region: RiskRegion;
+  orbitId: OrbitId;
   typology: 'Synthetic ID' | 'TBML' | 'Micro-Smurfing' | 'Crypto Gateway';
   corridor: string;
   jurisdiction: string;
@@ -82,7 +87,8 @@ export interface RiskTicket {
 }
 
 export interface GraphOrbit {
-  id: 'alpha' | 'beta' | 'gamma' | 'delta';
+  id: OrbitId;
+  region: RiskRegion;
   label: string;
   cx: number;
   cy: number;
@@ -96,6 +102,7 @@ export interface GraphOrbit {
 
 export interface SettlementNode {
   code: string;
+  region: RiskRegion;
   cap: string;
   status: 'enforced' | 'syncing';
   progress?: number;

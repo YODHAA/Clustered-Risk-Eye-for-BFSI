@@ -14,6 +14,7 @@ import {
   ScreenTab,
   ToastItem,
 } from './types/risk';
+import { exportRiskReportPdf } from './utils/pdfReport';
 
 export default function App() {
   const [activeTab, setActiveTab] = useState<ScreenTab>('graph');
@@ -22,7 +23,7 @@ export default function App() {
   const [searchQuery, setSearchQuery] = useState('');
   const [createModalOpen, setCreateModalOpen] = useState(false);
   const [globalFreezeActive, setGlobalFreezeActive] = useState(false);
-  const [nextTicketNumber, setNextTicketNumber] = useState(9045);
+  const [nextTicketNumber, setNextTicketNumber] = useState(9210);
 
   const [activeOfficer, setActiveOfficer] = useState({
     name: 'Sir Julian Vance',
@@ -209,7 +210,7 @@ export default function App() {
     setActiveTab('graph');
     notify(
       'Ticket Bubble Spawned',
-      `${newTicket.key} ($${newTicket.exposureM.toFixed(1)}M) deployed on canvas and synced to Kanban.`,
+      `${newTicket.key} ($${newTicket.exposureM.toFixed(1)}M · ${newTicket.region}) deployed on canvas and synced to Kanban.`,
       'success'
     );
   };
@@ -240,6 +241,21 @@ export default function App() {
     notify('Workflow Stage Updated', `Moved ${ticketId} to ${newStage.toUpperCase()}.`, 'info');
   };
 
+  const handleExportPdfReport = useCallback(() => {
+    const res = exportRiskReportPdf({
+      tickets,
+      orbits: INITIAL_ORBITS,
+      globalFreezeActive,
+      officerName: activeOfficer.name,
+      officerRole: activeOfficer.role,
+    });
+    notify(
+      'PDF Report Exported',
+      `${res.filename} (${res.totalTicketCount} tickets, $${res.totalActiveExposureM.toFixed(1)}M exposure) downloaded.`,
+      'success'
+    );
+  }, [tickets, globalFreezeActive, activeOfficer, notify]);
+
   return (
     <div className="min-h-screen bg-surface text-on-surface flex flex-col">
       <Header
@@ -254,10 +270,8 @@ export default function App() {
           notify('Ticket Focused', `Centered Risk Graph Inspector on ${ticket.key}.`, 'info');
         }}
         onOpenCreateModal={() => setCreateModalOpen(true)}
+        onExportPdf={handleExportPdfReport}
         globalFreezeActive={globalFreezeActive}
-        onTriggerSync={() =>
-          notify('Graph & Jira Synced', 'Bidirectional webhook telemetry refreshed.', 'success')
-        }
         activeOfficer={activeOfficer}
         onSwitchOfficer={(officer) => {
           setActiveOfficer(officer);
@@ -279,6 +293,7 @@ export default function App() {
             onFreezeTicket={handleFreezeTicket}
             onEscalateTicket={handleEscalateTicket}
             onInspectTopology={() => setActiveTab('topology')}
+            onExportPdf={handleExportPdfReport}
             onNotify={notify}
             searchQuery={searchQuery}
           />
@@ -293,11 +308,12 @@ export default function App() {
               notify(
                 next ? 'Global Wire Cap Engaged' : 'Global Wire Cap Lifted',
                 next
-                  ? '$10,000 cap enforced across 19 APAC regional gateways.'
+                  ? '$10,000 cap enforced across APAC, US, UK, Europe & Middle East gateways.'
                   : 'Corridors restored to baseline threshold monitoring.',
                 next ? 'success' : 'warning'
               );
             }}
+            onExportPdf={handleExportPdfReport}
             onNotify={notify}
           />
         )}
@@ -314,6 +330,7 @@ export default function App() {
             onCreateTicket={handleSpawnBubble}
             onToggleSubTask={handleToggleSubTask}
             onSwitchToGraph={() => setActiveTab('graph')}
+            onExportPdf={handleExportPdfReport}
             onNotify={notify}
             nextTicketNumber={nextTicketNumber}
           />
@@ -325,6 +342,7 @@ export default function App() {
               setActiveTab('graph');
               notify('Sandbox Canvas Active', 'Returned to live Risk Ticket Graph Canvas.', 'info');
             }}
+            onExportPdf={handleExportPdfReport}
             onNotify={notify}
           />
         )}

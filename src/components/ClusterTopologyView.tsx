@@ -1,9 +1,22 @@
-import React, { useState } from 'react';
+import React, { useMemo, useState } from 'react';
+import {
+  CartesianGrid,
+  Legend,
+  Line,
+  LineChart,
+  ReferenceLine,
+  ResponsiveContainer,
+  Tooltip,
+  XAxis,
+  YAxis,
+} from 'recharts';
 import { INITIAL_CHRONOLOGY } from '../data/initialRiskData';
+import { buildExposureTimelineData, ExposureTimelinePoint } from '../utils/exposureTimeline';
 
 interface ClusterTopologyViewProps {
   globalFreezeActive: boolean;
   onToggleGlobalFreeze: () => void;
+  onExportPdf: () => void;
   onNotify: (title: string, message: string, tone?: 'info' | 'success' | 'warning' | 'error') => void;
 }
 
@@ -12,6 +25,7 @@ type FlowNodeId = 'origin' | 'relay' | 'sinkA' | 'sinkB';
 export const ClusterTopologyView: React.FC<ClusterTopologyViewProps> = ({
   globalFreezeActive,
   onToggleGlobalFreeze,
+  onExportPdf,
   onNotify,
 }) => {
   const [forensicState, setForensicState] = useState<'pre' | 'post'>(
@@ -22,6 +36,16 @@ export const ClusterTopologyView: React.FC<ClusterTopologyViewProps> = ({
   const [chronology, setChronology] = useState(INITIAL_CHRONOLOGY);
 
   const isPre = forensicState === 'pre' && !globalFreezeActive;
+
+  const exposureTimeline = useMemo(
+    () =>
+      buildExposureTimelineData({
+        globalFreezeActive,
+        forensicState,
+        isolatedAccounts,
+      }),
+    [globalFreezeActive, forensicState, isolatedAccounts]
+  );
 
   const flowNodeDetails: Record<
     FlowNodeId,
@@ -75,7 +99,7 @@ export const ClusterTopologyView: React.FC<ClusterTopologyViewProps> = ({
         time: now,
         tone: 'primary',
         desc: !globalFreezeActive
-          ? 'Instant $10k wire cap distributed across 19 APAC regional clearing gateways.'
+          ? 'Instant $10k wire cap distributed across APAC, US, UK, Europe & Middle East gateways.'
           : 'Corridor returned to standard monitoring posture.',
       },
     ]);
@@ -261,43 +285,6 @@ export const ClusterTopologyView: React.FC<ClusterTopologyViewProps> = ({
             </div>
           </div>
         </div>
-
-        {/* Comparative Delta Banner */}
-        <div className="mt-4 pt-2 border-t border-surface-container-high/40 flex flex-wrap items-center justify-between font-mono-metric-sm gap-2">
-          <div className="flex items-center gap-2 flex-wrap">
-            <span
-              className={`px-2 py-0.5 rounded font-semibold flex items-center gap-1 ${
-                isPre ? 'bg-error/10 text-error' : 'bg-primary/10 text-primary'
-              }`}
-            >
-              <span className="material-symbols-outlined text-[14px]">
-                {isPre ? 'warning' : 'check_circle'}
-              </span>
-              <span>
-                {isPre
-                  ? 'Contagion: 192.8% of capital limit • 142 Active Mules'
-                  : 'Exposure Curtailed: -$36.80M (-76.3%) • 142 Accounts Frozen'}
-              </span>
-            </span>
-            <span className="text-tertiary">
-              {isPre
-                ? 'Active smurfing velocity: 1,490 tx/hr through Tokyo gateway.'
-                : 'Instant Wire Cap ($10k) active across 19 regional nodes. Killswitch armed.'}
-            </span>
-          </div>
-          <div className="flex items-center gap-3 text-tertiary">
-            <span>
-              {isPre ? 'Capital At Direct Risk: ' : 'Capital Preserved: '}
-              <strong className={`font-bold ${isPre ? 'text-error' : 'text-primary'}`}>
-                {isPre ? '$48.20M' : '$36.80M'}
-              </strong>
-            </span>
-            <span className="text-outline-variant">•</span>
-            <span>
-              Merkle Root: <code className="text-on-surface font-semibold">0x9e3f...B3</code>
-            </span>
-          </div>
-        </div>
       </div>
 
       {/* Main 3-Column Forensic Workspace */}
@@ -380,25 +367,7 @@ export const ClusterTopologyView: React.FC<ClusterTopologyViewProps> = ({
                     </div>
                   </div>
                 </div>
-                <div className="flex items-start gap-2 p-2 rounded bg-surface-container-low">
-                  <span className="w-5 h-5 rounded-full bg-error/10 text-error flex items-center justify-center font-mono-metric-sm text-[10px] font-bold shrink-0">
-                    3
-                  </span>
-                  <div>
-                    <div className="font-semibold text-on-surface">
-                      Unverified Shell Entity Infiltration
-                    </div>
-                    <div className="text-on-surface-variant text-[11px]">
-                      Failed KYC entity in Cayman used as escrow anchor.
-                    </div>
-                  </div>
-                </div>
               </div>
-            </div>
-
-            <div className="mt-3 pt-2.5 border-t border-surface-container-high/40 flex items-center justify-between font-mono-metric-sm text-tertiary">
-              <span>DBSCAN Topology:</span>
-              <span className="text-on-surface font-semibold">ε: 0.35 • MinPts: 12 • Sil: 0.89</span>
             </div>
           </div>
 
@@ -649,6 +618,195 @@ export const ClusterTopologyView: React.FC<ClusterTopologyViewProps> = ({
             </div>
           </div>
 
+          {/* Total Risk Exposure Over Time (Recharts Line Chart) */}
+          <div
+            data-testid="exposure-timeline-card"
+            className="bg-surface-container-lowest rounded-xl shadow-sm border border-outline-variant/30 p-3.5"
+          >
+            <div className="flex flex-wrap items-center justify-between gap-2 mb-2.5">
+              <div className="flex items-center gap-2">
+                <span className="material-symbols-outlined text-[18px] text-primary">
+                  show_chart
+                </span>
+                <div>
+                  <h2 className="font-label-lg text-on-surface font-bold leading-tight">
+                    Total Risk Exposure Over Time
+                  </h2>
+                  <p className="font-mono-metric-sm text-[10px] text-on-surface-variant">
+                    {isPre
+                      ? 'Unmitigated corridor trajectory vs. modeled $10k global freeze impact'
+                      : `Global freeze impact: -$${exposureTimeline.summary.curtailedFromPeakM.toFixed(2)}M (-${exposureTimeline.summary.curtailedPct}%) curtailed from $48.20M peak`}
+                  </p>
+                </div>
+              </div>
+              <div className="flex items-center gap-2">
+                <span
+                  className={`px-2 py-0.5 rounded font-mono-metric-sm text-[10px] font-bold ${
+                    isPre
+                      ? 'bg-error-container text-on-error-container'
+                      : 'bg-primary-fixed text-on-primary-fixed'
+                  }`}
+                >
+                  {isPre
+                    ? `ACTIVE BREACH: $${exposureTimeline.summary.currentExposureM.toFixed(2)}M`
+                    : `CONTAINED: $${exposureTimeline.summary.currentExposureM.toFixed(2)}M`}
+                </span>
+                <span className="px-2 py-0.5 rounded bg-surface-container-low border border-outline-variant/40 font-mono-metric-sm text-[10px] text-on-surface font-semibold">
+                  {isPre
+                    ? `15:45 Avoidable: -$${exposureTimeline.summary.avoidedBy1545M.toFixed(1)}M`
+                    : `Avoided by 15:45: $${exposureTimeline.summary.avoidedBy1545M.toFixed(1)}M`}
+                </span>
+                <button
+                  type="button"
+                  onClick={onExportPdf}
+                  className="px-2 py-0.5 rounded bg-primary text-on-primary font-label-md font-semibold flex items-center gap-1 hover:opacity-90 transition-opacity"
+                >
+                  <span className="material-symbols-outlined text-[13px]">picture_as_pdf</span>
+                  <span>PDF</span>
+                </button>
+              </div>
+            </div>
+
+            <div className="w-full h-64" data-testid="exposure-timeline-chart">
+              <ResponsiveContainer width="100%" height="100%">
+                <LineChart
+                  data={exposureTimeline.points}
+                  margin={{ top: 14, right: 18, left: 2, bottom: 4 }}
+                >
+                  <CartesianGrid stroke="#dce9ff" strokeDasharray="3 3" vertical={false} />
+                  <XAxis
+                    dataKey="time"
+                    tick={{ fontSize: 11, fill: '#545c72', fontFamily: 'JetBrains Mono, monospace' }}
+                    axisLine={{ stroke: '#bfc7d2' }}
+                    tickLine={false}
+                  />
+                  <YAxis
+                    domain={[0, 65]}
+                    width={46}
+                    tickFormatter={(value: number) => `$${value}M`}
+                    tick={{ fontSize: 11, fill: '#545c72', fontFamily: 'JetBrains Mono, monospace' }}
+                    axisLine={false}
+                    tickLine={false}
+                  />
+                  <Tooltip
+                    content={({ active, payload, label }) => {
+                      if (!active || !payload || payload.length === 0) return null;
+                      const pt = payload[0]?.payload as ExposureTimelinePoint | undefined;
+                      return (
+                        <div className="bg-surface-container-lowest border border-outline-variant/70 rounded-lg shadow-lg p-2.5 text-left min-w-[210px]">
+                          <div className="flex items-center justify-between font-mono-metric-sm font-bold text-on-surface border-b border-outline-variant/30 pb-1 mb-1.5">
+                            <span>{label} UTC</span>
+                            <span className="text-tertiary">Cap: $25.00M</span>
+                          </div>
+                          <div className="space-y-1 font-mono-metric-sm">
+                            <div className="flex items-center justify-between gap-3">
+                              <span className={isPre ? 'text-error' : 'text-primary'}>
+                                {isPre ? 'Live Exposure:' : 'Post-Freeze Exposure:'}
+                              </span>
+                              <span
+                                className={`font-bold ${isPre ? 'text-error' : 'text-primary'}`}
+                              >
+                                ${pt?.activeExposureM.toFixed(2)}M
+                              </span>
+                            </div>
+                            <div className="flex items-center justify-between gap-3 text-on-surface-variant">
+                              <span>Unmitigated Path:</span>
+                              <span className="font-semibold text-error">
+                                ${pt?.unmitigatedM.toFixed(2)}M
+                              </span>
+                            </div>
+                            {pt?.simulatedFreezeM !== null && pt?.simulatedFreezeM !== undefined && (
+                              <div className="flex items-center justify-between gap-3 text-primary">
+                                <span>With Global Freeze:</span>
+                                <span className="font-bold">${pt.simulatedFreezeM.toFixed(2)}M</span>
+                              </div>
+                            )}
+                          </div>
+                          {pt?.milestone && (
+                            <div className="mt-1.5 pt-1 border-t border-outline-variant/30 font-body-sm text-[11px] text-on-surface-variant">
+                              {pt.milestone}
+                            </div>
+                          )}
+                        </div>
+                      );
+                    }}
+                  />
+                  <Legend
+                    wrapperStyle={{
+                      fontSize: '11px',
+                      fontFamily: 'JetBrains Mono, monospace',
+                      paddingTop: '6px',
+                    }}
+                  />
+                  <ReferenceLine
+                    y={25}
+                    stroke="#707881"
+                    strokeDasharray="4 4"
+                    label={{
+                      value: 'Risk Appetite Cap ($25.00M)',
+                      position: 'insideTopLeft',
+                      dy: -14,
+                      dx: 4,
+                      fill: '#3f4850',
+                      fontSize: 10,
+                      fontFamily: 'JetBrains Mono, monospace',
+                    }}
+                  />
+                  <ReferenceLine
+                    x="15:18"
+                    stroke={isPre ? '#ba1a1a' : '#006194'}
+                    strokeDasharray="3 3"
+                    label={{
+                      value: isPre ? 'Breach $48.2M' : 'Freeze Action',
+                      position: 'insideTopLeft',
+                      dx: 6,
+                      fill: isPre ? '#ba1a1a' : '#006194',
+                      fontSize: 10,
+                      fontFamily: 'JetBrains Mono, monospace',
+                    }}
+                  />
+                  {!isPre && (
+                    <Line
+                      type="monotone"
+                      dataKey="unmitigatedM"
+                      name="Unmitigated Trajectory ($M)"
+                      stroke="#ba1a1a"
+                      strokeWidth={2}
+                      strokeDasharray="5 4"
+                      dot={{ r: 3, fill: '#ba1a1a' }}
+                      activeDot={{ r: 5 }}
+                      isAnimationActive={false}
+                    />
+                  )}
+                  <Line
+                    type="monotone"
+                    dataKey="activeExposureM"
+                    name={isPre ? 'Live Exposure ($M)' : 'Post-Freeze Exposure ($M)'}
+                    stroke={isPre ? '#ba1a1a' : '#006194'}
+                    strokeWidth={2.75}
+                    dot={{ r: 4, fill: isPre ? '#ba1a1a' : '#006194', stroke: '#ffffff', strokeWidth: 1.5 }}
+                    activeDot={{ r: 6 }}
+                    isAnimationActive={false}
+                  />
+                  {isPre && (
+                    <Line
+                      type="monotone"
+                      dataKey="simulatedFreezeM"
+                      name="Projected Freeze Impact ($M)"
+                      stroke="#006194"
+                      strokeWidth={2}
+                      strokeDasharray="4 3"
+                      connectNulls={false}
+                      dot={{ r: 3.5, fill: '#006194' }}
+                      activeDot={{ r: 5 }}
+                      isAnimationActive={false}
+                    />
+                  )}
+                </LineChart>
+              </ResponsiveContainer>
+            </div>
+          </div>
+
           {/* Sub-Node Impact Table */}
           <div className="bg-surface-container-lowest rounded-xl shadow-sm border border-outline-variant/30 p-3.5">
             <div className="flex items-center justify-between mb-2.5">
@@ -763,48 +921,13 @@ export const ClusterTopologyView: React.FC<ClusterTopologyViewProps> = ({
 
         {/* RIGHT PANEL (3 cols) */}
         <div className="col-span-12 xl:col-span-3 flex flex-col gap-3">
-          {/* RCA Diagnostic Factors */}
-          <div className="bg-surface-container-lowest rounded-xl shadow-sm border border-outline-variant/30 p-3.5">
-            <div className="flex items-center justify-between mb-2.5">
-              <span className="font-label-md text-tertiary uppercase tracking-wider font-semibold">
-                RCA Diagnostic Factors
-              </span>
-              <span className="material-symbols-outlined text-[16px] text-primary">verified</span>
-            </div>
-            <div className="space-y-2 font-body-sm">
-              <div className="p-2.5 rounded bg-surface-container-low border border-outline-variant/30">
-                <div className="font-semibold text-on-surface">Authentication Vulnerability</div>
-                <p className="text-on-surface-variant text-[11px] mt-0.5">
-                  SMS 2FA bypass exploited via SIM-swapped bulk numbers across regional telco
-                  gateways.
-                </p>
-              </div>
-              <div className="p-2.5 rounded bg-surface-container-low border border-outline-variant/30">
-                <div className="font-semibold text-on-surface">
-                  Regulatory Threshold Rule Gap
-                </div>
-                <p className="text-on-surface-variant text-[11px] mt-0.5">
-                  Cross-border wires structured under $10,000 threshold did not trigger mandatory
-                  FATF travel rules.
-                </p>
-              </div>
-              <div className="p-2.5 rounded bg-error-container/25 border border-error/25">
-                <div className="font-semibold text-on-surface">Correlated Entity Network</div>
-                <p className="text-on-surface-variant text-[11px] mt-0.5">
-                  142 mule accounts shared 38 unique device fingerprints and 4 common beneficial
-                  ownership nodes.
-                </p>
-              </div>
-            </div>
-          </div>
-
           {/* Critical Incident Milestones */}
           <div className="bg-surface-container-lowest rounded-xl shadow-sm border border-outline-variant/30 p-3.5">
             <div className="flex items-center justify-between mb-2.5">
               <span className="font-label-md text-tertiary uppercase tracking-wider font-semibold">
-                Critical Incident Milestones
+                Incident Milestones
               </span>
-              <span className="font-mono-metric-sm text-[10px] text-tertiary">CHRONOLOGY</span>
+              <span className="font-mono-metric-sm text-[10px] text-tertiary">UTC</span>
             </div>
             <div className="space-y-3 relative before:content-[''] before:absolute before:left-2 before:top-2 before:bottom-2 before:w-px before:bg-surface-container-high">
               {chronology.map((item) => (
@@ -843,7 +966,7 @@ export const ClusterTopologyView: React.FC<ClusterTopologyViewProps> = ({
           {/* C-Suite Remediation Actions */}
           <div className="bg-surface-container-lowest rounded-xl shadow-sm border border-outline-variant/30 p-3.5 flex flex-col gap-2">
             <span className="font-label-md text-tertiary uppercase tracking-wider font-semibold">
-              C-Suite Remediation Actions
+              Remediation &amp; Reporting
             </span>
             <button
               type="button"
@@ -867,10 +990,20 @@ export const ClusterTopologyView: React.FC<ClusterTopologyViewProps> = ({
             </button>
             <button
               type="button"
+              onClick={onExportPdf}
+              className="w-full py-2 px-3 rounded bg-surface-container-low border border-outline-variant/50 text-on-surface font-label-md hover:bg-surface-container transition-all text-center font-semibold flex items-center justify-center gap-1.5"
+            >
+              <span className="material-symbols-outlined text-[16px] text-primary">
+                picture_as_pdf
+              </span>
+              <span>Export Risk &amp; Chart PDF</span>
+            </button>
+            <button
+              type="button"
               onClick={handleDownloadDossier}
               className="w-full py-2 px-3 rounded bg-surface-container-high text-on-surface font-label-md hover:bg-surface-container-highest active:scale-[0.99] transition-all text-center font-medium"
             >
-              Download Basel III Dossier
+              Download JSON Dossier
             </button>
           </div>
         </div>

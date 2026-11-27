@@ -1,5 +1,6 @@
 import React, { useEffect, useMemo, useRef, useState } from 'react';
-import { KanbanStage, RiskTicket } from '../types/risk';
+import { INITIAL_ORBITS, RISK_REGIONS } from '../data/initialRiskData';
+import { KanbanStage, OrbitId, RiskRegion, RiskTicket } from '../types/risk';
 
 interface RiskOpsKanbanViewProps {
   tickets: RiskTicket[];
@@ -9,6 +10,7 @@ interface RiskOpsKanbanViewProps {
   onCreateTicket: (ticket: RiskTicket) => void;
   onToggleSubTask: (ticketId: string, subTaskId: string) => void;
   onSwitchToGraph: () => void;
+  onExportPdf: () => void;
   onNotify: (title: string, message: string, tone?: 'info' | 'success' | 'warning' | 'error') => void;
   nextTicketNumber: number;
 }
@@ -28,6 +30,29 @@ const STAGES: {
   { id: 'closed', title: 'CLOSED & RESOLVED', dotColor: 'bg-secondary' },
 ];
 
+const REGION_TO_ORBIT: Record<RiskRegion, OrbitId> = {
+  APAC: 'apac',
+  US: 'us',
+  UK: 'uk',
+  Europe: 'europe',
+  'Middle East': 'middle-east',
+};
+
+const REGION_CORRIDOR_DEFAULT: Record<RiskRegion, { corridor: string; jurisdiction: string }> = {
+  APAC: { corridor: 'HKMA / MAS', jurisdiction: 'HK / Singapore' },
+  US: { corridor: 'Fedwire / CHIPS', jurisdiction: 'Fed / OCC' },
+  UK: { corridor: 'London Faster Payments', jurisdiction: 'FCA / PRA' },
+  Europe: { corridor: 'TARGET2-EUR', jurisdiction: 'ECB / BaFin' },
+  'Middle East': { corridor: 'DIFC / ADGM', jurisdiction: 'DFSA / CBUAE' },
+};
+
+const TYPOLOGY_ROWS: { label: string; typology: RiskTicket['typology']; icon: string }[] = [
+  { label: 'Synthetic Identity Rings', typology: 'Synthetic ID', icon: 'badge' },
+  { label: 'Trade Doc & Invoice Drift (TBML)', typology: 'TBML', icon: 'receipt_long' },
+  { label: 'Micro-Smurfing / Structuring', typology: 'Micro-Smurfing', icon: 'account_balance' },
+  { label: 'Crypto Gateway / VASP Bridge', typology: 'Crypto Gateway', icon: 'currency_bitcoin' },
+];
+
 export const RiskOpsKanbanView: React.FC<RiskOpsKanbanViewProps> = ({
   tickets,
   onMoveTicketStage,
@@ -36,12 +61,13 @@ export const RiskOpsKanbanView: React.FC<RiskOpsKanbanViewProps> = ({
   onCreateTicket,
   onToggleSubTask,
   onSwitchToGraph,
+  onExportPdf,
   onNotify,
   nextTicketNumber,
 }) => {
   const [subView, setSubView] = useState<SubView>('kanban');
   const [swimlanes, setSwimlanes] = useState(false);
-  const [corridorFilter, setCorridorFilter] = useState('All Corridors (Global)');
+  const [regionFilter, setRegionFilter] = useState<'All Regions' | RiskRegion>('All Regions');
   const [typologyFilter, setTypologyFilter] = useState('All Typologies');
   const [toleranceFilter, setToleranceFilter] = useState<'all' | 'breach' | 'warning' | 'within'>(
     'all'
@@ -51,11 +77,10 @@ export const RiskOpsKanbanView: React.FC<RiskOpsKanbanViewProps> = ({
   const [draggedTicketId, setDraggedTicketId] = useState<string | null>(null);
   const [dragOverStage, setDragOverStage] = useState<KanbanStage | null>(null);
 
-  // Live SLA timer for CRE-8942
   const [secondsLeft, setSecondsLeft] = useState(14 * 60 + 32);
-  // Log Risk Trigger Modal
   const [logModalOpen, setLogModalOpen] = useState(false);
   const [newSummary, setNewSummary] = useState('');
+  const [newRegion, setNewRegion] = useState<RiskRegion>('APAC');
   const [newTypology, setNewTypology] = useState<RiskTicket['typology']>('Synthetic ID');
   const [newAmount, setNewAmount] = useState('15000000');
   const [newAssignee, setNewAssignee] = useState('ER');
@@ -110,14 +135,7 @@ export const RiskOpsKanbanView: React.FC<RiskOpsKanbanViewProps> = ({
 
   const filteredTickets = useMemo(() => {
     return tickets.filter((t) => {
-      if (corridorFilter !== 'All Corridors (Global)') {
-        const c = t.corridor.toLowerCase();
-        const j = t.jurisdiction.toLowerCase();
-        if (corridorFilter === 'APAC & ASEAN Direct' && !c.includes('singapore') && !c.includes('hong kong') && !j.includes('mas') && !j.includes('hkma')) return false;
-        if (corridorFilter === 'EMEA Clearing / TARGET2' && !c.includes('target2') && !c.includes('london') && !c.includes('emea') && !c.includes('swiss')) return false;
-        if (corridorFilter === 'Americas Fedwire / CHIPS' && !c.includes('chips') && !c.includes('fednow') && !c.includes('fedwire')) return false;
-        if (corridorFilter === 'LatAm Cross-Border' && !c.includes('são paulo') && !c.includes('latam') && !j.includes('bcb')) return false;
-      }
+      if (regionFilter !== 'All Regions' && t.region !== regionFilter) return false;
       if (typologyFilter !== 'All Typologies' && t.typology !== typologyFilter) return false;
       if (toleranceFilter === 'breach' && t.severity !== 'critical') return false;
       if (toleranceFilter === 'warning' && t.severity !== 'warning' && t.severity !== 'crypto') return false;
@@ -128,6 +146,7 @@ export const RiskOpsKanbanView: React.FC<RiskOpsKanbanViewProps> = ({
         if (
           !t.key.toLowerCase().includes(q) &&
           !t.title.toLowerCase().includes(q) &&
+          !t.region.toLowerCase().includes(q) &&
           !t.corridor.toLowerCase().includes(q) &&
           !t.typology.toLowerCase().includes(q)
         ) {
@@ -136,21 +155,53 @@ export const RiskOpsKanbanView: React.FC<RiskOpsKanbanViewProps> = ({
       }
       return true;
     });
-  }, [tickets, corridorFilter, typologyFilter, toleranceFilter, ownerFilter, quickFilter]);
+  }, [tickets, regionFilter, typologyFilter, toleranceFilter, ownerFilter, quickFilter]);
 
   const activePipelineSum = useMemo(() => {
-    const sum = tickets
+    return tickets
       .filter((t) => t.stage !== 'closed')
-      .reduce((acc, t) => acc + t.exposureM, 0);
-    return sum.toFixed(1);
+      .reduce((acc, t) => acc + t.exposureM, 0)
+      .toFixed(1);
+  }, [tickets]);
+
+  const criticalCount = useMemo(
+    () => tickets.filter((t) => t.severity === 'critical' && !t.frozen).length,
+    [tickets]
+  );
+
+  const regionalEpicBubbles = useMemo(() => {
+    const coords: Record<RiskRegion, { cx: number; cy: number; fill: string }> = {
+      APAC: { cx: 140, cy: 130, fill: '#ba1a1a' },
+      US: { cx: 295, cy: 165, fill: '#d97706' },
+      UK: { cx: 430, cy: 105, fill: '#006194' },
+      Europe: { cx: 565, cy: 170, fill: '#7e22ce' },
+      'Middle East': { cx: 690, cy: 120, fill: '#0051d5' },
+    };
+
+    return RISK_REGIONS.map((region) => {
+      const regionTickets = tickets.filter((t) => t.region === region);
+      const topTicket =
+        [...regionTickets].sort((a, b) => b.exposureM - a.exposureM)[0] ?? tickets[0];
+      const totalExposure = regionTickets.reduce((acc, t) => acc + t.exposureM, 0);
+      const r = Math.max(34, Math.min(58, 28 + Math.sqrt(totalExposure) * 3.4));
+      return {
+        region,
+        ticket: topTicket,
+        totalExposure,
+        count: regionTickets.length,
+        r,
+        ...coords[region],
+      };
+    });
   }, [tickets]);
 
   const handleExportAuditCsv = () => {
     const rows = [
-      ['Ticket Key', 'Title', 'Typology', 'Corridor', 'Exposure ($M)', 'Stage', 'Status'],
+      ['Ticket Key', 'Title', 'Region', 'Typology', 'Corridor', 'Exposure ($M)', 'Stage', 'Status'],
       ...tickets.map((t) => [
         t.key,
         `"${t.title.replace(/"/g, '""')}"`,
+        t.region,
         t.typology,
         t.corridor,
         t.exposureM.toFixed(2),
@@ -174,28 +225,25 @@ export const RiskOpsKanbanView: React.FC<RiskOpsKanbanViewProps> = ({
     const exposureM = Number((numericUsd / 1_000_000).toFixed(2));
     const key = `CRE-${nextTicketNumber}`;
     const ownerMap: Record<string, { name: string; initials: string; role: string }> = {
-      ER: { name: 'Elena Rostova', initials: 'ER', role: 'Lead APAC' },
+      ER: { name: 'Elena Rostova', initials: 'ER', role: 'Lead Risk Ops' },
       JV: { name: 'Sir Julian Vance', initials: 'JV', role: 'Group CRO' },
       SR: { name: 'Siddharth Rao', initials: 'SR', role: 'SecOps' },
     };
     const owner = ownerMap[newAssignee] ?? ownerMap.ER;
+    const orbitId = REGION_TO_ORBIT[newRegion];
+    const orbit = INITIAL_ORBITS.find((o) => o.id === orbitId);
+    const defaults = REGION_CORRIDOR_DEFAULT[newRegion];
 
     onCreateTicket({
       id: key,
       key,
-      title: newSummary.trim() || 'Unusual Fedwire settlement variance in NY-Lon corridor',
-      shortTitle: (newSummary.trim() || 'New Risk Trigger').slice(0, 28),
-      orbitId:
-        newTypology === 'TBML'
-          ? 'beta'
-          : newTypology === 'Micro-Smurfing'
-          ? 'gamma'
-          : newTypology === 'Crypto Gateway'
-          ? 'delta'
-          : 'alpha',
+      title: newSummary.trim() || `${newRegion} high-value settlement variance alert`,
+      shortTitle: (newSummary.trim() || `${newRegion} Risk Trigger`).slice(0, 28),
+      region: newRegion,
+      orbitId,
       typology: newTypology,
-      corridor: 'NY-Lon Fedwire',
-      jurisdiction: 'Fed / PRA',
+      corridor: defaults.corridor,
+      jurisdiction: defaults.jurisdiction,
       severity: newSlaTier === 'P1' ? 'critical' : newSlaTier === 'P2' ? 'warning' : 'nominal',
       statusLabel: newSlaTier === 'P1' ? 'DEFCON 1: BREACH' : 'IN TRIAGE',
       riskScore: newSlaTier === 'P1' ? 91.2 : 74.0,
@@ -209,13 +257,13 @@ export const RiskOpsKanbanView: React.FC<RiskOpsKanbanViewProps> = ({
       density: 4,
       stage: 'triggered',
       priority: newSlaTier,
-      rootCauseSummary: 'Triggered manually from RiskOps Kanban command desk.',
+      rootCauseSummary: `Triggered manually from RiskOps Kanban desk for ${newRegion}.`,
       confidence: 90.0,
       rules: ['CRE-MANUAL-01'],
-      x: 410,
-      y: 350,
-      radiusPx: 110,
-      parentKey: 'CRE-8942',
+      x: (orbit?.cx ?? 600) + Math.round((Math.random() - 0.5) * 90),
+      y: (orbit?.cy ?? 450) + Math.round((Math.random() - 0.5) * 70),
+      radiusPx: 108,
+      parentKey: tickets.find((t) => t.region === newRegion && t.isCore)?.key,
       subTasks: [],
       auditTrail: [],
     });
@@ -225,8 +273,8 @@ export const RiskOpsKanbanView: React.FC<RiskOpsKanbanViewProps> = ({
   };
 
   return (
-    <div className="flex flex-col w-full pb-20">
-      {/* Controls & Threat Vector Header Bar */}
+    <div className="flex flex-col w-full pb-8">
+      {/* Compact Command Header & Filter Bar */}
       <div className="w-full bg-surface-container-lowest px-4 py-3 shadow-sm border-b border-outline-variant/30">
         <div className="flex flex-col gap-3">
           {/* Top Action Strip & View Switcher */}
@@ -235,9 +283,9 @@ export const RiskOpsKanbanView: React.FC<RiskOpsKanbanViewProps> = ({
               {(
                 [
                   { id: 'kanban', icon: 'view_kanban', label: 'Kanban Board' },
-                  { id: 'matrix', icon: 'grid_view', label: 'SLA Exposure Matrix' },
-                  { id: 'audit', icon: 'table_rows', label: 'Audit Trail List' },
-                  { id: 'bubble', icon: 'bubble_chart', label: 'Bubble Density Map' },
+                  { id: 'matrix', icon: 'grid_view', label: 'Regional SLA Matrix' },
+                  { id: 'audit', icon: 'table_rows', label: 'Audit Trail' },
+                  { id: 'bubble', icon: 'bubble_chart', label: 'Regional Density' },
                 ] as const
               ).map((tab) => {
                 const active = subView === tab.id;
@@ -259,26 +307,37 @@ export const RiskOpsKanbanView: React.FC<RiskOpsKanbanViewProps> = ({
               })}
             </div>
 
-            {/* Metric Snapshots */}
-            <div className="hidden xl:flex items-center gap-4">
+            {/* Concise Metric Snapshots */}
+            <div className="hidden xl:flex items-center gap-3">
               <div className="flex items-center gap-1.5 font-mono-metric-sm bg-surface-container-low px-2.5 py-1 rounded">
                 <span className="text-on-surface-variant">ACTIVE PIPELINE:</span>
                 <span className="font-semibold text-on-surface">${activePipelineSum}M</span>
               </div>
               <div className="flex items-center gap-1.5 font-mono-metric-sm bg-surface-container-low px-2.5 py-1 rounded">
-                <span className="text-on-surface-variant">BREACH PROXIMITY:</span>
+                <span className="text-on-surface-variant">CRITICAL:</span>
                 <span className="text-error font-semibold flex items-center gap-1">
-                  <span className="w-1.5 h-1.5 rounded-full bg-error animate-ping" />3 CRITICAL
+                  <span className="w-1.5 h-1.5 rounded-full bg-error animate-pulse" />
+                  {criticalCount} ACTIVE
                 </span>
               </div>
               <div className="flex items-center gap-1.5 font-mono-metric-sm bg-surface-container-low px-2.5 py-1 rounded">
-                <span className="text-on-surface-variant">AVG MTTR:</span>
-                <span className="font-semibold text-secondary">3h 24m</span>
+                <span className="text-on-surface-variant">FASTEST SLA:</span>
+                <span className="font-semibold text-on-surface">{formatTimer(secondsLeft)}</span>
               </div>
             </div>
 
             {/* Right Actions */}
             <div className="flex items-center gap-2">
+              <button
+                type="button"
+                onClick={onExportPdf}
+                className="flex items-center gap-1.5 px-3 h-8 rounded bg-surface-container hover:bg-surface-container-high text-on-surface font-label-md font-semibold transition-colors whitespace-nowrap"
+              >
+                <span className="material-symbols-outlined text-[16px] text-primary">
+                  picture_as_pdf
+                </span>
+                <span>Export PDF</span>
+              </button>
               <button
                 type="button"
                 onClick={() => setSwimlanes((prev) => !prev)}
@@ -289,7 +348,7 @@ export const RiskOpsKanbanView: React.FC<RiskOpsKanbanViewProps> = ({
                 }`}
               >
                 <span className="material-symbols-outlined text-[16px]">tune</span>
-                <span>{swimlanes ? 'Priority Swimlanes: ON' : 'Swimlanes'}</span>
+                <span>{swimlanes ? 'Swimlanes: ON' : 'Swimlanes'}</span>
               </button>
               <button
                 type="button"
@@ -297,63 +356,8 @@ export const RiskOpsKanbanView: React.FC<RiskOpsKanbanViewProps> = ({
                 className="flex items-center gap-1.5 px-3 h-8 bg-primary hover:bg-primary-container text-on-primary rounded font-label-md font-semibold shadow-sm transition-all whitespace-nowrap"
               >
                 <span className="material-symbols-outlined text-[16px]">add_circle</span>
-                <span>Log Risk Trigger / Issue</span>
-                <span className="bg-primary-container/40 text-on-primary text-[10px] px-1 rounded font-mono-metric-sm">
-                  C
-                </span>
+                <span>Log Risk Trigger</span>
               </button>
-            </div>
-          </div>
-
-          {/* SLA Threat Vector Banner */}
-          <div className="relative overflow-hidden bg-error-container/20 border border-error/20 rounded-xl p-3 shadow-sm">
-            <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-3">
-              <div className="flex items-start lg:items-center gap-3">
-                <div className="w-9 h-9 rounded-lg bg-error flex items-center justify-center text-on-error shadow-sm shrink-0">
-                  <span className="material-symbols-outlined text-[20px] animate-pulse">
-                    crisis_alert
-                  </span>
-                </div>
-                <div>
-                  <div className="flex items-center gap-2 flex-wrap">
-                    <span className="font-headline-sm font-semibold text-on-error-container">
-                      SLA Threat Vector: 3 High-Yield Exposure Incidents Approaching Critical
-                      Threshold (&lt;45m)
-                    </span>
-                    <span className="bg-error text-on-error font-mono-metric-sm font-semibold px-2 py-0.5 rounded">
-                      DEFCON 2
-                    </span>
-                  </div>
-                  <p className="font-body-sm text-on-surface-variant mt-0.5">
-                    Total At-Risk Liquidity:{' '}
-                    <span className="font-mono-metric-sm text-on-surface font-semibold">
-                      $67.40M
-                    </span>{' '}
-                    across APAC Corridor and Swiss Clearinghouse hubs. Regulatory reporting
-                    mandatory if unresolved.
-                  </p>
-                </div>
-              </div>
-
-              {/* Urgency Progress Breakdown Strip */}
-              <div className="flex flex-col min-w-[280px] lg:w-80 gap-1.5">
-                <div className="flex justify-between font-mono-metric-sm">
-                  <span className="text-error font-semibold flex items-center gap-1">
-                    <span className="w-2 h-2 rounded-full bg-error" /> 3 Imminent Breach
-                  </span>
-                  <span className="text-on-surface-variant">5 Warning</span>
-                  <span className="text-secondary font-semibold">18 Nominal</span>
-                </div>
-                <div className="w-full h-2 rounded bg-surface-container flex overflow-hidden">
-                  <div className="h-full bg-error w-[15%]" title="Imminent Breach (15%)" />
-                  <div className="h-full bg-tertiary-container w-[25%]" title="Warning (25%)" />
-                  <div className="h-full bg-secondary w-[60%]" title="Nominal (60%)" />
-                </div>
-                <div className="flex justify-between text-[10px] font-mono-metric-sm text-on-surface-variant">
-                  <span>T-{formatTimer(secondsLeft)} Fastest Expiry</span>
-                  <span>Cluster Velocity: +14% / hr</span>
-                </div>
-              </div>
             </div>
           </div>
 
@@ -364,17 +368,18 @@ export const RiskOpsKanbanView: React.FC<RiskOpsKanbanViewProps> = ({
                 <span className="material-symbols-outlined text-on-surface-variant text-[16px]">
                   public
                 </span>
-                <span className="font-label-md text-on-surface-variant">Corridor:</span>
+                <span className="font-label-md text-on-surface-variant">Region:</span>
                 <select
-                  value={corridorFilter}
-                  onChange={(e) => setCorridorFilter(e.target.value)}
+                  value={regionFilter}
+                  onChange={(e) => setRegionFilter(e.target.value as 'All Regions' | RiskRegion)}
                   className="bg-transparent font-label-md text-on-surface focus:outline-none cursor-pointer"
                 >
-                  <option>All Corridors (Global)</option>
-                  <option>APAC &amp; ASEAN Direct</option>
-                  <option>EMEA Clearing / TARGET2</option>
-                  <option>Americas Fedwire / CHIPS</option>
-                  <option>LatAm Cross-Border</option>
+                  <option value="All Regions">All Regions (Global)</option>
+                  {RISK_REGIONS.map((reg) => (
+                    <option key={reg} value={reg}>
+                      {reg}
+                    </option>
+                  ))}
                 </select>
               </div>
 
@@ -388,23 +393,31 @@ export const RiskOpsKanbanView: React.FC<RiskOpsKanbanViewProps> = ({
                   onChange={(e) => setTypologyFilter(e.target.value)}
                   className="bg-transparent font-label-md text-on-surface focus:outline-none cursor-pointer"
                 >
-                  <option value="All Typologies">All Typologies (12)</option>
-                  <option value="Synthetic ID">Synthetic Identity Ring</option>
-                  <option value="TBML">Trade Doc Forgery / TBML</option>
-                  <option value="Micro-Smurfing">Structuring / Micro-Smurfing</option>
-                  <option value="Crypto Gateway">Crypto Gateway / Liquidity</option>
+                  <option value="All Typologies">All Typologies ({tickets.length})</option>
+                  <option value="Synthetic ID">Synthetic ID</option>
+                  <option value="TBML">Trade Finance / TBML</option>
+                  <option value="Micro-Smurfing">Micro-Smurfing</option>
+                  <option value="Crypto Gateway">Crypto Gateway</option>
                 </select>
               </div>
 
               {/* Tolerance Filter */}
               <div className="flex items-center gap-1 bg-surface-container-low p-1 rounded">
-                <span className="font-label-md text-on-surface-variant px-1">Tolerance:</span>
                 {(
                   [
                     { id: 'all', label: `ALL (${tickets.length})` },
-                    { id: 'breach', label: `BREACH (${tickets.filter((t) => t.severity === 'critical').length})` },
-                    { id: 'warning', label: `WARNING (${tickets.filter((t) => t.severity === 'warning' || t.severity === 'crypto').length})` },
-                    { id: 'within', label: `WITHIN (${tickets.filter((t) => t.severity === 'nominal').length})` },
+                    {
+                      id: 'breach',
+                      label: `BREACH (${tickets.filter((t) => t.severity === 'critical').length})`,
+                    },
+                    {
+                      id: 'warning',
+                      label: `WARN (${tickets.filter((t) => t.severity === 'warning' || t.severity === 'crypto').length})`,
+                    },
+                    {
+                      id: 'within',
+                      label: `WITHIN (${tickets.filter((t) => t.severity === 'nominal').length})`,
+                    },
                   ] as const
                 ).map((item) => (
                   <button
@@ -430,7 +443,11 @@ export const RiskOpsKanbanView: React.FC<RiskOpsKanbanViewProps> = ({
                 {[
                   { initials: 'ER', title: 'Elena Rostova (Lead)', bg: 'bg-primary text-on-primary' },
                   { initials: 'JV', title: 'Julian Vance (CRO)', bg: 'bg-secondary text-on-secondary' },
-                  { initials: 'SR', title: 'Siddharth Rao (SecOps)', bg: 'bg-tertiary-container text-on-tertiary-container' },
+                  {
+                    initials: 'SR',
+                    title: 'Siddharth Rao (SecOps)',
+                    bg: 'bg-tertiary-container text-on-tertiary-container',
+                  },
                 ].map((o) => {
                   const active = ownerFilter === o.initials;
                   return (
@@ -460,7 +477,7 @@ export const RiskOpsKanbanView: React.FC<RiskOpsKanbanViewProps> = ({
             </div>
 
             {/* Quick Search */}
-            <div className="relative w-64">
+            <div className="relative w-60">
               <span className="material-symbols-outlined absolute left-2.5 top-1/2 -translate-y-1/2 text-on-surface-variant text-[16px]">
                 search
               </span>
@@ -469,12 +486,9 @@ export const RiskOpsKanbanView: React.FC<RiskOpsKanbanViewProps> = ({
                 type="text"
                 value={quickFilter}
                 onChange={(e) => setQuickFilter(e.target.value)}
-                placeholder="Filter tickets, hash, entity... [/]"
+                placeholder="Filter by key or region..."
                 className="w-full h-7 pl-8 pr-7 bg-surface-container-low rounded font-body-sm text-on-surface focus:outline-none focus:bg-surface-container-lowest border border-outline-variant/40 focus:border-primary transition-colors"
               />
-              <span className="absolute right-2 top-1/2 -translate-y-1/2 font-mono-metric-sm text-[10px] text-on-surface-variant bg-surface-container px-1 rounded">
-                /
-              </span>
             </div>
           </div>
         </div>
@@ -486,14 +500,14 @@ export const RiskOpsKanbanView: React.FC<RiskOpsKanbanViewProps> = ({
           {swimlanes && (
             <div className="mb-3 px-3 py-2 rounded-lg bg-primary/10 border border-primary/20 font-label-md text-primary flex items-center justify-between">
               <span>
-                Priority Swimlane Mode Active: Cards sorted by P1 Critical Exposure → P2 Elevated → P3 Monitoring
+                Priority Swimlane Mode Active: Sorted by P1 Critical → P2 Elevated → P3 Monitoring
               </span>
               <button
                 type="button"
                 onClick={() => setSwimlanes(false)}
                 className="font-semibold underline"
               >
-                Standard Columns
+                Standard Order
               </button>
             </div>
           )}
@@ -578,25 +592,17 @@ export const RiskOpsKanbanView: React.FC<RiskOpsKanbanViewProps> = ({
                               onDragStart={() => setDraggedTicketId(ticket.id)}
                               className="group relative bg-surface-container-lowest rounded-lg p-3 shadow-md ring-1 ring-error transition-all"
                             >
-                              <div className="flex items-start justify-between gap-1 mb-2">
-                                <div className="flex items-center gap-1.5">
-                                  <button
-                                    type="button"
-                                    onClick={() => onSelectTicketForGraph(ticket.id)}
-                                    className="bg-error text-on-error px-2 py-0.5 rounded font-mono-metric-sm font-bold hover:opacity-90"
-                                  >
-                                    {ticket.key}
-                                  </button>
-                                  <span className="bg-error-container text-on-error-container text-[10px] font-mono-metric-sm font-bold px-1.5 py-0.5 rounded">
-                                    DEFCON 1
-                                  </span>
-                                </div>
-                                <div className="flex items-center gap-1 bg-error-container/60 text-on-error-container px-2 py-0.5 rounded-full shadow-sm">
-                                  <span className="w-2 h-2 rounded-full bg-error animate-pulse" />
-                                  <span className="font-mono-metric-sm font-bold">
-                                    D:{ticket.density}
-                                  </span>
-                                </div>
+                              <div className="flex items-center justify-between gap-1 mb-2">
+                                <button
+                                  type="button"
+                                  onClick={() => onSelectTicketForGraph(ticket.id)}
+                                  className="bg-error text-on-error px-2 py-0.5 rounded font-mono-metric-sm font-bold hover:opacity-90"
+                                >
+                                  {ticket.key}
+                                </button>
+                                <span className="px-2 py-0.5 rounded bg-surface-container font-mono-metric-sm text-on-surface font-semibold">
+                                  {ticket.region}
+                                </span>
                               </div>
 
                               <h4
@@ -608,7 +614,7 @@ export const RiskOpsKanbanView: React.FC<RiskOpsKanbanViewProps> = ({
 
                               <div className="flex flex-wrap items-center gap-1.5 my-2">
                                 <span className="px-2 py-0.5 rounded bg-error text-on-error font-mono-metric-sm font-bold">
-                                  ${ticket.exposureM.toFixed(2)}M EXPOSURE
+                                  ${ticket.exposureM.toFixed(1)}M EXPOSURE
                                 </span>
                                 <span className="px-1.5 py-0.5 rounded bg-surface-container font-mono-metric-sm text-on-surface-variant">
                                   {ticket.corridor}
@@ -617,18 +623,13 @@ export const RiskOpsKanbanView: React.FC<RiskOpsKanbanViewProps> = ({
 
                               {/* Live SLA Countdown */}
                               <div className="bg-error-container/30 rounded-lg p-2.5 my-2 flex items-center justify-between">
-                                <div className="flex items-center gap-2">
-                                  <span className="material-symbols-outlined text-error text-[20px]">
-                                    timer
+                                <div className="flex flex-col">
+                                  <span className="text-[10px] font-label-md text-on-surface-variant uppercase tracking-wider">
+                                    Breach Countdown
                                   </span>
-                                  <div className="flex flex-col">
-                                    <span className="text-[10px] font-label-md text-on-surface-variant uppercase tracking-wider">
-                                      Breach Countdown
-                                    </span>
-                                    <span className="font-mono-metric-lg text-error font-bold leading-none">
-                                      {ticket.frozen ? 'FROZEN' : formatTimer(secondsLeft)}
-                                    </span>
-                                  </div>
+                                  <span className="font-mono-metric-lg text-error font-bold leading-none">
+                                    {ticket.frozen ? 'FROZEN' : formatTimer(secondsLeft)}
+                                  </span>
                                 </div>
                                 <button
                                   type="button"
@@ -649,24 +650,12 @@ export const RiskOpsKanbanView: React.FC<RiskOpsKanbanViewProps> = ({
                               {/* Mitigation Directives */}
                               <div className="flex flex-col gap-1 my-2">
                                 <div className="flex items-center justify-between text-[11px] font-mono-metric-sm text-on-surface-variant">
-                                  <span>Mitigation Directives</span>
+                                  <span>Directives</span>
                                   <span className="text-primary font-semibold">
-                                    {completedSub} of {ticket.subTasks.length} completed
+                                    {completedSub}/{ticket.subTasks.length} Done
                                   </span>
                                 </div>
-                                <div className="w-full h-1.5 rounded-full bg-surface-container-high overflow-hidden flex">
-                                  <div
-                                    className="h-full bg-primary transition-all"
-                                    style={{
-                                      width: `${
-                                        ticket.subTasks.length
-                                          ? Math.round((completedSub / ticket.subTasks.length) * 100)
-                                          : 60
-                                      }%`,
-                                    }}
-                                  />
-                                </div>
-                                <ul className="text-[11px] font-body-sm text-on-surface-variant space-y-1 mt-1">
+                                <ul className="text-[11px] font-body-sm text-on-surface-variant space-y-1">
                                   {ticket.subTasks.slice(0, 3).map((st) => (
                                     <li
                                       key={st.id}
@@ -704,10 +693,9 @@ export const RiskOpsKanbanView: React.FC<RiskOpsKanbanViewProps> = ({
                                 <button
                                   type="button"
                                   onClick={() => onSelectTicketForGraph(ticket.id)}
-                                  className="flex items-center gap-0.5 text-primary text-[11px] font-semibold hover:underline"
+                                  className="text-primary text-[11px] font-semibold hover:underline"
                                 >
-                                  <span className="material-symbols-outlined text-[13px]">hub</span>
-                                  9 Nodes
+                                  Inspect Graph →
                                 </button>
                               </div>
                             </div>
@@ -721,7 +709,7 @@ export const RiskOpsKanbanView: React.FC<RiskOpsKanbanViewProps> = ({
                             onDragStart={() => setDraggedTicketId(ticket.id)}
                             className="group relative bg-surface-container-lowest rounded-lg p-3 shadow-sm hover:shadow-md transition-all cursor-grab active:cursor-grabbing border border-outline-variant/20"
                           >
-                            <div className="flex items-start justify-between gap-1 mb-1.5">
+                            <div className="flex items-center justify-between gap-1 mb-1.5">
                               <div className="flex items-center gap-1.5">
                                 <button
                                   type="button"
@@ -730,36 +718,19 @@ export const RiskOpsKanbanView: React.FC<RiskOpsKanbanViewProps> = ({
                                 >
                                   {ticket.key}
                                 </button>
-                                <span
-                                  className={`material-symbols-outlined text-[15px] ${
-                                    ticket.priority === 'P1'
-                                      ? 'text-error'
-                                      : ticket.stage === 'closed'
-                                      ? 'text-secondary'
-                                      : 'text-tertiary-container'
-                                  }`}
-                                >
-                                  {ticket.stage === 'closed'
-                                    ? 'check_circle'
-                                    : ticket.priority === 'P1'
-                                    ? 'keyboard_double_arrow_up'
-                                    : 'arrow_upward'}
+                                <span className="px-1.5 py-0.5 rounded bg-surface-container font-mono-metric-sm text-[10px] text-on-surface font-medium">
+                                  {ticket.region}
                                 </span>
                               </div>
-                              <div className="flex items-center gap-1 bg-surface-container-low px-1.5 py-0.5 rounded-full">
-                                <span
-                                  className={`w-2 h-2 rounded-full ${
-                                    ticket.severity === 'critical'
-                                      ? 'bg-error animate-pulse'
-                                      : ticket.severity === 'warning'
-                                      ? 'bg-amber-500'
-                                      : 'bg-secondary'
-                                  }`}
-                                />
-                                <span className="font-mono-metric-sm text-[10px] font-bold">
-                                  D:{ticket.density}
-                                </span>
-                              </div>
+                              <span
+                                className={`px-1.5 py-0.5 rounded font-mono-metric-sm font-semibold ${
+                                  ticket.severity === 'critical'
+                                    ? 'bg-error-container/50 text-on-error-container'
+                                    : 'bg-surface-container-high text-primary'
+                                }`}
+                              >
+                                ${ticket.exposureM.toFixed(1)}M
+                              </span>
                             </div>
 
                             <h4
@@ -769,55 +740,14 @@ export const RiskOpsKanbanView: React.FC<RiskOpsKanbanViewProps> = ({
                               {ticket.title}
                             </h4>
 
-                            <div className="flex flex-wrap items-center gap-1 my-2">
-                              <span className="px-1.5 py-0.5 rounded bg-surface-container font-mono-metric-sm text-on-surface-variant">
-                                {ticket.corridor}
-                              </span>
-                              <span
-                                className={`px-1.5 py-0.5 rounded font-mono-metric-sm font-semibold ${
-                                  ticket.severity === 'critical'
-                                    ? 'bg-error-container/40 text-on-error-container'
-                                    : 'bg-surface-container-high text-primary'
-                                }`}
-                              >
-                                ${ticket.exposureM.toFixed(2)}M
-                              </span>
-                            </div>
-
-                            {ticket.dualKeyState && (
-                              <div className="bg-secondary/5 rounded p-1.5 my-1 flex items-center justify-between text-body-sm">
-                                <span className="text-secondary font-medium text-[11px] flex items-center gap-1">
-                                  <span className="material-symbols-outlined text-[14px]">
-                                    vpn_key
-                                  </span>
-                                  {ticket.dualKeyState}
-                                </span>
-                                <span className="font-mono-metric-sm text-[10px] bg-secondary-fixed text-on-secondary-fixed px-1.5 py-0.5 rounded font-semibold">
-                                  Key 2 Awaited
-                                </span>
-                              </div>
-                            )}
-
-                            {ticket.shaHash && (
-                              <div className="bg-surface-container-low p-1.5 rounded flex items-center justify-between text-[10px] font-mono-metric-sm text-on-surface-variant my-1">
-                                <span className="flex items-center gap-1">
-                                  <span className="material-symbols-outlined text-[12px] text-secondary">
-                                    fingerprint
-                                  </span>
-                                  <span>{ticket.shaHash}</span>
-                                </span>
-                                <span className="text-secondary font-semibold">IMMUTABLE</span>
-                              </div>
-                            )}
-
-                            <div className="flex items-center justify-between pt-1.5 text-on-surface-variant font-mono-metric-sm">
+                            <div className="flex items-center justify-between pt-2 mt-2 border-t border-surface-container-low text-on-surface-variant font-mono-metric-sm">
                               <div
                                 className={`flex items-center gap-1 ${
                                   ticket.severity === 'critical' ? 'text-error font-semibold' : ''
                                 }`}
                               >
-                                <span className="material-symbols-outlined text-[14px]">alarm</span>
-                                <span>{ticket.slaDisplay}</span>
+                                <span className="material-symbols-outlined text-[13px]">alarm</span>
+                                <span className="text-[11px]">{ticket.slaDisplay}</span>
                               </div>
                               <div className="flex items-center gap-1">
                                 {stage.id !== 'closed' && (
@@ -854,32 +784,28 @@ export const RiskOpsKanbanView: React.FC<RiskOpsKanbanViewProps> = ({
         </div>
       )}
 
-      {/* SUB-VIEW 2: SLA EXPOSURE MATRIX */}
+      {/* SUB-VIEW 2: REGIONAL SLA EXPOSURE MATRIX */}
       {subView === 'matrix' && (
         <div className="w-full px-4 py-4">
           <div className="bg-surface-container-lowest rounded-xl p-5 shadow-sm border border-outline-variant/30">
             <div className="flex flex-wrap items-center justify-between mb-4 gap-3">
               <div>
                 <h3 className="font-headline-md text-on-surface font-semibold">
-                  Real-Time SLA Exposure &amp; Breaching Heatmatrix
+                  Regional SLA Exposure Matrix
                 </h3>
                 <p className="font-body-md text-on-surface-variant">
-                  Two-dimensional cross-tabulation of Typology Urgency vs Regulatory Jurisdictional
-                  Exposure.
+                  Live exposure cross-tabulated across APAC, US, UK, Europe, and Middle East.
                 </p>
               </div>
               <div className="flex items-center gap-3 font-mono-metric-sm">
                 <span className="flex items-center gap-1 text-on-surface-variant">
-                  <span className="w-3 h-3 rounded bg-surface-container" /> &lt; $5M
+                  <span className="w-3 h-3 rounded bg-surface-container" /> &lt; $10M
                 </span>
                 <span className="flex items-center gap-1 text-on-surface-variant">
-                  <span className="w-3 h-3 rounded bg-surface-container-high" /> $5M–$20M
+                  <span className="w-3 h-3 rounded bg-tertiary-container" /> $10M–$25M
                 </span>
                 <span className="flex items-center gap-1 text-on-surface-variant">
-                  <span className="w-3 h-3 rounded bg-tertiary-container" /> $20M–$50M
-                </span>
-                <span className="flex items-center gap-1 text-on-surface-variant">
-                  <span className="w-3 h-3 rounded bg-error" /> &gt; $50M Critical
+                  <span className="w-3 h-3 rounded bg-error" /> &gt; $25M Critical
                 </span>
               </div>
             </div>
@@ -888,122 +814,74 @@ export const RiskOpsKanbanView: React.FC<RiskOpsKanbanViewProps> = ({
               <table className="w-full text-left font-body-sm">
                 <thead>
                   <tr className="bg-surface-container-low text-on-surface-variant font-label-md uppercase">
-                    <th className="p-3">Typology / Jurisdiction</th>
-                    <th className="p-3 text-center">APAC (MAS / HKMA)</th>
-                    <th className="p-3 text-center">EMEA (ECB / PRA)</th>
-                    <th className="p-3 text-center">AMER (Fed / OCC)</th>
-                    <th className="p-3 text-center">LATAM (BCB / CNBV)</th>
-                    <th className="p-3 text-right">Aggregate SLA Risk</th>
+                    <th className="p-3">Typology</th>
+                    {RISK_REGIONS.map((reg) => (
+                      <th key={reg} className="p-3 text-center">
+                        {reg}
+                      </th>
+                    ))}
+                    <th className="p-3 text-right">Aggregate Risk</th>
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-surface-container-low">
-                  <tr className="hover:bg-surface-container-low/40 transition-colors">
-                    <td className="p-3 font-semibold text-on-surface flex items-center gap-2">
-                      <span className="material-symbols-outlined text-primary text-[18px]">
-                        account_balance
-                      </span>
-                      <span>Unregistered Wire Funnels</span>
-                    </td>
-                    <td className="p-3 text-center">
-                      <button
-                        type="button"
-                        onClick={() => onSelectTicketForGraph('CRE-8942')}
-                        className="inline-block px-3 py-1.5 rounded-lg bg-error text-on-error font-mono-metric-md font-bold shadow-sm hover:opacity-90"
-                      >
-                        $48.2M (T-14m)
-                      </button>
-                    </td>
-                    <td className="p-3 text-center">
-                      <span className="inline-block px-3 py-1.5 rounded bg-surface-container font-mono-metric-md text-on-surface">
-                        $2.4M (Nominal)
-                      </span>
-                    </td>
-                    <td className="p-3 text-center">
-                      <span className="inline-block px-3 py-1.5 rounded bg-tertiary-container/20 text-on-surface font-mono-metric-md font-semibold">
-                        $12.1M (T-82m)
-                      </span>
-                    </td>
-                    <td className="p-3 text-center">
-                      <span className="inline-block px-3 py-1.5 rounded bg-surface-container font-mono-metric-md text-on-surface-variant">
-                        -
-                      </span>
-                    </td>
-                    <td className="p-3 text-right font-mono-metric-md font-bold text-error">
-                      $62.7M
-                    </td>
-                  </tr>
+                  {TYPOLOGY_ROWS.map((row) => {
+                    const rowTickets = tickets.filter((t) => t.typology === row.typology);
+                    const rowTotal = rowTickets.reduce((acc, t) => acc + t.exposureM, 0);
 
-                  <tr className="hover:bg-surface-container-low/40 transition-colors">
-                    <td className="p-3 font-semibold text-on-surface flex items-center gap-2">
-                      <span className="material-symbols-outlined text-secondary text-[18px]">
-                        badge
-                      </span>
-                      <span>Synthetic Identity Networks</span>
-                    </td>
-                    <td className="p-3 text-center">
-                      <span className="inline-block px-3 py-1.5 rounded bg-surface-container font-mono-metric-md text-on-surface">
-                        $4.1M
-                      </span>
-                    </td>
-                    <td className="p-3 text-center">
-                      <span className="inline-block px-3 py-1.5 rounded bg-surface-container font-mono-metric-md text-on-surface-variant">
-                        -
-                      </span>
-                    </td>
-                    <td className="p-3 text-center">
-                      <span className="inline-block px-3 py-1.5 rounded bg-surface-container-high text-primary font-mono-metric-md font-semibold">
-                        $8.3M
-                      </span>
-                    </td>
-                    <td className="p-3 text-center">
-                      <button
-                        type="button"
-                        onClick={() => onSelectTicketForGraph('CRE-8995')}
-                        className="inline-block px-3 py-1.5 rounded bg-error-container text-on-error-container font-mono-metric-md font-bold hover:opacity-90"
-                      >
-                        $9.4M (T-22m)
-                      </button>
-                    </td>
-                    <td className="p-3 text-right font-mono-metric-md font-bold text-error">
-                      $21.8M
-                    </td>
-                  </tr>
+                    return (
+                      <tr key={row.typology} className="hover:bg-surface-container-low/40 transition-colors">
+                        <td className="p-3 font-semibold text-on-surface flex items-center gap-2">
+                          <span className="material-symbols-outlined text-primary text-[18px]">
+                            {row.icon}
+                          </span>
+                          <span>{row.label}</span>
+                        </td>
+                        {RISK_REGIONS.map((reg) => {
+                          const cellTickets = rowTickets.filter((t) => t.region === reg);
+                          const cellSum = cellTickets.reduce((acc, t) => acc + t.exposureM, 0);
+                          const topTicket = [...cellTickets].sort(
+                            (a, b) => b.exposureM - a.exposureM
+                          )[0];
 
-                  <tr className="hover:bg-surface-container-low/40 transition-colors">
-                    <td className="p-3 font-semibold text-on-surface flex items-center gap-2">
-                      <span className="material-symbols-outlined text-tertiary-container text-[18px]">
-                        receipt_long
-                      </span>
-                      <span>Trade Documentation &amp; LC Forgery</span>
-                    </td>
-                    <td className="p-3 text-center">
-                      <button
-                        type="button"
-                        onClick={() => onSelectTicketForGraph('CRE-8912')}
-                        className="inline-block px-3 py-1.5 rounded bg-surface-container-high text-primary font-mono-metric-md font-bold hover:bg-primary hover:text-on-primary transition-colors"
-                      >
-                        $11.2M (T-54m)
-                      </button>
-                    </td>
-                    <td className="p-3 text-center">
-                      <span className="inline-block px-3 py-1.5 rounded bg-surface-container font-mono-metric-md text-on-surface">
-                        $3.0M
-                      </span>
-                    </td>
-                    <td className="p-3 text-center">
-                      <span className="inline-block px-3 py-1.5 rounded bg-surface-container font-mono-metric-md text-on-surface-variant">
-                        -
-                      </span>
-                    </td>
-                    <td className="p-3 text-center">
-                      <span className="inline-block px-3 py-1.5 rounded bg-surface-container font-mono-metric-md text-on-surface-variant">
-                        -
-                      </span>
-                    </td>
-                    <td className="p-3 text-right font-mono-metric-md font-bold text-on-surface">
-                      $14.2M
-                    </td>
-                  </tr>
+                          if (cellTickets.length === 0 || !topTicket) {
+                            return (
+                              <td key={reg} className="p-3 text-center">
+                                <span className="inline-block px-3 py-1.5 rounded bg-surface-container font-mono-metric-md text-on-surface-variant">
+                                  -
+                                </span>
+                              </td>
+                            );
+                          }
+
+                          const toneClass =
+                            cellSum >= 25
+                              ? 'bg-error text-on-error font-bold shadow-sm'
+                              : cellSum >= 10
+                              ? 'bg-tertiary-container/25 text-on-surface font-semibold'
+                              : 'bg-surface-container text-on-surface';
+
+                          return (
+                            <td key={reg} className="p-3 text-center">
+                              <button
+                                type="button"
+                                onClick={() => onSelectTicketForGraph(topTicket.id)}
+                                className={`inline-block px-3 py-1.5 rounded-lg font-mono-metric-md hover:opacity-90 transition-opacity ${toneClass}`}
+                              >
+                                ${cellSum.toFixed(1)}M ({cellTickets.length})
+                              </button>
+                            </td>
+                          );
+                        })}
+                        <td
+                          className={`p-3 text-right font-mono-metric-md font-bold ${
+                            rowTotal >= 25 ? 'text-error' : 'text-on-surface'
+                          }`}
+                        >
+                          ${rowTotal.toFixed(1)}M
+                        </td>
+                      </tr>
+                    );
+                  })}
                 </tbody>
               </table>
             </div>
@@ -1021,17 +899,27 @@ export const RiskOpsKanbanView: React.FC<RiskOpsKanbanViewProps> = ({
                   Cryptographic Risk Event Audit Trail
                 </h3>
                 <p className="font-body-md text-on-surface-variant">
-                  Immutable sequence ledger verified against dual-key institutional sign-offs.
+                  Verified ledger across closed, frozen, and cryptographically signed corridors.
                 </p>
               </div>
-              <button
-                type="button"
-                onClick={handleExportAuditCsv}
-                className="px-3 py-1.5 bg-surface-container hover:bg-surface-container-high text-on-surface rounded font-label-md font-semibold flex items-center gap-1.5 transition-colors"
-              >
-                <span className="material-symbols-outlined text-[16px]">file_download</span>
-                <span>Export Basel Dossier (.CSV)</span>
-              </button>
+              <div className="flex items-center gap-2">
+                <button
+                  type="button"
+                  onClick={onExportPdf}
+                  className="px-3 py-1.5 bg-primary text-on-primary rounded font-label-md font-semibold flex items-center gap-1.5 hover:opacity-90 transition-opacity"
+                >
+                  <span className="material-symbols-outlined text-[16px]">picture_as_pdf</span>
+                  <span>Export PDF Report</span>
+                </button>
+                <button
+                  type="button"
+                  onClick={handleExportAuditCsv}
+                  className="px-3 py-1.5 bg-surface-container hover:bg-surface-container-high text-on-surface rounded font-label-md font-semibold flex items-center gap-1.5 transition-colors"
+                >
+                  <span className="material-symbols-outlined text-[16px]">file_download</span>
+                  <span>Export CSV</span>
+                </button>
+              </div>
             </div>
 
             <div className="space-y-2 font-mono-metric-sm">
@@ -1049,17 +937,17 @@ export const RiskOpsKanbanView: React.FC<RiskOpsKanbanViewProps> = ({
                       </span>
                       <div>
                         <span className="font-semibold text-on-surface">
-                          {t.key} {t.title}
+                          {t.key} · {t.region} — {t.title}
                         </span>
                         <p className="text-body-sm text-on-surface-variant">
-                          Dual-sign: J. Vance (CRO) &amp; {t.assignee.name} • Stamped block #
+                          Dual-sign: J. Vance (CRO) &amp; {t.assignee.name} • Block #
                           {(9401223 - idx * 332).toLocaleString()}
                         </p>
                       </div>
                     </div>
                     <div className="text-right shrink-0">
                       <span className="text-secondary font-bold">
-                        ${(t.exposureM * 1_000_000).toLocaleString()} USD
+                        ${t.exposureM.toFixed(1)}M USD
                       </span>
                       <p className="text-on-surface-variant">
                         {t.remediatedAgo ? `Remediated ${t.remediatedAgo}` : 'Frozen & Verified'}
@@ -1072,196 +960,80 @@ export const RiskOpsKanbanView: React.FC<RiskOpsKanbanViewProps> = ({
         </div>
       )}
 
-      {/* SUB-VIEW 4: BUBBLE DENSITY MAP */}
+      {/* SUB-VIEW 4: REGIONAL DENSITY MAP */}
       {subView === 'bubble' && (
         <div className="w-full px-4 py-4">
           <div className="bg-surface-container-lowest rounded-xl p-5 shadow-sm border border-outline-variant/30">
             <div className="flex items-center justify-between mb-4">
               <div>
                 <h3 className="font-headline-md text-on-surface font-semibold">
-                  Cluster Bubble Density &amp; Threat Proximity
+                  Regional Cluster Density &amp; Threat Proximity
                 </h3>
                 <p className="font-body-md text-on-surface-variant">
-                  Visualizing ticket concentration against remaining SLA survival time. Click any
-                  bubble to inspect on Graph Canvas.
+                  Aggregate exposure across APAC, US, UK, Europe, and Middle East. Click any region to inspect.
                 </p>
               </div>
               <span className="px-2.5 py-1 rounded bg-error-container text-on-error-container font-mono-metric-sm font-bold">
-                14 High-Density Clusters Breached
+                {criticalCount} Critical Breaches
               </span>
             </div>
 
             <div className="w-full h-80 bg-surface-container-low rounded-xl flex items-center justify-center p-4 relative overflow-hidden">
-              <svg className="w-full h-full" fill="none" viewBox="0 0 800 300">
-                <line stroke="#cbd5e1" strokeDasharray="4 4" strokeWidth="1" x1="50" x2="750" y1="50" y2="50" />
-                <line stroke="#cbd5e1" strokeDasharray="4 4" strokeWidth="1" x1="50" x2="750" y1="150" y2="150" />
-                <line stroke="#cbd5e1" strokeDasharray="4 4" strokeWidth="1" x1="50" x2="750" y1="250" y2="250" />
+              <svg className="w-full h-full" fill="none" viewBox="0 0 830 280">
+                <line stroke="#cbd5e1" strokeDasharray="4 4" strokeWidth="1" x1="40" x2="790" y1="60" y2="60" />
+                <line stroke="#cbd5e1" strokeDasharray="4 4" strokeWidth="1" x1="40" x2="790" y1="140" y2="140" />
+                <line stroke="#cbd5e1" strokeDasharray="4 4" strokeWidth="1" x1="40" x2="790" y1="220" y2="220" />
 
-                <g
-                  className="cursor-pointer"
-                  onClick={() => onSelectTicketForGraph('CRE-8942')}
-                >
-                  <circle cx="210" cy="120" fill="#ba1a1a" fillOpacity="0.88" r="56" />
-                  <circle
-                    cx="210"
-                    cy="120"
-                    r="64"
-                    stroke="#ba1a1a"
-                    strokeDasharray="6 4"
-                    strokeWidth="2"
-                  />
-                  <text fill="#ffffff" fontFamily="JetBrains Mono" fontSize="12" fontWeight="bold" textAnchor="middle" x="210" y="114">
-                    CRE-8942
-                  </text>
-                  <text fill="#ffffff" fontFamily="JetBrains Mono" fontSize="10" textAnchor="middle" x="210" y="132">
-                    $48.2M • 14m
-                  </text>
-                </g>
-
-                <g
-                  className="cursor-pointer"
-                  onClick={() => onSelectTicketForGraph('CRE-8995')}
-                >
-                  <circle cx="360" cy="185" fill="#007bb9" fillOpacity="0.88" r="38" />
-                  <text fill="#ffffff" fontFamily="JetBrains Mono" fontSize="11" fontWeight="bold" textAnchor="middle" x="360" y="180">
-                    CRE-8995
-                  </text>
-                  <text fill="#ffffff" fontFamily="JetBrains Mono" fontSize="9" textAnchor="middle" x="360" y="198">
-                    $9.4M • 22m
-                  </text>
-                </g>
-
-                <g
-                  className="cursor-pointer"
-                  onClick={() => onSelectTicketForGraph('CRE-9014')}
-                >
-                  <circle cx="490" cy="95" fill="#0051d5" fillOpacity="0.88" r="44" />
-                  <text fill="#ffffff" fontFamily="JetBrains Mono" fontSize="11" fontWeight="bold" textAnchor="middle" x="490" y="90">
-                    CRE-9014
-                  </text>
-                  <text fill="#ffffff" fontFamily="JetBrains Mono" fontSize="9" textAnchor="middle" x="490" y="108">
-                    $18.6M • 31m
-                  </text>
-                </g>
-
-                <g
-                  className="cursor-pointer"
-                  onClick={() => onSelectTicketForGraph('CRE-8890')}
-                >
-                  <circle cx="630" cy="160" fill="#545c72" fillOpacity="0.8" r="48" />
-                  <text fill="#ffffff" fontFamily="JetBrains Mono" fontSize="11" fontWeight="bold" textAnchor="middle" x="630" y="155">
-                    CRE-8890
-                  </text>
-                  <text fill="#ffffff" fontFamily="JetBrains Mono" fontSize="9" textAnchor="middle" x="630" y="173">
-                    $22.1M • 2h
-                  </text>
-                </g>
+                {regionalEpicBubbles.map((item) => (
+                  <g
+                    key={item.region}
+                    className="cursor-pointer"
+                    onClick={() => onSelectTicketForGraph(item.ticket.id)}
+                  >
+                    <circle
+                      cx={item.cx}
+                      cy={item.cy}
+                      fill={item.fill}
+                      fillOpacity="0.88"
+                      r={item.r}
+                    />
+                    <circle
+                      cx={item.cx}
+                      cy={item.cy}
+                      r={item.r + 7}
+                      stroke={item.fill}
+                      strokeDasharray="5 4"
+                      strokeWidth="1.5"
+                      opacity="0.55"
+                    />
+                    <text
+                      fill="#ffffff"
+                      fontFamily="JetBrains Mono"
+                      fontSize="11"
+                      fontWeight="bold"
+                      textAnchor="middle"
+                      x={item.cx}
+                      y={item.cy - 5}
+                    >
+                      {item.region.toUpperCase()}
+                    </text>
+                    <text
+                      fill="#ffffff"
+                      fontFamily="JetBrains Mono"
+                      fontSize="10"
+                      textAnchor="middle"
+                      x={item.cx}
+                      y={item.cy + 12}
+                    >
+                      ${item.totalExposure.toFixed(1)}M · {item.count} tkt
+                    </text>
+                  </g>
+                ))}
               </svg>
             </div>
           </div>
         </div>
       )}
-
-      {/* Bottom Sticky SLA Compliance & Velocity Dock */}
-      <div className="fixed bottom-0 left-0 right-0 z-40 w-full bg-surface-container-lowest border-t border-outline-variant/40 px-4 py-2 shadow-[0_-2px_10px_rgba(0,0,0,0.06)]">
-        <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-3">
-          <div className="flex flex-wrap items-center gap-6">
-            <div className="flex items-center gap-2.5">
-              <div className="w-8 h-8 rounded-lg bg-secondary/10 flex items-center justify-center text-secondary">
-                <span className="material-symbols-outlined text-[18px]">speed</span>
-              </div>
-              <div className="flex flex-col">
-                <span className="font-label-md text-on-surface-variant">
-                  Mean Time To Mitigate (MTTM)
-                </span>
-                <div className="flex items-center gap-1.5 font-mono-metric-md">
-                  <span className="font-bold text-on-surface">3.4 hrs</span>
-                  <span className="text-[11px] text-secondary font-semibold bg-secondary-fixed/50 px-1 rounded">
-                    Target &lt; 4.0h
-                  </span>
-                </div>
-              </div>
-            </div>
-
-            <div className="flex items-center gap-2.5">
-              <div className="w-8 h-8 rounded-lg bg-surface-container flex items-center justify-center text-primary">
-                <span className="material-symbols-outlined text-[18px]">verified</span>
-              </div>
-              <div className="flex flex-col">
-                <span className="font-label-md text-on-surface-variant">
-                  Global SLA Compliance
-                </span>
-                <div className="flex items-center gap-1.5 font-mono-metric-md">
-                  <span className="font-bold text-on-surface">96.2%</span>
-                  <span className="text-[11px] text-secondary font-semibold">+0.8% DoD</span>
-                </div>
-              </div>
-            </div>
-
-            <div className="flex items-center gap-2.5">
-              <div className="w-8 h-8 rounded-lg bg-tertiary-container/10 flex items-center justify-center text-tertiary-container">
-                <span className="material-symbols-outlined text-[18px]">trending_up</span>
-              </div>
-              <div className="flex flex-col">
-                <span className="font-label-md text-on-surface-variant">
-                  Escalation Velocity
-                </span>
-                <div className="flex items-center gap-1.5 font-mono-metric-md">
-                  <span className="font-bold text-on-surface">14.2 tx/hr</span>
-                  <span className="text-[11px] text-error font-semibold">High Activity</span>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div className="hidden md:flex items-center gap-4 text-on-surface-variant font-mono-metric-sm">
-            <span className="text-[11px]">KEYBOARD SHORTCUTS:</span>
-            <button
-              type="button"
-              onClick={() => setLogModalOpen(true)}
-              className="flex items-center gap-1 hover:text-primary"
-            >
-              <kbd className="px-1.5 py-0.5 bg-surface-container-low text-on-surface rounded shadow-sm text-[10px] font-semibold">
-                C
-              </kbd>
-              <span>Create</span>
-            </button>
-            <button
-              type="button"
-              onClick={() => {
-                const core = tickets.find((t) => t.key === 'CRE-8942');
-                if (core) onFreezeTicket(core);
-              }}
-              className="flex items-center gap-1 hover:text-error"
-            >
-              <kbd className="px-1.5 py-0.5 bg-surface-container-low text-on-surface rounded shadow-sm text-[10px] font-semibold">
-                F
-              </kbd>
-              <span>Freeze</span>
-            </button>
-            <button
-              type="button"
-              onClick={onSwitchToGraph}
-              className="flex items-center gap-1 hover:text-primary"
-            >
-              <kbd className="px-1.5 py-0.5 bg-surface-container-low text-on-surface rounded shadow-sm text-[10px] font-semibold">
-                G
-              </kbd>
-              <span>Graph Canvas</span>
-            </button>
-            <button
-              type="button"
-              onClick={() => quickSearchRef.current?.focus()}
-              className="flex items-center gap-1 hover:text-primary"
-            >
-              <kbd className="px-1.5 py-0.5 bg-surface-container-low text-on-surface rounded shadow-sm text-[10px] font-semibold">
-                /
-              </kbd>
-              <span>Search</span>
-            </button>
-          </div>
-        </div>
-      </div>
 
       {/* Log New Risk Trigger Modal */}
       {logModalOpen && (
@@ -1292,31 +1064,48 @@ export const RiskOpsKanbanView: React.FC<RiskOpsKanbanViewProps> = ({
                   type="text"
                   value={newSummary}
                   onChange={(e) => setNewSummary(e.target.value)}
-                  placeholder="e.g. Unusual Fedwire settlement variance in NY-Lon corridor"
+                  placeholder="e.g. Unusual liquidity drift in regional gateway"
                   className="w-full h-9 px-3 bg-surface-container-low border border-outline-variant/40 rounded font-body-md text-on-surface focus:outline-none focus:border-primary"
                 />
               </div>
 
-              <div className="grid grid-cols-2 gap-3">
+              <div className="grid grid-cols-3 gap-3">
                 <div>
                   <label className="block font-label-md text-on-surface-variant mb-1">
-                    Exposure Typology
+                    Region
+                  </label>
+                  <select
+                    value={newRegion}
+                    onChange={(e) => setNewRegion(e.target.value as RiskRegion)}
+                    className="w-full h-9 px-2 bg-surface-container-low border border-outline-variant/40 rounded font-body-md text-on-surface focus:outline-none"
+                  >
+                    {RISK_REGIONS.map((reg) => (
+                      <option key={reg} value={reg}>
+                        {reg}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+
+                <div>
+                  <label className="block font-label-md text-on-surface-variant mb-1">
+                    Typology
                   </label>
                   <select
                     value={newTypology}
                     onChange={(e) => setNewTypology(e.target.value as RiskTicket['typology'])}
                     className="w-full h-9 px-2 bg-surface-container-low border border-outline-variant/40 rounded font-body-md text-on-surface focus:outline-none"
                   >
-                    <option value="Synthetic ID">Synthetic ID Ring</option>
-                    <option value="TBML">Trade Doc Discrepancy (TBML)</option>
-                    <option value="Micro-Smurfing">Structuring / Micro-Smurfing</option>
-                    <option value="Crypto Gateway">Crypto Gateway Drift</option>
+                    <option value="Synthetic ID">Synthetic ID</option>
+                    <option value="TBML">Trade Finance (TBML)</option>
+                    <option value="Micro-Smurfing">Micro-Smurfing</option>
+                    <option value="Crypto Gateway">Crypto Gateway</option>
                   </select>
                 </div>
 
                 <div>
                   <label className="block font-label-md text-on-surface-variant mb-1">
-                    Est. At-Risk Capital ($USD)
+                    At-Risk Capital ($USD)
                   </label>
                   <input
                     type="text"
@@ -1338,7 +1127,7 @@ export const RiskOpsKanbanView: React.FC<RiskOpsKanbanViewProps> = ({
                     onChange={(e) => setNewAssignee(e.target.value)}
                     className="w-full h-9 px-2 bg-surface-container-low border border-outline-variant/40 rounded font-body-md text-on-surface focus:outline-none"
                   >
-                    <option value="ER">Elena Rostova (Lead APAC)</option>
+                    <option value="ER">Elena Rostova (Lead Risk Ops)</option>
                     <option value="JV">Sir Julian Vance (Group CRO)</option>
                     <option value="SR">Siddharth Rao (SecOps)</option>
                   </select>
@@ -1346,7 +1135,7 @@ export const RiskOpsKanbanView: React.FC<RiskOpsKanbanViewProps> = ({
 
                 <div>
                   <label className="block font-label-md text-on-surface-variant mb-1">
-                    Target SLA Max Threshold
+                    Target SLA Threshold
                   </label>
                   <select
                     value={newSlaTier}
